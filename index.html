@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Qiscus SDK Javascript Core Example</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/icon.css">
+  <link rel="stylesheet" href="css/login-page.css">
+  <link rel="stylesheet" href="css/chat-list-page.css">
+  <link rel="stylesheet" href="css/toolbar.css">
+</head>
+
+<body>
+  <!-- <button type="button" class="toggle-widget-btn">Chat</button> -->
+  <div id="qiscus-widget" class="widget-container">
+    <div class="title-bar">
+      Qiscus SDK
+      <button type="button" class="close-btn">
+        <i class="fas fa-chevron-down"></i>
+      </button>
+    </div>
+    <input type="file" id="input-image" accept="image/*" style="display:none">
+    <input type="file" id="input-file" style="display:none">
+    <div class="widget-content" id="widget-content">
+    </div>
+  </div>
+
+  <script src="js/lib/qiscus-sdk-core.min.js"></script>
+  <script src="js/lib/require.js" data-main="js/main.js"></script>
+</body>
+
+</html>

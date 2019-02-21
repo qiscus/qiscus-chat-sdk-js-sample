@@ -1,0 +1,72 @@
+.LoginPage {
+  background-color: white;
+  background-image: url(/img/bg-pattern.svg);
+  background-size: 100%;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  padding: 0 45px;
+}
+
+.LoginPage .logo {
+  margin-top: 60px;
+}
+
+.LoginPage form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 80px;
+  width: 100%;
+}
+
+.LoginPage form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.LoginPage form .form-group label {
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #979797;
+}
+
+.LoginPage form .form-group input[type=email],
+.LoginPage form .form-group input[type=text] {
+  border: none;
+  border-bottom: 1px solid #94CA62;
+  height: 35px;
+  padding: 15px 10px;
+
+  font-style: normal;
+  font-weight: normal;
+  line-height: normal;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  color: #666666;
+}
+
+.LoginPage form .form-group button[type=submit] {
+  background: #94CA62;
+  border-radius: 4px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  font-size: 14px;
+  color: #FFFFFF;
+  border: none;
+  padding: 15px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
