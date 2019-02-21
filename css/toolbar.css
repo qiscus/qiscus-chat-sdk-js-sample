@@ -1,0 +1,42 @@
+.Toolbar {
+  display: flex;
+  height: 48px;
+  width: 100%;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.Toolbar .avatar-btn {
+  flex: 0;
+  flex-shrink: 0;
+  flex-basis: 30px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0;
+}
+
+.Toolbar .toolbar-title {
+  flex: 1;
+  font-weight: 600;
+  font-size: 18px;
+  text-align: center;
+  color: #362C33;
+}
+
+.Toolbar .chat-btn {
+  flex: 0;
+  flex-shrink: 0;
+  flex-basis: 30px;
+  height: 30px;
+  width: 30px;
+  background: white;
+  border: none;
+  cursor: pointer;
+}
