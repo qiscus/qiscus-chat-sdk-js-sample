@@ -1,19 +1,19 @@
 define([
-  'dateFns',
+  'dateFns', 'jquery',
   'service/content', 'service/route',
   'service/qiscus', 'service/emitter'
-], function (dateFns, $content, route, qiscus, emitter) {
+], function (dateFns, $, $content, route, qiscus, emitter) {
   function Toolbar(name, avatar) {
     return `
       <div class="ToolbarChatRoom">
         <button type="button" class="btn-icon" id="chat-toolbar-btn">
           <i class="icon icon-arrow-back"></i>
         </button>
+        <img class="avatar" src="${avatar}">
         <div class="room-meta">
           <div class="room-name">${name}</div>
           <small class="online-status">Online</small>
         </div>
-        <img class="avatar" src="${avatar}">
       </div>
     `
   }
@@ -120,6 +120,7 @@ define([
     return `
         <li class="comment-item ${comment.email === qiscus.user_id ? 'me' : ''}"
           data-comment-id="${comment.id}"
+          data-last-comment-id="${comment.comment_before_id}"
           data-unique-id="${comment.unique_temp_id}"
           data-comment-type="${type}">
           <div class="message-container">
@@ -146,6 +147,9 @@ define([
   function CommentList(comments) {
     return `
       <ul>
+        <li class="load-more">
+          <button type="button" class="load-more-btn">Load more</button>
+        </li>
         ${comments.map(commentRenderer).join('')}
       </ul>
     `
@@ -165,40 +169,67 @@ define([
       .slideUp(200)
   }
 
+  function loadComment(lastCommentId) {
+    return qiscus.loadComments(qiscus.selected.id, {
+      last_comment_id: lastCommentId
+    }).then(function (data) {
+      var $comments = $(data.map(commentRenderer).join(''))
+      $comments.insertAfter('.load-more')
+
+      var lastCommentId = $comments.first().data('last-comment-id')
+      if (lastCommentId === 0) {
+        $content.find('.load-more').addClass('hidden')
+      }
+    })
+  }
+
   var attachmentPreviewURL = null
   var attachmentImage = null
   var attachmentFile = null
-  emitter
-    .on('qiscus::new-message', function (comment) {
-      // Skip if comment already there
-      if ($content.find(`.comment-item[data-unique-id="${comment.unique_temp_id}"]`).length !== 0) return
-      $content.find('.comment-list-container ul')
-        .append(commentRenderer(comment))
-    })
+  emitter.on('qiscus::new-message', function (comment) {
+    // Skip if comment already there
+    if ($content.find(`.comment-item[data-unique-id="${comment.unique_temp_id}"]`).length !== 0) return
+    $content.find('.comment-list-container ul')
+      .append(commentRenderer(comment))
+  })
 
   // Online status management
-  emitter
-    .on('qiscus::online-presence', function (data) {
-      var $onlineStatus = $content.find('small.online-status')
-      var lastOnline = dateFns.isSameDay(data.lastOnline, new Date()) ?
-        dateFns.format(data.lastOnline, 'hh:mm') :
-        dateFns.format(data.lastOnline, 'D/M/YY')
+  emitter.on('qiscus::online-presence', function (data) {
+    var $onlineStatus = $content.find('small.online-status')
+    var lastOnline = dateFns.isSameDay(data.lastOnline, new Date()) ?
+      dateFns.format(data.lastOnline, 'hh:mm') :
+      dateFns.format(data.lastOnline, 'D/M/YY')
 
-      if (data.isOnline) {
-        $onlineStatus
-          .removeClass('--offline')
-          .text('Online')
-      } else {
-        $onlineStatus
-          .addClass('--offline')
-          .text(`Last online on ${lastOnline}`)
-      }
+    if (data.isOnline) {
+      $onlineStatus
+        .removeClass('--offline')
+        .text('Online')
+    } else {
+      $onlineStatus
+        .addClass('--offline')
+        .text(`Last online on ${lastOnline}`)
+    }
 
+    // Comment read management
+    emitter.on('qiscus::comment-read', function (data) {
+      var userId = data.actor
+      var commentId = data.comment.id
+
+      $content.find(`.comment-item[data-comment-id="${commentId}"]`)
+        .find('i.icon')
+        .removeClass('icon-message-sent')
+        .addClass('icon-message-read')
     })
+    emitter.on('qiscus::comment-delivered', function (data) {
+      // Do something on comment delivered
+    })
+
+  })
 
   $('#qiscus-widget')
     .on('click', '#chat-toolbar-btn', function (event) {
       event.preventDefault()
+      qiscus.exitChatRoom()
       route.push('/chat')
     })
     .on('submit', '#message-form', function (event) {
@@ -413,6 +444,12 @@ define([
       event.preventDefault()
       $content.html(Chat(route.location.state))
     })
+    .on('click', '.load-more-btn', function (event) {
+      event.preventDefault()
+      var $commentList = $content.find('.comment-list-container ul')
+      var lastCommentId = $commentList.children().get(1).dataset['lastCommentId']
+      loadComment(lastCommentId)
+    })
 
   function Chat(state) {
     qiscus.loadComments(qiscus.selected.id)
@@ -424,13 +461,20 @@ define([
           .html(CommentList(comments))
 
         // Apply scroll into bottom with animation
-        var element = $content.find('.comment-list-container ul')
+        var $commentList = $content.find('.comment-list-container ul')
+        var element = $commentList
           .children()
           .last()
         element.get(0).scrollIntoView({
           behavior: 'smooth',
           block: 'start'
         })
+
+        // Disable load more if it was the first comment
+        var lastCommentId = $commentList.children().get(1).dataset.lastCommentId
+        if (Number(lastCommentId) === 0) {
+          $content.find('.load-more').addClass('hidden')
+        }
       })
     return `
       <div class="Chat">
