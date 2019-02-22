@@ -1,9 +1,10 @@
 define([
-  'dateFns',
+  'jquery', 'dateFns', 'lodash',
   'service/qiscus',
   'service/content',
-  'service/route'
-], function (dateFns, qiscus, content, route) {
+  'service/route',
+  'service/emitter'
+], function ($, dateFns, _, qiscus, $content, route, emitter) {
   function Toolbar() {
     return `
       <div class="Toolbar">
@@ -69,8 +70,8 @@ define([
     `
   }
 
-  function RoomList(rooms) {
-    $('#qiscus-widget').on('click', '.room-item', function (event) {
+  $content
+    .on('click', '.room-item', function (event) {
       event.preventDefault()
       var target = $(event.currentTarget)
       var roomId = target.data('room-id')
@@ -85,25 +86,80 @@ define([
           })
         })
     })
+    .on('click', '.chat-btn', function (event) {
+      event.preventDefault()
+      route.push('/users')
+    })
+  emitter.on('qiscus::new-message', function (comment) {
+    var roomId = comment.room_id
+    var $room = $content.find(`.room-item[data-room-id="${roomId}"]`)
+    $room.find('.room-last-message')
+      .text(comment.message)
+    var $unreadCount = $room.find('.room-unread-count')
+    var lastUnreadCount = Number($unreadCount.text())
+    $unreadCount
+      .removeClass('hidden')
+      .text(lastUnreadCount + 1)
+  })
+
+  function RoomList(rooms) {
     return `
       <div class="ChatList">
         ${Toolbar()}
         <ul class="room-list">
-        ${rooms.map(roomFormatter).join('')}
+          ${rooms.map(roomFormatter).join('')}
+          <li class="scrollspy">Loading ...</li>
         </ul>
       </div>
     `
   }
 
+  var isLoadingRooms = false
+  var isAbleToLoadRoom = true
+  var loadRooms = _.debounce(function loadRooms(currentLength) {
+    if (isLoadingRooms || !isAbleToLoadRoom) return
+
+    var perPage = 10
+    var currentPage = Math.ceil(currentLength / perPage)
+    var nextPage = currentPage + 1
+
+    isLoadingRooms = true
+    return qiscus.loadRoomList({
+      page: nextPage,
+      limit: perPage
+    }).then(function (roomData) {
+      isLoadingRooms = false
+      if (roomData.length < perPage) {
+        isAbleToLoadRoom = false
+        $content.find('.room-list .scrollspy').hide()
+      }
+      var rooms = roomData.map(roomFormatter).join('')
+      $(rooms).insertBefore('.room-list .scrollspy')
+    })
+  }, 100)
+
   function ChatList() {
-    var rooms = []
     qiscus.loadRoomList()
       .then(function (rooms) {
-        if (rooms.length === 0) content.html(Empty())
-        else content.html(RoomList(rooms))
+        if (rooms.length === 0) $content.html(Empty())
+        else $content.html(RoomList(rooms))
+
+        $content.find('.room-list')
+          .on('scroll', function (event) {
+            var py = event.currentTarget
+            var sy = $(py).find('.scrollspy').get(0)
+
+            var offset = (sy.offsetTop - (py.offsetHeight + sy.scrollHeight + sy.offsetHeight)) - 10
+            var scrollTop = Math.round(py.scrollTop)
+            var shouldLoadMore = scrollTop > offset
+            var childLength = py.children.length - 1
+            if (shouldLoadMore) {
+              loadRooms(childLength)
+            }
+          })
       })
 
-    if (rooms.length === 0) return Empty()
+    return Empty()
   }
 
   ChatList.path = '/chat'
