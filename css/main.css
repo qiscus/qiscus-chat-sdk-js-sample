@@ -17,7 +17,7 @@ button {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .toggle-widget-btn {
