@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
 .ChatList img.empty-logo {
@@ -42,6 +43,15 @@
   padding: 0;
   margin: 0;
   width: 100%;
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.ChatList .room-list .scrollspy {
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ChatList .room-item {
@@ -69,6 +79,7 @@
   height: 40px;
   width: 40px;
   overflow: hidden;
+  border-radius: 50%;
 }
 
 .ChatList .room-content {
@@ -145,7 +156,11 @@
 }
 
 .Chat .ToolbarChatRoom .room-meta {
-  align-items: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 10px;
 }
 
 .Chat .ToolbarChatRoom .room-name {
@@ -172,6 +187,7 @@
   width: 30px;
   object-fit: cover;
   overflow: hidden;
+  border-radius: 50%;
 }
 
 .Chat .comment-list-container {
@@ -190,6 +206,21 @@
   margin: 0;
   padding: 0;
   overflow-y: scroll;
+}
+
+.Chat .comment-list-container .load-more {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.Chat .comment-list-container .load-more-btn {
+  background: #94ca62;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 .Chat .comment-list-container .comment-item {
@@ -228,14 +259,17 @@
   align-items: flex-start;
 }
 
-.Chat .comment-list-container .comment-item[data-comment-type=uploading]
-a { position: relative; }
+.Chat .comment-list-container .comment-item[data-comment-type=uploading] a {
+  position: relative;
+}
+
 .Chat .comment-list-container .comment-item .upload-overlay {
   background: rgba(177, 177, 177, 0.5);
   position: absolute;
   height: 100%;
   width: 100%;
 }
+
 .Chat .comment-list-container .comment-item .progress {
   height: 10px;
   border-radius: 3px;
@@ -247,6 +281,7 @@ a { position: relative; }
   transform: translate(-50%, -50%);
   overflow: hidden;
 }
+
 .Chat .comment-list-container .comment-item .progress-inner {
   position: absolute;
   height: 100%;

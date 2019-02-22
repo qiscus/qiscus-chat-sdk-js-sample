@@ -20,6 +20,12 @@ define(['service/route', 'service/emitter'], function (route, emitter) {
           isOnline: isOnline,
           lastOnline: lastOnline
         })
+      },
+      commentReadCallback: function (data) {
+        emitter.emit('qiscus::comment-read', data)
+      },
+      commentDeliveredCallback: function (data) {
+        emitter.emit('qiscus::comment-delivered', data)
       }
     }
   })
