@@ -4,11 +4,15 @@ requirejs.config({
     jquery: 'lib/jquery-3.3.1.min',
     qiscus: 'lib/qiscus-sdk-core',
     dateFns: 'lib/date_fns',
-    history: 'lib/history.min'
+    history: 'lib/history.min',
+    lodash: 'lib/lodash.min'
   },
-  shims: {
-    qiscus: {
-      exports: 'QiscusSDKCore'
+  map: {
+    '*': {
+      jquery: 'jquery-mod'
+    },
+    'jquery-mod': {
+      jquery: 'jquery'
     }
   }
 })
@@ -17,16 +21,20 @@ requirejs([
   'jquery', 'service/qiscus',
   'service/route', 'service/emitter',
   'service/content',
-  'pages/login', 'pages/chat-list', 'pages/chat'
+  'pages/login', 'pages/chat-list', 'pages/chat',
+  'pages/users'
 ], function (
   $, qiscus,
   route, emitter,
   $content,
-  LoginPage, ChatList, Chat
+  LoginPage, ChatList, Chat,
+  Users
 ) {
   var currentPage = route.current || '/login'
-  var routes = [LoginPage, ChatList, Chat]
+  var routes = [LoginPage, ChatList, Chat, Users]
 
+  // console.log('$', $)
+  window.$jquery = $
   window.qiscus = qiscus
 
   if (!qiscus.isLogin) {
