@@ -14,6 +14,9 @@ define([
   }
 
   var searchQuery = null
+  var isLoadingUser = false
+  var isAbleToLoadMore = true
+  var totalUser = 0
 
   $content
     .on('click', '.Users .back-btn', function (event) {
@@ -36,6 +39,10 @@ define([
       searchQuery = event.target.value.length === 0
         ? null
         : event.target.value
+      if (searchQuery === null) {
+        isAbleToLoadMore = true
+        return
+      }
       return qiscus.getUsers(searchQuery)
         .then(function (resp) {
           var users = resp.users.map(contactFormatter).join('')
@@ -47,9 +54,6 @@ define([
     }, 300))
 
 
-  var isLoadingUser = false
-  var isAbleToLoadMore = true
-  var totalUser = 0
   var loadUser = _.debounce(function loadUser(currentLength) {
     if (isLoadingUser) return
     if (!isAbleToLoadMore) return
@@ -75,25 +79,27 @@ define([
 
   }, 100)
 
+  function handleScroll(event) {
+    var py = event.currentTarget
+    var sy = $(py).find('.scrollspy').get(0)
+    console.log('on-scroll', sy)
+
+    var offset = (sy.offsetTop - (py.offsetHeight + sy.scrollHeight + sy.offsetHeight)) - 10
+    var scrollTop = Math.round(py.scrollTop)
+    var shouldLoadMore = scrollTop > offset
+    var childLength = py.children.length - 1
+    if (shouldLoadMore) {
+      loadUser(childLength)
+    }
+  }
+
   function Users() {
     qiscus.getUsers()
       .then(function (resp) {
         var users = resp.users.map(contactFormatter)
           .join('')
         $(users).insertBefore('.contact-list .scrollspy')
-
-        $content.find('.contact-list').on('scroll', function (event) {
-          var py = event.currentTarget
-          var sy = $(py).find('.scrollspy').get(0)
-
-          var offset = (sy.offsetTop - (py.offsetHeight + sy.scrollHeight + sy.offsetHeight)) - 10
-          var scrollTop = Math.round(py.scrollTop)
-          var shouldLoadMore = scrollTop > offset
-          var childLength = py.children.length - 1
-          if (shouldLoadMore) {
-            loadUser(childLength)
-          }
-        })
+        $content.find('.contact-list').on('scroll', handleScroll)
       })
     return `
       <div class="Users">
