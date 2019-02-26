@@ -42,7 +42,7 @@
   color: #979797;
 }
 
-.LoginPage form .form-group input[type=email],
+.LoginPage form .form-group input[type=password],
 .LoginPage form .form-group input[type=text] {
   border: none;
   border-bottom: 1px solid #94CA62;
