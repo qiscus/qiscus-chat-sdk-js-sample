@@ -13,6 +13,8 @@ define([
     `
   }
 
+  var searchQuery = null
+
   $content
     .on('click', '.Users .back-btn', function (event) {
       event.preventDefault()
@@ -30,13 +32,25 @@ define([
           })
         })
     })
+    .on('input', 'input#search-input', _.debounce(function (event) {
+      searchQuery = event.target.value.length === 0
+        ? null
+        : event.target.value
+      return qiscus.getUsers(searchQuery)
+        .then(function (resp) {
+          var users = resp.users.map(contactFormatter).join('')
+          $content.find('.contact-list')
+            .empty()
+            .append(users)
+            .append('<li class="scrollspy">Loading ...</li>')
+        })
+    }, 300))
 
 
   var isLoadingUser = false
   var isAbleToLoadMore = true
   var totalUser = 0
   var loadUser = _.debounce(function loadUser(currentLength) {
-    console.log('load-more')
     if (isLoadingUser) return
     if (!isAbleToLoadMore) return
 
@@ -45,7 +59,7 @@ define([
     var nextPage = currentPage + 1
 
     isLoadingUser = true
-    return qiscus.getUsers('', nextPage)
+    return qiscus.getUsers(searchQuery, nextPage)
       .then(function (resp) {
         isLoadingUser = false
         var users = resp.users.map(contactFormatter).join('')
@@ -89,7 +103,7 @@ define([
           </button>
           <div class="toolbar-title">Choose Contacts</div>
         </div>
-        <div class="search-container hidden">
+        <div class="search-container">
           <i class="icon icon-search"></i>
           <input type="text" id="search-input" name="search-input" placeholder="Search">
         </div>
