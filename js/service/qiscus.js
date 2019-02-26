@@ -1,8 +1,7 @@
 // This service is to bridge QiscusSDK with this sample app
 
-define(['service/route', 'service/emitter'], function (route, emitter) {
+define(['service/emitter'], function (emitter) {
   var qiscus = new QiscusSDKCore.default()
-  window.qq = qiscus
 
   qiscus.init({
     AppId: 'sdksample',
@@ -29,7 +28,7 @@ define(['service/route', 'service/emitter'], function (route, emitter) {
       }
     }
   })
-  qiscus.setUser('afief@qiscus.co', 'qwe12345', 'afief-ori')
+  qiscus.isInit = true
 
   return qiscus
 })
