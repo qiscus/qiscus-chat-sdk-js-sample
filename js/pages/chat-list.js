@@ -23,15 +23,17 @@ define([
     return `
       <div class="ChatList">
         ${Toolbar()}
-        <img src="/img/img-empty-chat.svg" class="empty-logo">
-        <div class="empty-title">Oops!!</div>
-        <p class="empty-description">
-          You don't have any conversation. <br>
-          Lets send a message to your contact
-        </p>
-        <button type="button" class="start-chat">
-          Start Chat
-        </button>
+        <div class="empty-content-container">
+          <img src="/img/img-empty-chat.svg" class="empty-logo">
+          <div class="empty-title">Oops!!</div>
+          <p class="empty-description">
+            You don't have any conversation. <br>
+            Lets send a message to your contact
+          </p>
+          <button type="button" class="start-chat">
+            Start Chat
+          </button>
+        </div>
       </div>
     `
   }
@@ -87,6 +89,10 @@ define([
         })
     })
     .on('click', '.chat-btn', function (event) {
+      event.preventDefault()
+      route.push('/users')
+    })
+    .on('click', '.start-chat', function (event) {
       event.preventDefault()
       route.push('/users')
     })
