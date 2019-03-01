@@ -15,3 +15,5 @@ After you start the server you can view the sampe by accessing http://localhost:
 ## Contribution
 Qiscus Chat SDK Sample UI is fully open-source. All contributions and suggestions are welcome!
 
+## Security Disclosure
+If you believe you have identified a security vulnerability with QiscusCore, you should report it as soon as possible via email to contact.us@qiscus.com. Please do not post it to a public issue.
