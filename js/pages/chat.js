@@ -293,7 +293,7 @@ define([
       event.preventDefault()
       $('#qiscus-widget').find('#input-file').click()
     })
-    .on('change', '.Chat #input-image', function (event) {
+    .on('change', '#input-image', function (event) {
       var file = Array.from(event.currentTarget.files).pop()
       if (attachmentPreviewURL != null) URL.revokeObjectURL(attachmentPreviewURL)
       attachmentPreviewURL = URL.createObjectURL(file)
@@ -384,7 +384,7 @@ define([
         }
       })
     })
-    .on('change', '.Chat #input-file', function (event) {
+    .on('change', '#input-file', function (event) {
       closeAttachment()
 
       var file = Array.from(event.currentTarget.files).pop()
