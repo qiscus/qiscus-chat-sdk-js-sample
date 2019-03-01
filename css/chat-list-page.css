@@ -218,13 +218,15 @@
   overflow-y: scroll;
 }
 
-.Chat .comment-list-container .load-more {
+.Chat .comment-list-container .load-more,
+.ChatList .room-list .load-more {
   display: flex;
   justify-content: center;
   padding: 10px 0;
 }
 
-.Chat .comment-list-container .load-more-btn {
+.Chat .comment-list-container .load-more-btn,
+.ChatList .room-list .load-more button {
   background: #94ca62;
   border: none;
   border-radius: 3px;

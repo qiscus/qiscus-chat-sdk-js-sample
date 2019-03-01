@@ -135,3 +135,19 @@
   display: flex;
   align-items: center;
 }
+
+
+.Users .contact-list .load-more {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.Users .contact-list .load-more button {
+  background: #94ca62;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}
