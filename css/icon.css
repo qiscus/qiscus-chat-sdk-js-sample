@@ -8,16 +8,22 @@
 }
 
 .icon-new-chat {
-  background-image: url('/img/icon-new-chat.svg');
+  background-image: url(/img/icon-new-chat.svg);
   background-position-x: -3px;
 }
 
-.icon-arrow-left {
-  background-image: url('/img/icon-arrow.svg');
+.icon-arrow-right {
+  background-image: url(/img/icon-arrow.svg);
+}
+.icon-arrow-right-green {
+  background-image: url(/img/icon-arrow-right-green.svg);
 }
 
 .icon-arrow-back {
   background-image: url(/img/icon-arrow-back.svg);
+}
+.icon-arrow-left-green {
+  background-image: url(/img/icon-arrow-left-green.svg);
 }
 
 .icon-attachment {
@@ -75,4 +81,33 @@
 
 .icon-search {
   background-image: url(/img/icon-search.svg);
+}
+
+.icon-new-chat-group {
+  background-image: url(/img/icon-new-chat-group.svg);
+}
+
+.icon-cross-red {
+  background-image: url(/img/icon-cross-red.svg);
+}
+.icon-check-green {
+  background-image: url(/img/icon-check-green.svg);
+}
+.icon-check {
+  background-image: url(/img/icon-check.svg);
+}
+.icon-avatar-picker {
+  background-image: url(/img/icon-avatar-picker.svg);
+}
+.icon-id-card {
+  background-image: url(/img/icon-id-card.svg);
+}
+.icon-user {
+  background-image: url(/img/icon-user.svg);
+}
+.icon-pencil-grey {
+  background-image: url(/img/icon-pencil-grey.svg);
+}
+.icon-logout {
+  background-image: url(/img/icon-logout.svg);
 }

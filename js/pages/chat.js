@@ -4,6 +4,17 @@ define([
   'service/qiscus', 'service/emitter'
 ], function (dateFns, $, $content, route, qiscus, emitter) {
   function Toolbar(name, avatar) {
+    var isGroup = qiscus.selected.room_type === 'group'
+    var participants = (function () {
+      var limit = 3
+      var overflowCount = qiscus.selected.participants.length - limit
+      var participants = qiscus.selected.participants
+      .slice(0, limit)
+      .map(it => it.username.split(' ')[0])
+      if (qiscus.selected.participants.length <= limit) return participants.join(', ')
+      return participants.concat(`and ${overflowCount} others.`).join(', ')
+    })()
+    console.log('TCL: participants -> participants', participants)
     return `
       <div class="ToolbarChatRoom">
         <button type="button" class="btn-icon" id="chat-toolbar-btn">
@@ -12,7 +23,9 @@ define([
         <img class="avatar" src="${avatar}">
         <div class="room-meta">
           <div class="room-name">${name}</div>
-          <small class="online-status">Online</small>
+          ${ isGroup
+            ? `<small class="online-status participant-list">${participants}</small>`
+            : `<small class="online-status">Online</small>`}
         </div>
       </div>
     `
@@ -227,12 +240,12 @@ define([
   })
 
   $('#qiscus-widget')
-    .on('click', '#chat-toolbar-btn', function (event) {
+    .on('click', '.Chat #chat-toolbar-btn', function (event) {
       event.preventDefault()
       qiscus.exitChatRoom()
       route.push('/chat')
     })
-    .on('submit', '#message-form', function (event) {
+    .on('submit', '.Chat #message-form', function (event) {
       event.preventDefault()
       var message = event.currentTarget['message'].value
       if (message == null || message.length === 0) return
@@ -270,17 +283,17 @@ define([
             .addClass('icon-message-failed')
         })
     })
-    .on('click', '#attachment-cancel', closeAttachment)
-    .on('click', '#attachment-btn', openAttachment)
-    .on('click', '#attachment-image', function (event) {
+    .on('click', '.Chat #attachment-cancel', closeAttachment)
+    .on('click', '.Chat #attachment-btn', openAttachment)
+    .on('click', '.Chat #attachment-image', function (event) {
       event.preventDefault()
       $('#qiscus-widget').find('#input-image').click()
     })
-    .on('click', '#attachment-file', function (event) {
+    .on('click', '.Chat #attachment-file', function (event) {
       event.preventDefault()
       $('#qiscus-widget').find('#input-file').click()
     })
-    .on('change', '#input-image', function (event) {
+    .on('change', '.Chat #input-image', function (event) {
       var file = Array.from(event.currentTarget.files).pop()
       if (attachmentPreviewURL != null) URL.revokeObjectURL(attachmentPreviewURL)
       attachmentPreviewURL = URL.createObjectURL(file)
@@ -295,7 +308,7 @@ define([
       $content.find('.file-name')
         .text(file.name)
     })
-    .on('submit', '.caption-form-container', function (event) {
+    .on('submit', '.Chat .caption-form-container', function (event) {
       event.preventDefault()
       closeAttachment()
       $content.find('.AttachmentCaptioning').slideUp()
@@ -371,7 +384,7 @@ define([
         }
       })
     })
-    .on('change', '#input-file', function (event) {
+    .on('change', '.Chat #input-file', function (event) {
       closeAttachment()
 
       var file = Array.from(event.currentTarget.files).pop()
@@ -440,11 +453,11 @@ define([
         }
       })
     })
-    .on('click', '#attachment-toolbar-btn', function (event) {
+    .on('click', '.Chat #attachment-toolbar-btn', function (event) {
       event.preventDefault()
       $content.html(Chat(route.location.state))
     })
-    .on('click', '.load-more-btn', function (event) {
+    .on('click', '.Chat .load-more-btn', function (event) {
       event.preventDefault()
       var $commentList = $content.find('.comment-list-container ul')
       var lastCommentId = $commentList.children().get(1).dataset['lastCommentId']
@@ -471,9 +484,14 @@ define([
         })
 
         // Disable load more if it was the first comment
-        var lastCommentId = $commentList.children().get(1).dataset.lastCommentId
-        if (Number(lastCommentId) === 0) {
+        var firstComment = $commentList.children().get(1)
+        if (firstComment == null) {
           $content.find('.load-more').addClass('hidden')
+        } else {
+          var lastCommentId = firstComment.dataset.lastCommentId
+          if (Number(lastCommentId) === 0) {
+            $content.find('.load-more').addClass('hidden')
+          }
         }
       })
     return `

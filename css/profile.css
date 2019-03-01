@@ -1,0 +1,128 @@
+.Profile {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.Profile .toolbar {
+  flex: 0 0;
+  flex-basis: 48px;
+  display: flex;
+  width: 100%;
+  height: 48px;
+  border-bottom: 1px solid #e8e8e8;
+}
+.Profile .toolbar button {
+  flex: 0 0 48px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Profile .toolbar .toolbar-title {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 18px;
+  text-align: center;
+  color: #362C33;
+  text-indent: -40px;
+}
+
+.Profile .avatar-container {
+  flex: 0 0 200px;
+  background: lightblue;
+  overflow: hidden;
+  position: relative;
+}
+.Profile .avatar-container img.profile-avatar {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.Profile .avatar-container .change-avatar-container {
+  position: absolute;
+  bottom: 0;
+  height: 55px;
+  width: 100%;
+  background: linear-gradient(to bottom, #3330, #000000b3);
+}
+.Profile .change-avatar-container button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
+}
+
+.Profile .info-container {
+  flex: 1 auto;
+  display: flex;
+  flex-direction: column;
+  background: #fafafa;
+}
+.Profile .info-header {
+  flex: 0 0 46px;
+  background: #fafafa;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #666666;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 10px;
+}
+.Profile .field-group {
+  flex: 0 0 46px;
+  display: flex;
+  align-items: center;
+  background: white;
+}
+.Profile .field-group .icon-container {
+  flex: 0 0 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 16px;
+}
+.Profile .field-group input {
+  background: white;
+  border: none;
+  padding: 10px;
+  flex: 1 auto;
+  font-size: 14px;
+  color: #2C2C36;
+}
+.Profile .field-group button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Profile .logout-btn {
+  flex: 0 0 46px;
+  height: 46px;
+  background: white;
+  border: none;
+  justify-self: flex-end;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 16px;
+  text-indent: 20px;
+}
+.Profile .spacer {
+  flex: 1;
+}

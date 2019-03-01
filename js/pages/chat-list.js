@@ -8,7 +8,7 @@ define([
   function Toolbar() {
     return `
       <div class="Toolbar">
-        <button type="button" class="avatar-btn">
+        <button id="profile-btn" type="button" class="avatar-btn">
           <img src="/img/img-empty-avatar.svg">
         </button>
         <div class="toolbar-title">Conversations</div>
@@ -47,9 +47,9 @@ define([
   }
 
   function roomFormatter(room) {
-    var lastComment = room.last_comment_message.startsWith('[file]') ?
-      'File attachment' :
-      room.last_comment_message
+    var lastComment = room.last_comment_message.startsWith('[file]')
+      ? 'File attachment'
+      : room.last_comment_message
     var unreadCountClass = room.count_notif > 0 ? 'room-unread-count' : 'room-unread-count hidden'
     return `
       <li class="room-item"
@@ -73,7 +73,7 @@ define([
   }
 
   $content
-    .on('click', '.room-item', function (event) {
+    .on('click', '.ChatList .room-item', function (event) {
       event.preventDefault()
       var target = $(event.currentTarget)
       var roomId = target.data('room-id')
@@ -88,13 +88,16 @@ define([
           })
         })
     })
-    .on('click', '.chat-btn', function (event) {
+    .on('click', '.ChatList .chat-btn', function (event) {
       event.preventDefault()
       route.push('/users')
     })
-    .on('click', '.start-chat', function (event) {
+    .on('click', '.ChatList .start-chat', function (event) {
       event.preventDefault()
       route.push('/users')
+    })
+    .on('click', '.ChatList #profile-btn', function (event) {
+      route.push('/profile')
     })
   emitter.on('qiscus::new-message', function (comment) {
     var roomId = comment.room_id

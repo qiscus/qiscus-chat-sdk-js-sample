@@ -31,12 +31,28 @@
   color: #362c33;
 }
 
+.Users .create-group-btn {
+  flex: 0;
+  flex-basis: 45px;
+  display: flex;
+  align-items: center;
+  background: white;
+  border: none;
+  border-bottom: 1px solid #ececec;
+  font-size: 14px;
+  color: #2C2C36;
+  text-indent: 12px;
+  padding: 0 6px;
+  cursor: pointer;
+}
+
 .Users .search-container {
   flex: 0;
   flex-basis: 40px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #ececec;
+  padding: 0 5px;
 }
 
 .Users .icon.icon-search {
