@@ -7,7 +7,9 @@ Qiscus Chat Sample UI is built with full functionalities so that you can
 figure out the flow and main activities of common Chat apps.
 This sample app is built on top of Qiscus Chat SDK, for further
 feature you can figure out in our
-[https://docs.qiscus.com/android/latest/introduction](docs)
+(https://docs.qiscus.com/web/latest/introduction)[docs]
+
+## (https://qiscus-sdk-sample.now.sh)[Demo]
 
 ## How to run
 
