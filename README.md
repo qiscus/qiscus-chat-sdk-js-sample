@@ -7,10 +7,7 @@ You can try out a live demo from the link [here](https://qiscus-sdk-sample.now.s
 
 ## How to run
 
-You can view this demo by utilizing http server such as built in php
-function of php -S localhost:8080 -t . or by using [http-server](https://github.com/indexzero/http-server)
-
-After you start the server you can view the sampe by accessing http://localhost:8080
+You can view this demo by utilizing http server such as built in php function of `php -S localhost:8080 -t` . or by using [http-server](https://github.com/indexzero/http-server). After you start the server you can view the sampe by accessing http://localhost:8080
 
 ## Contribution
 Qiscus Chat SDK Sample UI is fully open-source. All contributions and suggestions are welcome!
