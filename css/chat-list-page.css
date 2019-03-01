@@ -186,6 +186,9 @@
 .Chat .ToolbarChatRoom .online-status.--offline {
   color: #949494;
 }
+.Chat .ToolbarChatRoom .online-status.participant-list {
+  color: #979797;
+}
 
 .Chat .ToolbarChatRoom img.avatar {
   flex: 0;

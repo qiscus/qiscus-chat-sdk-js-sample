@@ -23,19 +23,18 @@ define([
       event.preventDefault()
       route.push('/chat')
     })
-    .on('click', 'li.contact-item', function (event) {
+    .on('click', '.Users li.contact-item', function (event) {
       event.preventDefault()
       var userId = $(event.currentTarget).data('user-id')
       qiscus.chatTarget(userId)
         .then(function (room) {
-          console.log('room', room)
           route.push('/chat-room', {
             roomName: room.name,
             roomAvatar: room.avatar
           })
         })
     })
-    .on('input', 'input#search-input', _.debounce(function (event) {
+    .on('input', '.Users input#search-input', _.debounce(function (event) {
       searchQuery = event.target.value.length === 0
         ? null
         : event.target.value
@@ -52,6 +51,10 @@ define([
             .append('<li class="scrollspy">Loading ...</li>')
         })
     }, 300))
+    .on('click', '.Users .create-group-btn', function (event) {
+      event.preventDefault()
+      route.push('/create-group')
+    })
 
 
   var loadUser = _.debounce(function loadUser(currentLength) {
@@ -82,7 +85,6 @@ define([
   function handleScroll(event) {
     var py = event.currentTarget
     var sy = $(py).find('.scrollspy').get(0)
-    console.log('on-scroll', sy)
 
     var offset = (sy.offsetTop - (py.offsetHeight + sy.scrollHeight + sy.offsetHeight)) - 10
     var scrollTop = Math.round(py.scrollTop)
@@ -109,6 +111,9 @@ define([
           </button>
           <div class="toolbar-title">Choose Contacts</div>
         </div>
+        <button id="create-group-btn" class="create-group-btn">
+          <i class="icon icon-new-chat-group"></i> Create Group Chat
+        </button>
         <div class="search-container">
           <i class="icon icon-search"></i>
           <input type="text" id="search-input" name="search-input" placeholder="Search">
