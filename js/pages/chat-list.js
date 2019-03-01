@@ -99,6 +99,13 @@ define([
     .on('click', '.ChatList #profile-btn', function (event) {
       route.push('/profile')
     })
+    .on('click', '.ChatList .load-more button', function (event) {
+      event.preventDefault()
+      var childLength = $content.find('.room-list')
+        .children()
+        .length - 1 // minus load-more button
+      loadRooms(childLength)
+    })
   emitter.on('qiscus::new-message', function (comment) {
     var roomId = comment.room_id
     var $room = $content.find(`.room-item[data-room-id="${roomId}"]`)
@@ -117,7 +124,11 @@ define([
         ${Toolbar()}
         <ul class="room-list">
           ${rooms.map(roomFormatter).join('')}
-          <li class="scrollspy">Loading ...</li>
+          <li class="load-more">
+            <button type="button">
+              Load more
+            </button>
+          </li>
         </ul>
       </div>
     `
@@ -152,20 +163,6 @@ define([
       .then(function (rooms) {
         if (rooms.length === 0) $content.html(Empty())
         else $content.html(RoomList(rooms))
-
-        $content.find('.room-list')
-          .on('scroll', function (event) {
-            var py = event.currentTarget
-            var sy = $(py).find('.scrollspy').get(0)
-
-            var offset = (sy.offsetTop - (py.offsetHeight + sy.scrollHeight + sy.offsetHeight)) - 10
-            var scrollTop = Math.round(py.scrollTop)
-            var shouldLoadMore = scrollTop > offset
-            var childLength = py.children.length - 1
-            if (shouldLoadMore) {
-              loadRooms(childLength)
-            }
-          })
       })
 
     return Empty()
