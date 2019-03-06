@@ -1,0 +1,353 @@
+.RoomInfo {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+.RoomInfo .toolbar {
+  flex: 0 0;
+  flex-basis: 48px;
+  display: flex;
+  width: 100%;
+  height: 48px;
+  border-bottom: 1px solid #e8e8e8;
+}
+.RoomInfo .toolbar button {
+  flex: 0 0 48px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.RoomInfo .toolbar .toolbar-title {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 18px;
+  text-align: center;
+  color: #362C33;
+  text-indent: -40px;
+}
+.RoomInfo .avatar-container {
+  flex: 0 0 200px;
+  background: lightblue;
+  overflow: hidden;
+  position: relative;
+}
+.RoomInfo .avatar-container img.profile-avatar {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.RoomInfo .avatar-container .change-avatar-container {
+  position: absolute;
+  bottom: 0;
+  height: 55px;
+  width: 100%;
+  background: linear-gradient(to bottom, #3330, #000000b3);
+  display: flex;
+  padding: 10px;
+}
+.RoomInfo .change-avatar-container button {
+  flex: 0 0 35px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
+}
+.RoomInfo .change-avatar-container input {
+  flex: 1;
+  background: none;
+  border: none;
+  font-weight: 600;
+  line-height: 28px;
+  font-size: 16px;
+  color: white;
+}
+.RoomInfo .info-container {
+  flex: 1 auto;
+  display: flex;
+  flex-direction: column;
+  background: #fafafa;
+}
+.RoomInfo .info-header {
+  flex: 0 0 46px;
+  background: #fafafa;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #666666;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: 10px;
+}
+.RoomInfo .field-group {
+  flex: 0 0 46px;
+  display: flex;
+  align-items: center;
+  background: white;
+}
+.RoomInfo .field-group .icon-container {
+  flex: 0 0 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 16px;
+}
+.RoomInfo .field-group input {
+  background: white;
+  border: none;
+  padding: 10px;
+  flex: 1 auto;
+  font-size: 14px;
+  color: #2C2C36;
+}
+.RoomInfo .field-group button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.RoomInfo .logout-btn {
+  flex: 0 0 46px;
+  height: 46px;
+  background: white;
+  border: none;
+  justify-self: flex-end;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 16px;
+  text-indent: 20px;
+}
+.RoomInfo .spacer {
+  flex: 1;
+}
+.RoomInfo .participant-list {
+  flex: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: white;
+  overflow-y: scroll;
+  height: 100%;
+}
+.RoomInfo .participant-item {
+  display: flex;
+  height: 46.5px;
+  overflow: hidden;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 10px;
+}
+.RoomInfo .participant-item img,
+.RoomInfo .participant-item i.icon {
+  flex: 0;
+  flex-basis: 30px;
+  overflow: hidden;
+  object-fit: cover;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+.RoomInfo .participant-item .name,
+.RoomInfo .participant-item button {
+  flex: 1;
+  font-size: 14px;
+  color: #2c2c36;
+  margin-left: 15px;
+  border-bottom: 1px solid #ececec;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.RoomInfo .participant-item button {
+  cursor: pointer;
+  background: white;
+  border: 0;
+  border-bottom: 1px solid #ececec;
+}
+.RoomInfo .participant-item .remove-participant-btn {
+  flex: 0 0 35px;
+  margin-left: 0;
+}
+.RoomInfo .participant-item .remove-participant-btn .icon {
+  height: 20px;
+  width: 20px;
+}
+
+
+.ContactChooser {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: white;
+  z-index: 1;
+}
+.ContactChooser .toolbar {
+  flex: 0 0;
+  flex-basis: 48px;
+  display: flex;
+  width: 100%;
+  height: 48px;
+  border-bottom: 1px solid #e8e8e8;
+}
+.ContactChooser .toolbar-btn {
+  flex: 0 0;
+  flex-basis: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: none;
+  cursor: center;
+  cursor: pointer;
+}
+.ContactChooser .toolbar-title {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: 600;
+  color: #362C33;
+  margin: 0;
+}
+.ContactChooser .search-container {
+  flex: 0 0;
+  flex-basis: 45px;
+  display: flex;
+  background: white;
+  border-bottom: 1px solid #e8e8e8;
+  justify-content: flex-start;
+  align-items: center;
+}
+.ContactChooser .search-container .icon {
+  flex: 0 0;
+  flex-basis: 45px;
+}
+.ContactChooser input.search-input {
+  flex: 1;
+  height: 100%;
+  padding: 10px;
+  border: 0;
+  outline: none;
+}
+.ContactChooser .contact-list-container,
+.ContactChooser .participant-list-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+.ContactChooser .contact-list-header,
+.ContactChooser .participant-list-header {
+  flex: 0 0;
+  flex-basis: 45px;
+  height: 45px;
+  padding-left: 10px;
+  background: #fafafa;
+  align-items: flex-end;
+  display: flex;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #666;
+}
+.ContactChooser .contact-list-container .contact-list,
+.ContactChooser .participant-list-container .participant-list {
+  list-style: none;
+  padding: 0 10px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+.ContactChooser .contact-list-container .contact-item,
+.ContactChooser .participant-list-container .participant-item {
+  display: flex;
+  flex: 0 0;
+  flex-basis: 45px;
+  overflow: hidden;
+  align-items: center;
+}
+.ContactChooser .contact-list-container .avatar-container,
+.ContactChooser .participant-list-container .avatar-container {
+  flex: 0 0 30px;
+  overflow: hidden;
+  height: 30px;
+  width: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.ContactChooser .contact-list-container .contact-avatar,
+.ContactChooser .participant-list-container .participant-avatar {
+  height: 30px;
+  width: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.ContactChooser .contact-list-container .contact-item button {
+  display: flex;
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid #e8e8e8;
+  margin-left: 10px;
+  height: 60px;
+  font-size: 14px;
+  color: #2C2C36;
+  cursor: pointer;
+}
+.ContactChooser .contact-list-container .contact-item .displayname-container {
+  flex: 1;
+  text-align: left;
+}
+.ContactChooser .contact-list-container .contact-item .icon {
+  flex: 0;
+  flex-basis: 25px;
+}
+.ContactChooser .participant-item .participant-detail {
+  display: flex;
+  flex: 1;
+  margin-left: 10px;
+  height: 100%;
+  align-items: center;
+  border-bottom: 1px solid #e8e8e8;
+}
+.ContactChooser .participant-item .participant-detail .participant-name {
+  flex: 1;
+}
+.ContactChooser .participant-item .participant-detail .remove-participant {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  background: none;
+  overflow: hidden;
+}
+.ContactChooser .participant-item .participant-detail .remove-participant .icon {
+  width: 20px;
+  height: 20px;
+}

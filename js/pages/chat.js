@@ -14,19 +14,18 @@ define([
       if (qiscus.selected.participants.length <= limit) return participants.join(', ')
       return participants.concat(`and ${overflowCount} others.`).join(', ')
     })()
-    console.log('TCL: participants -> participants', participants)
     return `
       <div class="ToolbarChatRoom">
         <button type="button" class="btn-icon" id="chat-toolbar-btn">
           <i class="icon icon-arrow-back"></i>
         </button>
         <img class="avatar" src="${avatar}">
-        <div class="room-meta">
+        <button class="room-meta">
           <div class="room-name">${name}</div>
           ${ isGroup
             ? `<small class="online-status participant-list">${participants}</small>`
             : `<small class="online-status">Online</small>`}
-        </div>
+        </button>
       </div>
     `
   }
@@ -260,8 +259,15 @@ define([
         timestamp: timestamp,
         status: 'sending'
       }
-      $content.find('.comment-list-container ul')
-        .append(commentRenderer(comment))
+
+      // if empty state change into list comment state
+      var $commentList = $content.find('.comment-list-container ul')
+      if ($commentList.length === 0) {
+        $content.find('.comment-list-container').html(CommentList([]))
+        $commentList = $content.find('.comment-list-container ul')
+      }
+
+      $commentList.append(commentRenderer(comment))
       var comment = $content.find('.comment-item[data-comment-id="' + commentId + '"]')
       comment.attr('data-unique-id', uniqueId)
       comment.get(0).scrollIntoView({
@@ -463,12 +469,15 @@ define([
       var lastCommentId = $commentList.children().get(1).dataset['lastCommentId']
       loadComment(lastCommentId)
     })
+    .on('click', '.Chat .room-meta', function (event) {
+      event.preventDefault()
+      route.push('/room-info', { roomId: qiscus.selected.id })
+    })
 
   function Chat(state) {
     qiscus.loadComments(qiscus.selected.id)
       .then(function (comments) {
         // Here we replace all messages data with the newly messages data
-        window.messages = comments
         $content.find('.comment-list-container')
           .removeClass('--empty')
           .html(CommentList(comments))

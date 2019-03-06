@@ -108,6 +108,13 @@
 .icon-pencil-grey {
   background-image: url(/img/icon-pencil-grey.svg);
 }
+.icon-pencil-white {
+  background-image: url(/img/icon-pencil-white.svg);
+}
 .icon-logout {
   background-image: url(/img/icon-logout.svg);
+}
+
+.icon-add-participant {
+  background-image: url(/img/icon-add-participant.svg);
 }
