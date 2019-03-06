@@ -1,7 +1,6 @@
 define([
   'jquery', 'service/route', 'service/content'
 ], function ($, route, $content) {
-  window.route = route
   var avatarBlobURL = null
 
   function Profile() {

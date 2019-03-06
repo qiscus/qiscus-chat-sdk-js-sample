@@ -2,7 +2,6 @@ define([
   'jquery', 'service/qiscus',
   'service/route', 'service/content'
 ], function ($, qiscus, route, $content) {
-  window.$ = $
   var avatarBlobURL = null
 
   function contactRenderer(contact) {

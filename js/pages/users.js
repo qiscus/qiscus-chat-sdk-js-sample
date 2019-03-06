@@ -18,9 +18,6 @@ define([
   var isAbleToLoadMore = true
   var totalUser = 0
 
-
-
-
   var loadUser = _.debounce(function loadUser(currentLength) {
     if (isLoadingUser) return
     if (!isAbleToLoadMore) return
@@ -46,19 +43,6 @@ define([
       })
 
   }, 100)
-
-  function handleScroll(event) {
-    var py = event.currentTarget
-    var sy = $(py).find('.scrollspy').get(0)
-
-    var offset = (sy.offsetTop - (py.offsetHeight + sy.scrollHeight + sy.offsetHeight)) - 10
-    var scrollTop = Math.round(py.scrollTop)
-    var shouldLoadMore = scrollTop > offset
-    var childLength = py.children.length - 1
-    if (shouldLoadMore) {
-      loadUser(childLength)
-    }
-  }
 
   function Users() {
     qiscus.getUsers()

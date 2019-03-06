@@ -168,6 +168,9 @@
   flex-direction: column;
   align-items: flex-start;
   margin-left: 10px;
+  background: none;
+  border: 0;
+  cursor: pointer;
 }
 
 .Chat .ToolbarChatRoom .room-name {
@@ -188,11 +191,13 @@
 }
 .Chat .ToolbarChatRoom .online-status.participant-list {
   color: #979797;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .Chat .ToolbarChatRoom img.avatar {
-  flex: 0;
-  flex-basis: 30px;
+  flex: 0 0 30px;
   height: 30px;
   width: 30px;
   object-fit: cover;
