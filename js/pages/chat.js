@@ -66,8 +66,6 @@ define([
   }
 
   function commentRenderer(comment) {
-    var reAttachmentComment = /\[file\] (?<url>.+) \[\/file\]/i
-    var reImageAttachment = /(\b(https?|ftp|file):\/\/\S+\/([A-Z0-9\-\.\+\_%]+)(\.png|\.gif|\.jpe?g|\.jpe?g\-large)[-A-Z0-9+&@#\/\?;%=~_|$?!:,.]*)/i
     var content = comment.message
     var type = comment.type
     if (type === 'upload') {

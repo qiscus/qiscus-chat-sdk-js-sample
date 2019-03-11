@@ -1,7 +1,7 @@
 define([
-  'jquery', 'service/qiscus',
+  'jquery', 'lodash', 'service/qiscus',
   'service/route', 'service/content'
-], function ($, qiscus, route, $content) {
+], function ($, lodash, qiscus, route, $content) {
   var avatarBlobURL = null
 
   function contactRenderer(contact) {
@@ -86,8 +86,8 @@ define([
       .append(participantRenderer(detail))
   }
 
-  function loadContacts() {
-    return qiscus.getUsers()
+  function loadContacts(query) {
+    return qiscus.getUsers(query)
       .then(function (resp) {
         var contacts = resp.users.map(contactRenderer).join('')
         $content.find('.contact-list')
@@ -253,6 +253,11 @@ define([
           })
         })
     })
+    .on('input', '.CreateGroupPage #search', _.debounce(function (event) {
+      var $el = $(this)
+      var value = $el.val()
+      loadContacts(value)
+    }, 300))
 
   CreateGroup.path = '/create-group'
   return CreateGroup

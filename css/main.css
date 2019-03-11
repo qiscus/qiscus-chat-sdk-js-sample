@@ -22,8 +22,14 @@ button {
 
 .toggle-widget-btn {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 10px;
+  right: 30px;
+  background: #94ca62;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .widget-container {
@@ -66,4 +72,5 @@ button {
   overflow: hidden;
   border: 1px solid #ececec;
   border-top: none;
+  background: white;
 }

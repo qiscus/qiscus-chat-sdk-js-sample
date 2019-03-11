@@ -9,7 +9,7 @@ define([
     return `
       <div class="Toolbar">
         <button id="profile-btn" type="button" class="avatar-btn">
-          <img src="/img/img-empty-avatar.svg">
+          <img src="${qiscus.userData.avatar_url}">
         </button>
         <div class="toolbar-title">Conversations</div>
         <button type="button" class="chat-btn">

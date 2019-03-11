@@ -72,9 +72,11 @@ define([
         if (progress) return console.info('uploading avatar', progress.percent)
         if (url) {
           console.log('done uploading avatar', url)
+          qiscus.userData.avatar_url = url
           qiscus.updateProfile({ avatar_url: url })
             .then(function (resp) {
               console.log('done updating avatar profile', resp)
+              URL.revokeObjectURL(avatarBlobURL)
             })
         }
       })
@@ -95,7 +97,7 @@ define([
     })
     .on('click', '.Profile #logout-btn', function (event) {
       qiscus.logout()
-      route.push('/logout')
+      route.push('/login')
     })
 
   Profile.path = '/profile'
