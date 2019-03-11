@@ -240,7 +240,8 @@ define([
   var lastValue = null
   emitter.on('qiscus::typing', function (event) {
     var roomId = event.room_id
-    console.log('typing on room', roomId)
+    if (Number(roomId) !== qiscus.selected.id) return
+    if (qiscus.selected.room_type !== 'single') return
     var $onlineStatus = $content.find('.room-meta .online-status')
     lastValue = $onlineStatus.text()
     $onlineStatus.text('Typing ...')
