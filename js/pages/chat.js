@@ -3,6 +3,8 @@ define([
   'service/content', 'service/route',
   'service/qiscus', 'service/emitter'
 ], function (dateFns, $, _, $content, route, qiscus, emitter) {
+  var isAbleToScroll = false
+
   function Toolbar(name, avatar) {
     var isGroup = qiscus.selected.room_type === 'group'
     var participants = (function () {
@@ -199,8 +201,13 @@ define([
   emitter.on('qiscus::new-message', function (comment) {
     // Skip if comment already there
     if ($content.find(`.comment-item[data-unique-id="${comment.unique_temp_id}"]`).length !== 0) return
+
+    var $comment = $(commentRenderer(comment))
     $content.find('.comment-list-container ul')
-      .append(commentRenderer(comment))
+      .append($comment)
+    if (isAbleToScroll) {
+      $comment.get(0).scrollIntoView({ behavior: 'smooth' })
+    }
   })
 
   // Online status management
@@ -286,10 +293,12 @@ define([
       $commentList.append(commentRenderer(comment))
       var comment = $content.find('.comment-item[data-comment-id="' + commentId + '"]')
       comment.attr('data-unique-id', uniqueId)
-      comment.get(0).scrollIntoView({
-        block: 'start',
-        behavior: 'smooth'
-      })
+      if (isAbleToScroll) {
+        comment.get(0).scrollIntoView({
+          block: 'start',
+          behavior: 'smooth'
+        })
+      }
       $content.find('#message-form input[name="message"]').val('')
 
       qiscus.sendComment(qiscus.selected.id, message, uniqueId)
@@ -521,6 +530,17 @@ define([
             $content.find('.load-more').addClass('hidden')
           }
         }
+
+        $('.comment-list-container ul').on('scroll', _.debounce(function () {
+          var $root = $(this)
+          var $$root = $root.get(0)
+
+          var total = Math.ceil($root.scrollTop() + $root.height())
+          var required = $$root.scrollHeight
+
+          var offset = 50 // CommentItem height
+          isAbleToScroll = !(required - offset >= total)
+        }, 300))
       })
     return `
       <div class="Chat">
