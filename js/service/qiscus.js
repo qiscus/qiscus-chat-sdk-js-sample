@@ -25,6 +25,9 @@ define(['service/emitter'], function (emitter) {
       },
       commentDeliveredCallback: function (data) {
         emitter.emit('qiscus::comment-delivered', data)
+      },
+      typingCallback: function (data) {
+        emitter.emit('qiscus::typing', data)
       }
     }
   })

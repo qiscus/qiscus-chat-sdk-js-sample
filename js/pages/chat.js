@@ -1,8 +1,8 @@
 define([
-  'dateFns', 'jquery',
+  'dateFns', 'jquery', 'lodash',
   'service/content', 'service/route',
   'service/qiscus', 'service/emitter'
-], function (dateFns, $, $content, route, qiscus, emitter) {
+], function (dateFns, $, _, $content, route, qiscus, emitter) {
   function Toolbar(name, avatar) {
     var isGroup = qiscus.selected.room_type === 'group'
     var participants = (function () {
@@ -234,6 +234,23 @@ define([
       // Do something on comment delivered
     })
 
+  })
+
+  var typingTimeoutId = -1
+  var lastValue = null
+  emitter.on('qiscus::typing', function (event) {
+    var roomId = event.room_id
+    console.log('typing on room', roomId)
+    var $onlineStatus = $content.find('.room-meta .online-status')
+    lastValue = $onlineStatus.text()
+    $onlineStatus.text('Typing ...')
+
+    if (typingTimeoutId !== -1) clearTimeout(typingTimeoutId)
+    typingTimeoutId = setTimeout(function () {
+        $onlineStatus.text(lastValue)
+        clearTimeout(typingTimeoutId)
+        typingTimeoutId = -1
+    }, 1000)
   })
 
   $('#qiscus-widget')
@@ -471,6 +488,9 @@ define([
       event.preventDefault()
       route.push('/room-info', { roomId: qiscus.selected.id })
     })
+    .on('keydown', '.Chat input#message', _.throttle(function (event) {
+      qiscus.publishTyping(qiscus.selected.id)
+    }, 300))
 
   function Chat(state) {
     qiscus.loadComments(qiscus.selected.id)
