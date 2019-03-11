@@ -10,31 +10,40 @@ define([
   CreateGroupPage, Profile,
   RoomInfoPage
 ) {
-    window.route = route
-    window.qiscus = qiscus
-    var routes = [
-      LoginPage,
-      ChatListPage,
-      ChatPage,
-      UserPage,
-      CreateGroupPage,
-      Profile,
-      RoomInfoPage
-    ]
+  window.route = route
+  window.qiscus = qiscus
+  var routes = [
+    LoginPage,
+    ChatListPage,
+    ChatPage,
+    UserPage,
+    CreateGroupPage,
+    Profile,
+    RoomInfoPage
+  ]
 
-    $content.html(LoginPage)
-    if (!qiscus.isLogin) {
-      route.replace('/login')
-    }
+  $content.html(LoginPage)
+  if (!qiscus.isLogin) {
+    route.replace('/login')
+  }
 
-    emitter.on('qiscus::login-success', function () {
-      route.replace('/chat')
-      // route.replace('/room-info', { roomId: 2006829 })
-    })
-    emitter.on('route::change', function (location) {
-      var content = routes.find(function (page) {
-        return page.path === location.pathname
-      })
-      $content.html(content(location.state))
-    })
+  emitter.on('qiscus::login-success', function () {
+    route.replace('/chat')
   })
+  emitter.on('route::change', function (location) {
+    var content = routes.find(function (page) {
+      return page.path === location.pathname
+    })
+    $content.html(content(location.state))
+  })
+
+  window.$ = $
+  $('.widget-container').on('click', 'button.close-btn', function (event) {
+    event.preventDefault()
+    $('.widget-container').slideUp()
+  })
+  $('.toggle-widget-btn').on('click', function (event) {
+    event.preventDefault()
+    $('.widget-container').slideDown()
+  })
+})

@@ -5,8 +5,7 @@
 }
 
 .Users .toolbar {
-  flex: 0;
-  flex-basis: 48px;
+  flex: 0 0 48px;
   display: flex;
   border-bottom: 1px solid #ececec;
   justify-content: flex-start;
@@ -32,8 +31,7 @@
 }
 
 .Users .create-group-btn {
-  flex: 0;
-  flex-basis: 45px;
+  flex: 0 0 45px;
   display: flex;
   align-items: center;
   background: white;
@@ -47,8 +45,7 @@
 }
 
 .Users .search-container {
-  flex: 0;
-  flex-basis: 40px;
+  flex: 0 0 40px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #ececec;
@@ -75,6 +72,7 @@
   background: #fafafa;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .Users .contact-list-title {
