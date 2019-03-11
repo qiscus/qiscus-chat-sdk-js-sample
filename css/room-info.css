@@ -352,3 +352,17 @@
   width: 20px;
   height: 20px;
 }
+.ContactChooser .contact-list .load-more {
+  flex: 0 0 27px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.ContactChooser .contact-list .load-more button {
+  background: #94ca62;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}

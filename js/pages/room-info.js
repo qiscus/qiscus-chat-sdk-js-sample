@@ -5,6 +5,30 @@ define([
   var blobURL = null
   var searchQuery = null
   var selectedIds = window.selectedIds = []
+  var isLoadingUser = false
+
+  var loadContact = _.debounce(function (currentLength) {
+    if (isLoadingUser) return
+
+    var query = searchQuery
+    var perPage = 20
+    var currentPage = Math.ceil(currentLength / perPage)
+    var nextPage = currentPage + 1
+    console.log('load-contacts', currentLength, currentPage, nextPage)
+
+    isLoadingUser = true
+    qiscus.getUsers(query)
+      .then(function (data) {
+        isLoadingUser = false
+        var users = data.users.map(function (user) {
+          var selected = selectedIds.includes(user.email)
+          return ContactItem(user, selected)
+        }).join('')
+
+        $(users).insertBefore('.contact-list .load-more')
+      })
+  }, 300)
+
   function ParticipantItem(user) {
     return `
       <li class="participant-item"
@@ -21,6 +45,7 @@ define([
     `
   }
   function ContactItem(contact, selected) {
+    var selected = selected || false
     return `
       <li class="contact-item"
         data-contact-id="${contact.id}"
@@ -76,7 +101,6 @@ define([
     `
   }
 
-
   function ContactChooser() {
     qiscus.getUsers()
       .then(function (data) {
@@ -84,8 +108,9 @@ define([
         var users = data.users.map(function (user) {
           return ContactItem(user)
         }).join('')
-        $content.find('.contact-list')
-          .html(users)
+        // $content.find('.contact-list')
+        //   .html(users)
+        $(users).insertBefore('.ContactChooser .contact-list .load-more')
       })
     return `
       <div class="ContactChooser" style="display:none;">
@@ -107,6 +132,9 @@ define([
             Contacts
           </div>
           <ul class="contact-list">
+            <li class="load-more">
+              <button type="button">Load more</button>
+            </li>
           </ul>
         </div>
       </div>
@@ -139,6 +167,12 @@ define([
             .val(info.room_name)
           $content.find('.profile-avatar')
             .attr('src', info.avatar_url)
+
+          $content.find('.change-avatar-container')
+            .children()
+            .each(function () {
+              $(this).removeClass('hidden')
+            })
         }
       })
     return `
@@ -154,11 +188,11 @@ define([
           <input id="input-avatar" type="file" accept="image/*" class="hidden">
           <img class="profile-avatar" src="" alt="">
           <div class="change-avatar-container">
-            <input id="input-room-name" type="text" value="" disabled>
-            <button id="edit-room-name-btn" class="edit-name" type="button">
+            <input id="input-room-name" type="text" value="" disabled class="hidden">
+            <button id="edit-room-name-btn" class="edit-name hidden" type="button">
               <i class="icon icon-pencil-white"></i>
             </button>
-            <button id="avatar-picker-btn" type="button">
+            <button id="avatar-picker-btn" type="button" class="hidden">
               <i class="icon icon-avatar-picker"></i>
             </button>
           </div>
@@ -169,7 +203,6 @@ define([
       </div>
     `
   }
-
 
   function removeParticipant(contactId) {
     // remove check from contact list
@@ -195,19 +228,6 @@ define([
     var userId = $el.attr('data-contact-userid')
     selectedIds.push(userId)
   }
-
-  var loadContact = _.debounce(function (query) {
-    qiscus.getUsers(query)
-      .then(function (data) {
-        var users = data.users.map(function (user) {
-          var selected = selectedIds.includes(user.email)
-          return ContactItem(user, selected)
-        }).join('')
-        $content.find('.contact-list')
-          .empty()
-          .append(users)
-      })
-  }, 300)
 
   $content
     .on('click', '.RoomInfo #open-contact-chooser-btn', function (event) {
@@ -307,7 +327,24 @@ define([
       if (query.length === 0) searchQuery = null
       else searchQuery = query
 
-      loadContact(searchQuery)
+      return qiscus.getUsers(searchQuery)
+        .then(function (resp) {
+          var users = resp.users.map(function (user) {
+            var selected = selectedIds.includes(user.email)
+            return ContactItem(user, selected)
+          }).join('')
+          $content.find('.contact-list')
+            .empty()
+            .append(users)
+            .append('<li class="load-more"><button>Load more</button></li>')
+        })
+    })
+    .on('click', '.RoomInfo .load-more button', function (event) {
+      event.preventDefault()
+      console.log('load-more')
+
+      var currentLength = $content.find('.RoomInfo .contact-list').children().length - 1
+      loadContact(currentLength)
     })
 
   RoomInfo.path = '/room-info'
