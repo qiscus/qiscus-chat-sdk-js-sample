@@ -67,7 +67,7 @@ define([
     `
   }
 
-  function commentRenderer(comment) {
+  function CommentItem(comment) {
     var content = comment.message
     var type = comment.type
     if (type === 'upload') {
@@ -144,6 +144,11 @@ define([
             </div>
             <i class="icon icon-message-${comment.status}"></i>
           </div>
+          <div class="message-deleter">
+            <button type="button" data-comment-id="${comment.unique_temp_id}">
+              Delete
+            </button>
+          </div>
         </li>
       `
   }
@@ -162,7 +167,7 @@ define([
         <li class="load-more">
           <button type="button" class="load-more-btn">Load more</button>
         </li>
-        ${comments.map(commentRenderer).join('')}
+        ${comments.map(CommentItem).join('')}
       </ul>
     `
   }
@@ -185,7 +190,7 @@ define([
     return qiscus.loadComments(qiscus.selected.id, {
       last_comment_id: lastCommentId
     }).then(function (data) {
-      var $comments = $(data.map(commentRenderer).join(''))
+      var $comments = $(data.map(CommentItem).join(''))
       $comments.insertAfter('.load-more')
 
       var lastCommentId = $comments.first().data('last-comment-id')
@@ -202,7 +207,7 @@ define([
     // Skip if comment already there
     if ($content.find(`.comment-item[data-unique-id="${comment.unique_temp_id}"]`).length !== 0) return
 
-    var $comment = $(commentRenderer(comment))
+    var $comment = $(CommentItem(comment))
     $content.find('.comment-list-container ul')
       .append($comment)
     if (isAbleToScroll) {
@@ -276,6 +281,7 @@ define([
       var commentId = timestamp.getTime()
       var comment = {
         id: commentId,
+        unique_temp_id: commentId,
         message: message,
         type: 'text',
         email: qiscus.user_id,
@@ -290,7 +296,7 @@ define([
         $commentList = $content.find('.comment-list-container ul')
       }
 
-      $commentList.append(commentRenderer(comment))
+      $commentList.append(CommentItem(comment))
       var comment = $content.find('.comment-item[data-comment-id="' + commentId + '"]')
       comment.attr('data-unique-id', uniqueId)
       if (isAbleToScroll) {
@@ -363,7 +369,7 @@ define([
         caption: caption
       }
       $content.find('.comment-list-container ul')
-        .append(commentRenderer(comment))
+        .append(CommentItem(comment))
       var $comment = $(`.comment-item[data-unique-id="${uniqueId}"]`)
       var $progress = $comment.find('.progress-inner')
       $comment.get(0).scrollIntoView({
@@ -435,7 +441,7 @@ define([
       }
 
       $content.find('.comment-list-container ul')
-        .append(commentRenderer(comment))
+        .append(CommentItem(comment))
       var $comment = $(`.comment-item[data-unique-id=${uniqueId}]`)
       var $progress = $comment.find('.progress-inner')
       $comment.get(0).scrollIntoView({
@@ -501,6 +507,20 @@ define([
     .on('keydown', '.Chat input#message', _.throttle(function (event) {
       qiscus.publishTyping(qiscus.selected.id)
     }, 300))
+    .on('click', '.Chat .message-deleter button', function (event) {
+      event.preventDefault()
+      var $el = $(this)
+      var commentId = $(this).attr('data-comment-id')
+      var $comment = $el.closest('.comment-item')
+      qiscus.deleteComment(qiscus.selected.id, [commentId])
+        .then(function (resp) {
+          console.log('success deleting comment', resp)
+          $comment.remove()
+        })
+        .catch(function (err) {
+          console.error('failed deleting comment', err)
+        })
+    })
 
   function Chat(state) {
     qiscus.loadComments(qiscus.selected.id)

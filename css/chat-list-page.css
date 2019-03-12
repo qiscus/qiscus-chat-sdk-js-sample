@@ -377,6 +377,35 @@
   margin-right: 5px;
   margin-left: auto;
 }
+.Chat .comment-item:hover .message-meta {
+  display: none;
+}
+.Chat .comment-item .message-deleter {
+  display: none;
+}
+.Chat .comment-item:hover .message-deleter {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+.Chat .comment-item .message-deleter button {
+  background: white;
+  border: none;
+  box-shadow: 0px 7px 16px rgba(199, 199, 199, 0.25);
+  border-radius: 4px;
+  line-height: 23px;
+  font-size: 13px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  max-width: 200px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.Chat .comment-item .message-deleter button:hover {
+  background: #ececec;
+}
 
 .Chat .empty-title {
   font-weight: 600;
