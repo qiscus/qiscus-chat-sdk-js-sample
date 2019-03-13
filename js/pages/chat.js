@@ -265,6 +265,14 @@ define([
         typingTimeoutId = -1
     }, 1000)
   })
+  emitter.on('qiscus::comment-delivered', function (event) {
+    console.log('emitter.on comment delivered', event)
+    var commentId = event.comment.id
+    $content.find(`.comment-item[data-comment-id="${commentId}"]`)
+      .find('.icon.icon-message-sent')
+      .removeClass('icon-message-sent')
+      .addClass('icon-message-delivered')
+  })
 
   $('#qiscus-widget')
     .on('click', '.Chat #chat-toolbar-btn', function (event) {
