@@ -1,7 +1,7 @@
 // This service is to bridge QiscusSDK with this sample app
 
 define(['service/emitter'], function (emitter) {
-  var qiscus = new QiscusSDKCore.default()
+  var qiscus = new QiscusSDKCore()
 
   qiscus.init({
     AppId: 'sdksample',
