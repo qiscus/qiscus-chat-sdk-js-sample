@@ -34,6 +34,13 @@
   background-image: url(/img/icon-send.svg);
 }
 
+.icon-message-delivered {
+  background-color: #757575;
+  mask: url(/img/icon-message-read.svg);
+  -webkit-mask: url(/img/icon-message-read.svg);
+  width: 16px;
+  height: 9px;
+}
 .icon-message-sent {
   background-image: url(/img/icon-message-sent.svg);
   width: 12px;
