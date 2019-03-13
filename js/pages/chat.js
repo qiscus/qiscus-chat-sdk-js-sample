@@ -70,6 +70,7 @@ define([
   function CommentItem(comment) {
     var content = comment.message
     var type = comment.type
+    var isMe = comment.email == qiscus.user_id
     if (type === 'upload') {
       var thumbnailURL = URL.createObjectURL(comment.file)
       var caption = comment.caption
@@ -130,7 +131,7 @@ define([
       `
     }
     return `
-        <li class="comment-item ${comment.email === qiscus.user_id ? 'me' : ''}"
+        <li class="comment-item ${isMe ? 'me' : ''}"
           data-comment-id="${comment.id}"
           data-last-comment-id="${comment.comment_before_id}"
           data-unique-id="${comment.unique_temp_id}"
@@ -144,11 +145,11 @@ define([
             </div>
             <i class="icon icon-message-${comment.status}"></i>
           </div>
-          <div class="message-deleter">
+          ${isMe ? `<div class="message-deleter">
             <button type="button" data-comment-id="${comment.unique_temp_id}">
               Delete
             </button>
-          </div>
+          </div>` : ''}
         </li>
       `
   }
