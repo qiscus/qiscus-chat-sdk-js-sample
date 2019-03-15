@@ -4,7 +4,7 @@ define([
 ], function ($, lodash, qiscus, route, $content) {
   var avatarBlobURL = null
 
-  function contactRenderer(contact) {
+  function ContactItem(contact) {
     return `
       <li class="contact-item"
         data-contact-id="${contact.id}"
@@ -23,7 +23,7 @@ define([
       </li>
     `
   }
-  function participantRenderer(detail) {
+  function ParticipantItem(detail) {
     return `
       <li class="participant-item"
         data-contact-id="${detail.id}"
@@ -42,7 +42,7 @@ define([
       </li>
     `
   }
-  function selectedContactRenderer(contactDetail) {
+  function SelectedContactItem(contactDetail) {
     return `
       <li class="selected-contact-item" data-contact-id="${contactDetail.id}">
         <div class="avatar-container">
@@ -75,7 +75,7 @@ define([
   function addParticipant(detail) {
     // add to selected contact list
     $('ul.selected-contact-container')
-      .prepend(selectedContactRenderer(detail))
+      .prepend(SelectedContactItem(detail))
     // add check mark to contact list
     $(`li.contact-item[data-contact-id="${detail.id}"]`)
       .attr('data-selected', true)
@@ -83,16 +83,17 @@ define([
       .removeClass('hidden')
     // add to group info participant list
     $('ul.participant-list')
-      .append(participantRenderer(detail))
+      .append(ParticipantItem(detail))
   }
 
   function loadContacts(query) {
     return qiscus.getUsers(query)
       .then(function (resp) {
-        var contacts = resp.users.map(contactRenderer).join('')
+        var contacts = resp.users.map(ContactItem).join('')
         $content.find('.contact-list')
           .empty()
           .append(contacts)
+          .append('<li class="load-more"><button type="button">Load more ...</button></li>')
       })
   }
 
