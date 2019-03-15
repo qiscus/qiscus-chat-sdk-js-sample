@@ -135,6 +135,7 @@ define([
           data-comment-id="${comment.id}"
           data-last-comment-id="${comment.comment_before_id}"
           data-unique-id="${comment.unique_temp_id}"
+          data-comment-timestamp="${comment.unix_timestamp}"
           data-comment-type="${type}">
           <div class="message-container">
             ${content}
@@ -233,20 +234,35 @@ define([
         .text(`Last online on ${lastOnline}`)
     }
 
-    // Comment read management
-    emitter.on('qiscus::comment-read', function (data) {
-      var userId = data.actor
-      var commentId = data.comment.id
+  })
 
-      $content.find(`.comment-item[data-comment-id="${commentId}"]`)
-        .find('i.icon')
-        .removeClass('icon-message-sent')
-        .addClass('icon-message-read')
-    })
-    emitter.on('qiscus::comment-delivered', function (data) {
-      // Do something on comment delivered
-    })
+  // Comment read management
+  emitter.on('qiscus::comment-read', function (data) {
+    console.log('qiscus::comment-read', data)
+    var userId = data.actor
+    var commentTimestamp = data.comment.unix_timestamp
+    var commentId = data.comment.id
 
+    $content.find(`.comment-item[data-comment-id="${commentId}"]`)
+      .find('i.icon')
+      .removeClass('icon-message-sent')
+      .addClass('icon-message-read')
+
+    $content.find('.comment-item')
+      .each(function () {
+        var $el = $(this)
+        var timestamp = Number($el.attr('data-comment-timestamp'))
+        if (timestamp <= commentTimestamp) {
+          // mark as read
+          $el.find('i.icon')
+            .removeClass('icon-message-sent')
+            .removeClass('icon-message-delivered')
+            .addClass('icon-message-read')
+        }
+      })
+  })
+  emitter.on('qiscus::comment-delivered', function (data) {
+    // Do something on comment delivered
   })
 
   var typingTimeoutId = -1
@@ -319,6 +335,8 @@ define([
       qiscus.sendComment(qiscus.selected.id, message, uniqueId)
         .then(function (resp) {
           comment.attr('data-comment-id', resp.id)
+          comment.attr('data-last-comment-id', resp.comment_before_id)
+          comment.attr('data-comment-timestamp', resp.unix_timestamp)
           comment.find('i.icon')
             .removeClass('icon-message-sending')
             .addClass('icon-message-sent')
