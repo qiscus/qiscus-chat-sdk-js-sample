@@ -31,7 +31,6 @@ define(['service/emitter'], function (emitter) {
       }
     }
   })
-  // qiscus.setUser('apiep', 'qwe12345')
 
   return qiscus
 })
