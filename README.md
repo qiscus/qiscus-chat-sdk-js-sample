@@ -24,7 +24,7 @@ You can view this demo by utilizing http server such as built in php function of
 # Install http-server from npm globally
 $ npm install http-server -g
 # Choose folder and run Web SDK Sample
-$ cd qiscus-sdk-web-sample
+$ cd qiscus-chat-sdk-js-sample
 $ http-server
 ```
 
