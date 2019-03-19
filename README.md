@@ -18,7 +18,7 @@ You can see some of sample UI in this repository
 
 ## How to run
 
-You can view this demo by utilizing http server such as built in php function of `php -S localhost:8080 -t` . or by using [http-server](https://github.com/indexzero/http-server). 
+You can view this demo by utilizing http server such as built in php function of `php -S localhost:8080 -t`, or by using [http-server](https://github.com/indexzero/http-server). 
 
 ```bash
 # Install http-server from npm globally
@@ -28,8 +28,6 @@ $ npm install http-server -g
 $ cd qiscus-chat-sdk-js-sample
 $ http-server
 ```
-
-After you start the server you can view the sample by accessing http://localhost:8080
 
 ## Contribution
 Qiscus Chat SDK Sample UI is fully open-source. All contributions and suggestions are welcome!
