@@ -23,7 +23,8 @@ You can view this demo by utilizing http server such as built in php function of
 ```bash
 # Install http-server from npm globally
 $ npm install http-server -g
-# Choose folder and run Web SDK Sample
+
+# Choose folder and run Qiscus Chat SDK Javascript Sample
 $ cd qiscus-chat-sdk-js-sample
 $ http-server
 ```
