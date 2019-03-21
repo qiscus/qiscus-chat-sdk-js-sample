@@ -261,14 +261,12 @@ define([
         }
       })
   })
-  emitter.on('qiscus::comment-delivered', function (data) {
-    // Do something on comment delivered
-  })
 
   var typingTimeoutId = -1
   var lastValue = null
   emitter.on('qiscus::typing', function (event) {
     var roomId = event.room_id
+    if (qiscus.selected == null) return
     if (Number(roomId) !== qiscus.selected.id) return
     if (qiscus.selected.room_type !== 'single') return
     var $onlineStatus = $content.find('.room-meta .online-status')
@@ -283,12 +281,23 @@ define([
     }, 1000)
   })
   emitter.on('qiscus::comment-delivered', function (event) {
-    console.log('emitter.on comment delivered', event)
     var commentId = event.comment.id
+    var commentTimestamp = event.comment.unix_timestamp
+
     $content.find(`.comment-item[data-comment-id="${commentId}"]`)
-      .find('.icon.icon-message-sent')
+      .find('i.icon')
       .removeClass('icon-message-sent')
       .addClass('icon-message-delivered')
+    $content.find('.comment-item')
+      .each(function () {
+        var $el = $(this)
+        var timestamp = Number($el.attr('data-comment-timestamp'))
+        if (timestamp <= commentTimestamp) {
+          $el.find('i.icon')
+            .removeClass('icon-message-sent')
+            .addClass('icon-message-delivered')
+        }
+      })
   })
 
   $('#qiscus-widget')
