@@ -31,6 +31,8 @@ define(['service/emitter'], function (emitter) {
       }
     }
   })
+  // qiscus.debugMode = true
+  // qiscus.debugMQTTMode = true
 
   return qiscus
 })
