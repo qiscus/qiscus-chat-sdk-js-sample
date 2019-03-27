@@ -3,8 +3,10 @@
 define(['service/emitter'], function (emitter) {
   var qiscus = new QiscusSDKCore()
 
+  const appId = 'sdksample'
+
   qiscus.init({
-    AppId: 'sdksample',
+    AppId: appId,
     options: {
       loginSuccessCallback: function (authData) {
         emitter.emit('qiscus::login-success', authData)
