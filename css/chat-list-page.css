@@ -255,6 +255,9 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+.Chat .comment-list-container .comment-item.date {
+  justify-content: center;
+}
 
 .Chat .comment-list-container .comment-item:last-child {
   margin-bottom: 10px;
@@ -272,6 +275,13 @@
   padding: 10px;
   max-width: 200px;
   overflow: hidden;
+}
+
+.Chat .comment-list-container .message-container.date {
+  background: #94ca62b8;
+  color: white;
+  font-size: 11px;
+  padding: 0 10px;
 }
 
 .Chat .comment-list-container .comment-item[data-comment-type=upload] .message-container,

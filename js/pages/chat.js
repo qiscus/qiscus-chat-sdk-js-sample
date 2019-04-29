@@ -130,6 +130,13 @@ define([
         </a>
       `
     }
+    if (type === 'date') {
+      return `
+        <li class="comment-item date">
+          <div class="message-container date">${content}</div>
+        </li>
+      `
+    }
     return `
         <li class="comment-item ${isMe ? 'me' : ''}"
           data-comment-id="${comment.id}"
@@ -163,13 +170,31 @@ define([
     }
   }
 
+  function createDateComment(date) {
+    return {
+      type: 'date',
+      message: dateFns.format(date, 'DD MMM YYYY')
+    }
+  }
   function CommentList(comments) {
+    var _comments = []
+    for (var id = 0; id < comments.length; id++) {
+      var comment = comments[id]
+      var lastComment = comments[id - 1]
+      var commentDate = new Date(comment.timestamp)
+      var lastCommentDate = lastComment == null ? null : new Date(lastComment.timestamp)
+      var isSameDay = dateFns.isSameDay(commentDate, lastCommentDate)
+      var showDate = lastComment != null && !isSameDay
+
+      if (id === 0 || showDate) _comments.push(createDateComment(commentDate))
+      _comments.push(comment)
+    }
     return `
       <ul>
         <li class="load-more">
           <button type="button" class="load-more-btn">Load more</button>
         </li>
-        ${comments.map(CommentItem).join('')}
+        ${_comments.map(CommentItem).join('')}
       </ul>
     `
   }
