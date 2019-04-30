@@ -132,7 +132,12 @@ define([
     }
     if (type === 'date') {
       return `
-        <li class="comment-item date">
+        <li class="comment-item date"
+          data-comment-id="${comment.id}"
+          data-last-comment-id="${comment.comment_before_id}"
+          data-unique-id="${comment.unique_temp_id}"
+          data-comment-timestamp="${comment.unix_timestamp}"
+          data-comment-type="${type}">
           <div class="message-container date">${content}</div>
         </li>
       `
@@ -170,6 +175,25 @@ define([
     }
   }
 
+  function commentListFormatter(comments) {
+    var _comments = []
+    for (var i = 0; i < comments.length; i++) {
+      var comment = comments[i]
+      var lastComment = comments[i - 1]
+      var commentDate = new Date(comment.timestamp)
+      var lastCommentDate = lastComment == null ? null : new Date(lastComment.timestamp)
+      var isSameDay = dateFns.isSameDay(commentDate, lastCommentDate)
+      var showDate = lastComment != null&& !isSameDay
+
+      // clone comment object because we need it property later
+      var dateComment = Object.assign({}, comment)
+      dateComment.type = 'date'
+      dateComment.message = dateFns.format(dateComment.timestamp, 'DD MMM YYYY')
+      if (i === 0 || showDate) _comments.push(dateComment)
+      _comments.push(comment)
+    }
+    return _comments
+  }
   function createDateComment(date) {
     return {
       type: 'date',
@@ -177,24 +201,12 @@ define([
     }
   }
   function CommentList(comments) {
-    var _comments = []
-    for (var id = 0; id < comments.length; id++) {
-      var comment = comments[id]
-      var lastComment = comments[id - 1]
-      var commentDate = new Date(comment.timestamp)
-      var lastCommentDate = lastComment == null ? null : new Date(lastComment.timestamp)
-      var isSameDay = dateFns.isSameDay(commentDate, lastCommentDate)
-      var showDate = lastComment != null && !isSameDay
-
-      if (id === 0 || showDate) _comments.push(createDateComment(commentDate))
-      _comments.push(comment)
-    }
     return `
       <ul>
         <li class="load-more">
           <button type="button" class="load-more-btn">Load more</button>
         </li>
-        ${_comments.map(CommentItem).join('')}
+        ${commentListFormatter(comments).map(CommentItem).join('')}
       </ul>
     `
   }
@@ -217,10 +229,11 @@ define([
     return qiscus.loadComments(qiscus.selected.id, {
       last_comment_id: lastCommentId
     }).then(function (data) {
-      var $comments = $(data.map(CommentItem).join(''))
+      var comments = commentListFormatter(data)
+      var $comments = $(comments.map(CommentItem).join(''))
       $comments.insertAfter('.load-more')
 
-      var lastCommentId = $comments.first().data('last-comment-id')
+      var lastCommentId = data[0].comment_before_id
       if (lastCommentId === 0) {
         $content.find('.load-more').addClass('hidden')
       }
