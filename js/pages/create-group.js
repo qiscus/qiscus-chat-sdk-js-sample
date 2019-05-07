@@ -3,6 +3,10 @@ define([
   'service/route', 'service/content'
 ], function ($, lodash, qiscus, route, $content) {
   var avatarBlobURL = null
+  var searchValue = null
+  var perPage = 20
+
+  window.$content = $content
 
   function ContactItem(contact) {
     return `
@@ -86,14 +90,29 @@ define([
       .append(ParticipantItem(detail))
   }
 
-  function loadContacts(query) {
-    return qiscus.getUsers(query)
+  function loadContacts(query, page) {
+    page = page || 1
+    return qiscus.getUsers(query, page, perPage)
       .then(function (resp) {
         var contacts = resp.users.map(ContactItem).join('')
         $content.find('.contact-list')
           .empty()
           .append(contacts)
-          .append('<li class="load-more"><button type="button">Load more ...</button></li>')
+          .append('<li class="load-more"><button type="button" id="load-more">Load more</button></li>')
+      })
+  }
+  function loadMoreContacts(query, page) {
+    page = page || 1
+    return qiscus.getUsers(query, page, perPage)
+      .then(function (resp) {
+        var contacts = resp.users.map(ContactItem).join('')
+        var $contacts = $(contacts)
+        $contacts.insertBefore('li.load-more')
+        // If users response are shorter than the requested limit, then has
+        // the end of user list, and we need to hide load more button
+        if (resp.users.length < perPage) {
+          $content.find('li.load-more').addClass('hidden')
+        }
       })
   }
 
@@ -245,20 +264,32 @@ define([
       qiscus.createGroupRoom(name, participantIds, { avatar: avatar })
         .then(function (room) {
           qiscus.getRoomById(room.id)
-          .then(function () {
-            route.push('/chat-room', {
-              roomId: room.id,
-              roomName: room.name,
-              roomAvatar: room.avatarURL
+            .then(function () {
+              route.push('/chat-room', {
+                roomId: room.id,
+                roomName: room.name,
+                roomAvatar: room.avatarURL
+              })
             })
-          })
         })
     })
     .on('input', '.CreateGroupPage #search', _.debounce(function (event) {
       var $el = $(this)
       var value = $el.val()
+      searchValue = value
       loadContacts(value)
     }, 300))
+    .on('click', '.CreateGroupPage #load-more', function (event) {
+      event.preventDefault()
+      console.log('click')
+      var $contactList = $content.find('.contact-list')
+      var childrenLength = $contactList.children().length - 1 // Minus load more button
+
+      var currentPage = Number(Math.min(childrenLength / perPage).toFixed(1))
+
+      console.log('load-contact', searchValue, currentPage + 1)
+      loadMoreContacts(searchValue, currentPage + 1)
+    })
 
   CreateGroup.path = '/create-group'
   return CreateGroup
