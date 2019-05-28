@@ -281,13 +281,11 @@ define([
     }, 300))
     .on('click', '.CreateGroupPage #load-more', function (event) {
       event.preventDefault()
-      console.log('click')
       var $contactList = $content.find('.contact-list')
       var childrenLength = $contactList.children().length - 1 // Minus load more button
 
       var currentPage = Number(Math.min(childrenLength / perPage).toFixed(1))
 
-      console.log('load-contact', searchValue, currentPage + 1)
       loadMoreContacts(searchValue, currentPage + 1)
     })
 

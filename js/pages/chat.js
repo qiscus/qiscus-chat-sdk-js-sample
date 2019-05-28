@@ -276,7 +276,6 @@ define([
 
   // Comment read management
   emitter.on('qiscus::comment-read', function (data) {
-    console.log('qiscus::comment-read', data)
     var userId = data.actor
     var commentTimestamp = data.comment.unix_timestamp
     var commentId = data.comment.id
