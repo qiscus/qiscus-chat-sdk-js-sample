@@ -50,6 +50,5 @@ define([
   if (localStorage['authdata'] != null) {
     var authdata = JSON.parse(localStorage['authdata'])
     qiscus.setUserWithIdentityToken({ user: authdata })
-    console.log('user already exists')
   }
 })

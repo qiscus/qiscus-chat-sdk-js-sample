@@ -13,7 +13,6 @@ define(['service/emitter'], function (emitter) {
       },
       newMessagesCallback: function (messages) {
         emitter.emit('qiscus::new-message', messages[0])
-        console.log('on:new-messages', messages)
       },
       presenceCallback: function (data) {
         var isOnline = data.split(':')[0] === '1'
@@ -22,7 +21,6 @@ define(['service/emitter'], function (emitter) {
           isOnline: isOnline,
           lastOnline: lastOnline
         })
-        console.log('on:presence', isOnline, lastOnline)
       },
       commentReadCallback: function (data) {
         emitter.emit('qiscus::comment-read', data)

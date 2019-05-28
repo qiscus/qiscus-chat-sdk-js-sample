@@ -14,7 +14,6 @@ define([
     var perPage = 20
     var currentPage = Math.ceil(currentLength / perPage)
     var nextPage = currentPage + 1
-    console.log('load-contacts', currentLength, currentPage, nextPage)
 
     isLoadingUser = true
     qiscus.getUsers(query)
@@ -104,7 +103,6 @@ define([
   function ContactChooser() {
     qiscus.getUsers()
       .then(function (data) {
-        console.log('data', data)
         var users = data.users.map(function (user) {
           return ContactItem(user)
         }).join('')
@@ -151,7 +149,6 @@ define([
           })
           $content.find('.info-container')
             .html(SingleRoomInfo(user))
-          console.log('infos', info)
           $content.find('.toolbar-title')
             .text(user.username)
           $content.find('.profile-avatar')
@@ -341,7 +338,6 @@ define([
     })
     .on('click', '.RoomInfo .load-more button', function (event) {
       event.preventDefault()
-      console.log('load-more')
 
       var currentLength = $content.find('.RoomInfo .contact-list').children().length - 1
       loadContact(currentLength)

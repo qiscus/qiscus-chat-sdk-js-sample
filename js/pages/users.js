@@ -25,7 +25,6 @@ define([
     var perPage = 20
     var currentPage = Math.ceil(currentLength / perPage)
     var nextPage = currentPage + 1
-    console.log('nextPage', currentPage, nextPage, currentLength);
 
     isLoadingUser = true
     return qiscus.getUsers(searchQuery, nextPage)
@@ -120,7 +119,6 @@ define([
     .on('click', '.Users .load-more button', function (event) {
       event.preventDefault()
       var childLength = $content.find('.contact-list').children().length - 1
-      console.log('load-more');
       loadUser(childLength)
     })
 
