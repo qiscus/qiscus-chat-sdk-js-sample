@@ -578,7 +578,7 @@ define([
       route.push('/room-info', { roomId: qiscus.selected.id })
     })
     .on('keydown', '.Chat input#message', _.throttle(function (event) {
-      qiscus.publishTyping(qiscus.selected.id)
+      qiscus.publishTyping(1)
     }, 300))
     .on('click', '.Chat .message-deleter button', function (event) {
       event.preventDefault()
