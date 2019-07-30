@@ -1,9 +1,10 @@
+/* globals QiscusSDKCore */
 // This service is to bridge QiscusSDK with this sample app
 
 define(['service/emitter'], function (emitter) {
   var qiscus = new QiscusSDKCore()
 
-  const appId = 'sdksample'
+  var appId = 'sdksample'
 
   qiscus.init({
     AppId: appId,

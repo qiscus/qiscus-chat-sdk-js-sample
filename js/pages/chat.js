@@ -12,9 +12,9 @@ define([
       var overflowCount = qiscus.selected.participants.length - limit
       var participants = qiscus.selected.participants
       .slice(0, limit)
-      .map(it => it.username.split(' ')[0])
+      .map(function(it) { return it.username.split(' ')[0] })
       if (qiscus.selected.participants.length <= limit) return participants.join(', ')
-      return participants.concat(`and ${overflowCount} others.`).join(', ')
+      return participants.concat('and ' + overflowCount + ' others.').join(', ')
     })()
     return `
       <div class="ToolbarChatRoom">
@@ -348,7 +348,7 @@ define([
       var message = event.currentTarget['message'].value
       if (message == null || message.length === 0) return
       var timestamp = new Date()
-      var uniqueId = timestamp.getTime()
+      var uniqueId = timestamp.getTime().toString()
       var commentId = timestamp.getTime()
       var comment = {
         id: commentId,
