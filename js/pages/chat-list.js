@@ -116,6 +116,8 @@ define([
     $unreadCount
       .removeClass('hidden')
       .text(lastUnreadCount + 1)
+    $content.find('.ChatList .room-list')
+      .prepend($room.detach())
   })
 
   function RoomList(rooms) {
