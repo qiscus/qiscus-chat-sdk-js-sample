@@ -11,11 +11,13 @@ define([
       var limit = 3
       var overflowCount = qiscus.selected.participants.length - limit
       var participants = qiscus.selected.participants
-      .slice(0, limit)
-      .map(function(it) { return it.username.split(' ')[0] })
-      if (qiscus.selected.participants.length <= limit) return participants.join(', ')
+        .slice(0, limit)
+        .map(function (it) { return it.username.split(' ')[0] })
+      if (qiscus.selected.participants.length <=
+        limit) return participants.join(', ')
       return participants.concat('and ' + overflowCount + ' others.').join(', ')
     })()
+
     return `
       <div class="ToolbarChatRoom">
         <button type="button" class="btn-icon" id="chat-toolbar-btn">
@@ -70,7 +72,7 @@ define([
   function CommentItem(comment) {
     var content = comment.message
     var type = comment.type
-    var isMe = comment.email == qiscus.user_id
+    var isMe = comment.email === qiscus.user_id
     if (type === 'upload') {
       var thumbnailURL = URL.createObjectURL(comment.file)
       var caption = comment.caption
@@ -81,7 +83,7 @@ define([
               <div class="progress-inner"></div>
             </div>
           </div>
-          <img class="image-preview" src="${thumbnailURL}">
+          <img class="image-preview" src="${thumbnailURL}" alt="preview">
         </a>
         <div class="image-caption ${caption ? '' : 'hidden'}">
           ${caption}
@@ -107,12 +109,11 @@ define([
       typeof (comment.payload.content) !== 'string') {
       var fileURL = comment.payload.content.url
       var thumbnailURL = getAttachmentURL(fileURL).thumbnailURL
-      var type = 'image'
       var caption = comment.payload.content.caption
       caption = caption.length === 0 ? null : caption
       content = `
         <a href="${fileURL}" target="_blank" style="${caption ? 'height:80%' : ''}">
-          <img class="image-preview" src="${thumbnailURL}">
+          <img class="image-preview" src="${thumbnailURL}" alt="preview">
         </a>
         <div class="image-caption ${caption ? '' : 'hidden'}">
           ${caption}
@@ -181,9 +182,11 @@ define([
       var comment = comments[i]
       var lastComment = comments[i - 1]
       var commentDate = new Date(comment.timestamp)
-      var lastCommentDate = lastComment == null ? null : new Date(lastComment.timestamp)
+      comment.date = commentDate
+      var lastCommentDate = lastComment == null ? null : new Date(
+        lastComment.timestamp)
       var isSameDay = dateFns.isSameDay(commentDate, lastCommentDate)
-      var showDate = lastComment != null&& !isSameDay
+      var showDate = lastComment != null && !isSameDay
 
       // clone comment object because we need it property later
       var dateComment = Object.assign({}, comment)
@@ -192,7 +195,7 @@ define([
       if (i === 0 || showDate) _comments.push(dateComment)
       _comments.push(comment)
     }
-    return _comments
+    return _comments.sort((a, b) => a.date - b.date)
   }
   function createDateComment(date) {
     return {
@@ -244,6 +247,9 @@ define([
   var attachmentImage = null
   var attachmentFile = null
   emitter.on('qiscus::new-message', function (comment) {
+    // Skip if comment room_id are not matched current room id
+    if (qiscus.selected != null && comment.room_id !== qiscus.selected.id) return
+
     // Skip if comment already there
     if ($content.find(`.comment-item[data-unique-id="${comment.unique_temp_id}"]`).length !== 0) return
 
@@ -570,7 +576,8 @@ define([
     .on('click', '.Chat .load-more-btn', function (event) {
       event.preventDefault()
       var $commentList = $content.find('.comment-list-container ul')
-      var lastCommentId = $commentList.children().get(1).dataset['lastCommentId']
+      var lastCommentId = $commentList.children()
+        .get(1).dataset['lastCommentId']
       loadComment(lastCommentId)
     })
     .on('click', '.Chat .room-meta', function (event) {
