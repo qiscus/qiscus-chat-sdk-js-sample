@@ -8,12 +8,14 @@ define(['service/emitter'], function (emitter) {
 
   qiscus.init({
     AppId: appId,
+    sync: 'http',
+    mqttURL: 'http://asomer.com',
     options: {
       loginSuccessCallback: function (authData) {
         emitter.emit('qiscus::login-success', authData)
       },
       newMessagesCallback: function (messages) {
-        emitter.emit('qiscus::new-message', messages[0])
+        messages.forEach(it => emitter.emit('qiscus::new-message', it))
       },
       presenceCallback: function (data) {
         var isOnline = data.split(':')[0] === '1'
