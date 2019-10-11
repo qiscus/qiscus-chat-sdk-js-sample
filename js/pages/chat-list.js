@@ -5,6 +5,8 @@ define([
   'service/route',
   'service/emitter'
 ], function ($, dateFns, _, qiscus, $content, route, emitter) {
+  var newMessageIds = []
+
   function Toolbar() {
     return `
       <div class="Toolbar">
@@ -75,6 +77,7 @@ define([
   $content
     .on('click', '.ChatList .room-item', function (event) {
       event.preventDefault()
+      newMessageIds.length = 0
       var target = $(event.currentTarget)
       var roomId = target.data('room-id')
       var roomName = target.data('room-name')
@@ -106,7 +109,11 @@ define([
         .length - 1 // minus load-more button
       loadRooms(childLength)
     })
+
   emitter.on('qiscus::new-message', function (comment) {
+    if (newMessageIds.includes(comment.id)) return
+    newMessageIds.push(comment.id)
+
     var roomId = comment.room_id
     var $room = $content.find(`.room-item[data-room-id="${roomId}"]`)
     $room.find('.room-last-message')
