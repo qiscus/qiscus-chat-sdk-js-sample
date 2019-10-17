@@ -1,20 +1,26 @@
 define([
-  'dateFns', 'jquery', 'lodash',
-  'service/content', 'service/route',
-  'service/qiscus', 'service/emitter'
-], function (dateFns, $, _, $content, route, qiscus, emitter) {
+  'dateFns',
+  'jquery',
+  'lodash',
+  'service/content',
+  'service/route',
+  'service/qiscus',
+  'service/emitter',
+], function(dateFns, $, _, $content, route, qiscus, emitter) {
   var isAbleToScroll = false
 
   function Toolbar(name, avatar) {
     var isGroup = qiscus.selected.room_type === 'group'
-    var participants = (function () {
+    var participants = (function() {
       var limit = 3
       var overflowCount = qiscus.selected.participants.length - limit
       var participants = qiscus.selected.participants
         .slice(0, limit)
-        .map(function (it) { return it.username.split(' ')[0] })
-      if (qiscus.selected.participants.length <=
-        limit) return participants.join(', ')
+        .map(function(it) {
+          return it.username.split(' ')[0]
+        })
+      if (qiscus.selected.participants.length <= limit)
+        return participants.join(', ')
       return participants.concat('and ' + overflowCount + ' others.').join(', ')
     })()
 
@@ -26,9 +32,11 @@ define([
         <img class="avatar" src="${avatar}">
         <button class="room-meta">
           <div class="room-name">${name}</div>
-          ${ isGroup
-            ? `<small class="online-status participant-list">${participants}</small>`
-            : `<small class="online-status">Online</small>`}
+          ${
+            isGroup
+              ? `<small class="online-status participant-list">${participants}</small>`
+              : `<small class="online-status">Online</small>`
+          }
         </button>
       </div>
     `
@@ -77,7 +85,9 @@ define([
       var thumbnailURL = URL.createObjectURL(comment.file)
       var caption = comment.caption
       content = `
-        <a href="${fileURL}" style="position:relative; ${caption ? 'height:80%;' : ''}" target="_blank">
+        <a href="${fileURL}" style="position:relative; ${
+        caption ? 'height:80%;' : ''
+      }" target="_blank">
           <div class="upload-overlay">
             <div class="progress">
               <div class="progress-inner"></div>
@@ -105,21 +115,30 @@ define([
         </a>
       `
     }
-    if (type === 'custom' && comment.payload.type === 'image' &&
-      typeof (comment.payload.content) !== 'string') {
+    if (
+      type === 'custom' &&
+      comment.payload.type === 'image' &&
+      typeof comment.payload.content !== 'string'
+    ) {
       var fileURL = comment.payload.content.url
       var thumbnailURL = getAttachmentURL(fileURL).thumbnailURL
       var caption = comment.payload.content.caption
       caption = caption.length === 0 ? null : caption
       content = `
-        <a href="${fileURL}" target="_blank" style="${caption ? 'height:80%' : ''}">
+        <a href="${fileURL}" target="_blank" style="${
+        caption ? 'height:80%' : ''
+      }">
           <img class="image-preview" src="${thumbnailURL}" alt="preview">
         </a>
         <div class="image-caption ${caption ? '' : 'hidden'}">
           ${caption}
         </div>
       `
-    } else if (type === 'custom' && comment.payload.type === 'file' && typeof (comment.payload.content) !== 'string') {
+    } else if (
+      type === 'custom' &&
+      comment.payload.type === 'file' &&
+      typeof comment.payload.content !== 'string'
+    ) {
       var fileURL = comment.payload.content.url
       var filename = comment.payload.content.file_name
       type = 'file'
@@ -159,11 +178,15 @@ define([
             </div>
             <i class="icon icon-message-${comment.status}"></i>
           </div>
-          ${isMe ? `<div class="message-deleter">
+          ${
+            isMe
+              ? `<div class="message-deleter">
             <button type="button" data-comment-id="${comment.unique_temp_id}">
               Delete
             </button>
-          </div>` : ''}
+          </div>`
+              : ''
+          }
         </li>
       `
   }
@@ -172,7 +195,7 @@ define([
     var thumbnailURL = fileURL.replace('upload', 'upload/w_320,h_320,c_limit')
     return {
       origin: fileURL,
-      thumbnailURL: thumbnailURL
+      thumbnailURL: thumbnailURL,
     }
   }
 
@@ -183,8 +206,8 @@ define([
       var lastComment = comments[i - 1]
       var commentDate = new Date(comment.timestamp)
       comment.date = commentDate
-      var lastCommentDate = lastComment == null ? null : new Date(
-        lastComment.timestamp)
+      var lastCommentDate =
+        lastComment == null ? null : new Date(lastComment.timestamp)
       var isSameDay = dateFns.isSameDay(commentDate, lastCommentDate)
       var showDate = lastComment != null && !isSameDay
 
@@ -200,7 +223,7 @@ define([
   function createDateComment(date) {
     return {
       type: 'date',
-      message: dateFns.format(date, 'DD MMM YYYY')
+      message: dateFns.format(date, 'DD MMM YYYY'),
     }
   }
   function CommentList(comments) {
@@ -209,7 +232,9 @@ define([
         <li class="load-more">
           <button type="button" class="load-more-btn">Load more</button>
         </li>
-        ${commentListFormatter(comments).map(CommentItem).join('')}
+        ${commentListFormatter(comments)
+          .map(CommentItem)
+          .join('')}
       </ul>
     `
   }
@@ -217,97 +242,97 @@ define([
   function openAttachment(event) {
     if (event != null) event.preventDefault()
     $content.find('.attachment-overlay').show()
-    $content.find('ul.attachment-picker-container')
-      .slideDown(200)
+    $content.find('ul.attachment-picker-container').slideDown(200)
   }
 
   function closeAttachment(event) {
     if (event != null) event.preventDefault()
     $content.find('.attachment-overlay').hide()
-    $content.find('ul.attachment-picker-container')
-      .slideUp(200)
+    $content.find('ul.attachment-picker-container').slideUp(200)
   }
 
   function loadComment(lastCommentId) {
-    return qiscus.loadComments(qiscus.selected.id, {
-      last_comment_id: lastCommentId
-    }).then(function (data) {
-      var comments = commentListFormatter(data)
-      var $comments = $(comments.map(CommentItem).join(''))
-      $comments.insertAfter('.load-more')
+    return qiscus
+      .loadComments(qiscus.selected.id, {
+        last_comment_id: lastCommentId,
+      })
+      .then(function(data) {
+        var comments = commentListFormatter(data)
+        var $comments = $(comments.map(CommentItem).join(''))
+        $comments.insertAfter('.load-more')
 
-      var lastCommentId = data[0].comment_before_id
-      if (lastCommentId === 0) {
-        $content.find('.load-more').addClass('hidden')
-      }
-    })
+        var lastCommentId = data[0].comment_before_id
+        if (lastCommentId === 0) {
+          $content.find('.load-more').addClass('hidden')
+        }
+      })
   }
 
   var attachmentPreviewURL = null
   var attachmentImage = null
   var attachmentFile = null
-  emitter.on('qiscus::new-message', function (comment) {
+  emitter.on('qiscus::new-message', function(comment) {
     // Skip if comment room_id are not matched current room id
-    if (qiscus.selected != null && comment.room_id !== qiscus.selected.id) return
+    if (qiscus.selected != null && comment.room_id !== qiscus.selected.id)
+      return
 
     // Skip if comment already there
-    if ($content.find(`.comment-item[data-unique-id="${comment.unique_temp_id}"]`).length !== 0) return
+    if (
+      $content.find(`.comment-item[data-unique-id="${comment.unique_temp_id}"]`)
+        .length !== 0
+    )
+      return
 
     var $comment = $(CommentItem(comment))
-    $content.find('.comment-list-container ul')
-      .append($comment)
+    $content.find('.comment-list-container ul').append($comment)
     if (isAbleToScroll) {
       $comment.get(0).scrollIntoView({ behavior: 'smooth' })
     }
   })
 
   // Online status management
-  emitter.on('qiscus::online-presence', function (data) {
+  emitter.on('qiscus::online-presence', function(data) {
     var $onlineStatus = $content.find('small.online-status')
-    var lastOnline = dateFns.isSameDay(data.lastOnline, new Date()) ?
-      dateFns.format(data.lastOnline, 'hh:mm') :
-      dateFns.format(data.lastOnline, 'D/M/YY')
+    var lastOnline = dateFns.isSameDay(data.lastOnline, new Date())
+      ? dateFns.format(data.lastOnline, 'hh:mm')
+      : dateFns.format(data.lastOnline, 'D/M/YY')
 
     if (data.isOnline) {
-      $onlineStatus
-        .removeClass('--offline')
-        .text('Online')
+      $onlineStatus.removeClass('--offline').text('Online')
     } else {
-      $onlineStatus
-        .addClass('--offline')
-        .text(`Last online on ${lastOnline}`)
+      $onlineStatus.addClass('--offline').text(`Last online on ${lastOnline}`)
     }
-
   })
 
   // Comment read management
-  emitter.on('qiscus::comment-read', function (data) {
+  emitter.on('qiscus::comment-read', function(data) {
     var userId = data.actor
     var commentTimestamp = data.comment.unix_timestamp
     var commentId = data.comment.id
 
-    $content.find(`.comment-item[data-comment-id="${commentId}"]`)
+    $content
+      .find(`.comment-item[data-comment-id="${commentId}"]`)
       .find('i.icon')
       .removeClass('icon-message-sent')
       .addClass('icon-message-read')
 
-    $content.find('.comment-item')
-      .each(function () {
-        var $el = $(this)
-        var timestamp = Number($el.attr('data-comment-timestamp'))
-        if (timestamp <= commentTimestamp) {
-          // mark as read
-          $el.find('i.icon')
-            .removeClass('icon-message-sent')
-            .removeClass('icon-message-delivered')
-            .addClass('icon-message-read')
-        }
-      })
+    $content.find('.comment-item').each(function() {
+      var $el = $(this)
+      var timestamp = Number($el.attr('data-comment-timestamp'))
+      if (timestamp <= commentTimestamp) {
+        // mark as read
+        $el
+          .find('i.icon')
+          .removeClass('icon-message-sent')
+          .removeClass('icon-message-delivered')
+          .addClass('icon-message-read')
+      }
+    })
   })
 
   var typingTimeoutId = -1
   var lastValue = null
-  emitter.on('qiscus::typing', function (event) {
+  emitter.on('qiscus::typing', function(event) {
     var roomId = event.room_id
     if (qiscus.selected == null) return
     if (Number(roomId) !== qiscus.selected.id) return
@@ -317,39 +342,40 @@ define([
     $onlineStatus.text('Typing ...')
 
     if (typingTimeoutId !== -1) clearTimeout(typingTimeoutId)
-    typingTimeoutId = setTimeout(function () {
-        $onlineStatus.text(lastValue)
-        clearTimeout(typingTimeoutId)
-        typingTimeoutId = -1
+    typingTimeoutId = setTimeout(function() {
+      $onlineStatus.text(lastValue)
+      clearTimeout(typingTimeoutId)
+      typingTimeoutId = -1
     }, 1000)
   })
-  emitter.on('qiscus::comment-delivered', function (event) {
+  emitter.on('qiscus::comment-delivered', function(event) {
     var commentId = event.comment.id
     var commentTimestamp = event.comment.unix_timestamp
 
-    $content.find(`.comment-item[data-comment-id="${commentId}"]`)
+    $content
+      .find(`.comment-item[data-comment-id="${commentId}"]`)
       .find('i.icon')
       .removeClass('icon-message-sent')
       .addClass('icon-message-delivered')
-    $content.find('.comment-item')
-      .each(function () {
-        var $el = $(this)
-        var timestamp = Number($el.attr('data-comment-timestamp'))
-        if (timestamp <= commentTimestamp) {
-          $el.find('i.icon')
-            .removeClass('icon-message-sent')
-            .addClass('icon-message-delivered')
-        }
-      })
+    $content.find('.comment-item').each(function() {
+      var $el = $(this)
+      var timestamp = Number($el.attr('data-comment-timestamp'))
+      if (timestamp <= commentTimestamp) {
+        $el
+          .find('i.icon')
+          .removeClass('icon-message-sent')
+          .addClass('icon-message-delivered')
+      }
+    })
   })
 
   $('#qiscus-widget')
-    .on('click', '.Chat #chat-toolbar-btn', function (event) {
+    .on('click', '.Chat #chat-toolbar-btn', function(event) {
       event.preventDefault()
       qiscus.exitChatRoom()
       route.push('/chat')
     })
-    .on('submit', '.Chat #message-form', function (event) {
+    .on('submit', '.Chat #message-form', function(event) {
       event.preventDefault()
       var message = event.currentTarget['message'].value
       if (message == null || message.length === 0) return
@@ -363,7 +389,7 @@ define([
         type: 'text',
         email: qiscus.user_id,
         timestamp: timestamp,
-        status: 'sending'
+        status: 'sending',
       }
 
       // if empty state change into list comment state
@@ -374,57 +400,66 @@ define([
       }
 
       $commentList.append(CommentItem(comment))
-      var comment = $content.find('.comment-item[data-comment-id="' + commentId + '"]')
+      var comment = $content.find(
+        '.comment-item[data-comment-id="' + commentId + '"]'
+      )
       comment.attr('data-unique-id', uniqueId)
       if (isAbleToScroll) {
         comment.get(0).scrollIntoView({
           block: 'start',
-          behavior: 'smooth'
+          behavior: 'smooth',
         })
       }
       $content.find('#message-form input[name="message"]').val('')
 
-      qiscus.sendComment(qiscus.selected.id, message, uniqueId)
-        .then(function (resp) {
+      qiscus
+        .sendComment(qiscus.selected.id, message, uniqueId)
+        .then(function(resp) {
           comment.attr('data-comment-id', resp.id)
           comment.attr('data-last-comment-id', resp.comment_before_id)
           comment.attr('data-comment-timestamp', resp.unix_timestamp)
-          comment.find('i.icon')
+          comment
+            .find('i.icon')
             .removeClass('icon-message-sending')
             .addClass('icon-message-sent')
+          comment.find('.message-container').html(resp.message)
         })
-        .catch(function () {
-          comment.find('i.icon')
+        .catch(function() {
+          comment
+            .find('i.icon')
             .removeClass('icon-message-sending')
             .addClass('icon-message-failed')
         })
     })
     .on('click', '.Chat #attachment-cancel', closeAttachment)
     .on('click', '.Chat #attachment-btn', openAttachment)
-    .on('click', '.Chat #attachment-image', function (event) {
+    .on('click', '.Chat #attachment-image', function(event) {
       event.preventDefault()
-      $('#qiscus-widget').find('#input-image').click()
+      $('#qiscus-widget')
+        .find('#input-image')
+        .click()
     })
-    .on('click', '.Chat #attachment-file', function (event) {
+    .on('click', '.Chat #attachment-file', function(event) {
       event.preventDefault()
-      $('#qiscus-widget').find('#input-file').click()
+      $('#qiscus-widget')
+        .find('#input-file')
+        .click()
     })
-    .on('change', '#input-image', function (event) {
+    .on('change', '#input-image', function(event) {
       var file = Array.from(event.currentTarget.files).pop()
-      if (attachmentPreviewURL != null) URL.revokeObjectURL(attachmentPreviewURL)
+      if (attachmentPreviewURL != null)
+        URL.revokeObjectURL(attachmentPreviewURL)
       attachmentPreviewURL = URL.createObjectURL(file)
       attachmentImage = file
       closeAttachment()
       var $attachmentCaptioning = $content.find('.AttachmentCaptioning')
-      $attachmentCaptioning
-        .slideDown()
+      $attachmentCaptioning.slideDown()
       $attachmentCaptioning
         .find('.attachment-preview')
         .attr('src', attachmentPreviewURL)
-      $content.find('.file-name')
-        .text(file.name)
+      $content.find('.file-name').text(file.name)
     })
-    .on('submit', '.Chat .caption-form-container', function (event) {
+    .on('submit', '.Chat .caption-form-container', function(event) {
       event.preventDefault()
       closeAttachment()
       $content.find('.AttachmentCaptioning').slideUp()
@@ -445,23 +480,21 @@ define([
         timestamp: timestamp,
         status: 'sending',
         file: file,
-        caption: caption
+        caption: caption,
       }
-      $content.find('.comment-list-container ul')
-        .append(CommentItem(comment))
+      $content.find('.comment-list-container ul').append(CommentItem(comment))
       var $comment = $(`.comment-item[data-unique-id="${uniqueId}"]`)
       var $progress = $comment.find('.progress-inner')
       $comment.get(0).scrollIntoView({
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
 
-      qiscus.upload(file, function (error, progress, fileURL) {
+      qiscus.upload(file, function(error, progress, fileURL) {
         if (error) return console.log('failed uploading image', error)
         if (progress) {
-          $progress
-            .css({
-              width: `${progress.percent}%`
-            })
+          $progress.css({
+            width: `${progress.percent}%`,
+          })
         }
         if (fileURL) {
           var roomId = qiscus.selected.id
@@ -473,34 +506,29 @@ define([
               url: fileURL,
               caption: caption,
               file_name: file.name,
-              size: file.size
-            }
+              size: file.size,
+            },
           })
-          qiscus.sendComment(roomId, text, uniqueId, type, payload)
-            .then(function (resp) {
+          qiscus
+            .sendComment(roomId, text, uniqueId, type, payload)
+            .then(function(resp) {
               $comment
                 .attr('data-comment-id', resp.id)
                 .attr('data-comment-type', 'image')
                 .find('i.icon')
                 .removeClass('icon-message-sending')
                 .addClass('icon-message-sent')
-              $comment
-                .find('.upload-overlay')
-                .remove()
+              $comment.find('.upload-overlay').remove()
               var url = getAttachmentURL(resp.payload.content.url)
-              $comment
-                .find('a')
-                .attr('href', url.origin)
-              var objectURL = $comment
-                .find('img')
-                .attr('src')
+              $comment.find('a').attr('href', url.origin)
+              var objectURL = $comment.find('img').attr('src')
               URL.revokeObjectURL(objectURL)
               $comment.find('img').attr('src', url.thumbnailURL)
             })
         }
       })
     })
-    .on('change', '#input-file', function (event) {
+    .on('change', '#input-file', function(event) {
       closeAttachment()
 
       var file = Array.from(event.currentTarget.files).pop()
@@ -516,22 +544,21 @@ define([
         email: qiscus.user_id,
         timestamp: timestamp,
         status: 'sending',
-        file: file
+        file: file,
       }
 
-      $content.find('.comment-list-container ul')
-        .append(CommentItem(comment))
+      $content.find('.comment-list-container ul').append(CommentItem(comment))
       var $comment = $(`.comment-item[data-unique-id=${uniqueId}]`)
       var $progress = $comment.find('.progress-inner')
       $comment.get(0).scrollIntoView({
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
 
-      qiscus.upload(file, function (error, progress, fileURL) {
+      qiscus.upload(file, function(error, progress, fileURL) {
         if (error) return console.log('failed uploading file', error)
         if (progress) {
           $progress.css({
-            width: `${progress.percent}%`
+            width: `${progress.percent}%`,
           })
         }
         if (fileURL) {
@@ -544,94 +571,97 @@ define([
               url: fileURL,
               caption: '',
               file_name: file.name,
-              size: file.size
-            }
+              size: file.size,
+            },
           })
-          qiscus.sendComment(roomId, text, uniqueId, type, payload)
-            .then(function (resp) {
+          qiscus
+            .sendComment(roomId, text, uniqueId, type, payload)
+            .then(function(resp) {
               $comment
                 .attr('data-comment-id', resp.id)
                 .attr('data-comment-type', 'file')
                 .find('i.icon.icon-message-sending')
                 .removeClass('icon-message-sending')
                 .addClass('icon-message-sent')
-              $comment
-                .find('.upload-overlay')
-                .remove()
+              $comment.find('.upload-overlay').remove()
               var url = getAttachmentURL(resp.payload.content.url)
-              $comment
-                .find('a')
-                .attr('href', url.origin)
+              $comment.find('a').attr('href', url.origin)
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.log('failed sending comment', error)
             })
         }
       })
     })
-    .on('click', '.Chat #attachment-toolbar-btn', function (event) {
+    .on('click', '.Chat #attachment-toolbar-btn', function(event) {
       event.preventDefault()
       $content.html(Chat(route.location.state))
     })
-    .on('click', '.Chat .load-more-btn', function (event) {
+    .on('click', '.Chat .load-more-btn', function(event) {
       event.preventDefault()
       var $commentList = $content.find('.comment-list-container ul')
-      var lastCommentId = $commentList.children()
-        .get(1).dataset['lastCommentId']
+      var lastCommentId = $commentList.children().get(1).dataset[
+        'lastCommentId'
+      ]
       loadComment(lastCommentId)
     })
-    .on('click', '.Chat .room-meta', function (event) {
+    .on('click', '.Chat .room-meta', function(event) {
       event.preventDefault()
       route.push('/room-info', { roomId: qiscus.selected.id })
     })
-    .on('keydown', '.Chat input#message', _.throttle(function (event) {
-      qiscus.publishTyping(1)
-    }, 300))
-    .on('click', '.Chat .message-deleter button', function (event) {
+    .on(
+      'keydown',
+      '.Chat input#message',
+      _.throttle(function(event) {
+        qiscus.publishTyping(1)
+      }, 300)
+    )
+    .on('click', '.Chat .message-deleter button', function(event) {
       event.preventDefault()
       var $el = $(this)
       var commentId = $(this).attr('data-comment-id')
       var $comment = $el.closest('.comment-item')
-      qiscus.deleteComment(qiscus.selected.id, [commentId])
-        .then(function (resp) {
+      qiscus
+        .deleteComment(qiscus.selected.id, [commentId])
+        .then(function(resp) {
           console.log('success deleting comment', resp)
           $comment.remove()
         })
-        .catch(function (err) {
+        .catch(function(err) {
           console.error('failed deleting comment', err)
         })
     })
 
   function Chat(state) {
-    qiscus.loadComments(qiscus.selected.id)
-      .then(function (comments) {
-        // Here we replace all messages data with the newly messages data
-        $content.find('.comment-list-container')
-          .removeClass('--empty')
-          .html(CommentList(comments))
+    qiscus.loadComments(qiscus.selected.id).then(function(comments) {
+      // Here we replace all messages data with the newly messages data
+      $content
+        .find('.comment-list-container')
+        .removeClass('--empty')
+        .html(CommentList(comments))
 
-        // Apply scroll into bottom with animation
-        var $commentList = $content.find('.comment-list-container ul')
-        var element = $commentList
-          .children()
-          .last()
-        element.get(0).scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        })
+      // Apply scroll into bottom with animation
+      var $commentList = $content.find('.comment-list-container ul')
+      var element = $commentList.children().last()
+      element.get(0).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
 
-        // Disable load more if it was the first comment
-        var firstComment = $commentList.children().get(1)
-        if (firstComment == null) {
+      // Disable load more if it was the first comment
+      var firstComment = $commentList.children().get(1)
+      if (firstComment == null) {
+        $content.find('.load-more').addClass('hidden')
+      } else {
+        var lastCommentId = firstComment.dataset.lastCommentId
+        if (Number(lastCommentId) === 0) {
           $content.find('.load-more').addClass('hidden')
-        } else {
-          var lastCommentId = firstComment.dataset.lastCommentId
-          if (Number(lastCommentId) === 0) {
-            $content.find('.load-more').addClass('hidden')
-          }
         }
+      }
 
-        $('.comment-list-container ul').on('scroll', _.debounce(function () {
+      $('.comment-list-container ul').on(
+        'scroll',
+        _.debounce(function() {
           var $root = $(this)
           var $$root = $root.get(0)
 
@@ -640,8 +670,9 @@ define([
 
           var offset = 50 // CommentItem height
           isAbleToScroll = !(required - offset >= total)
-        }, 300))
-      })
+        }, 300)
+      )
+    })
     return `
       <div class="Chat">
         ${Toolbar(state.roomName, state.roomAvatar)}
