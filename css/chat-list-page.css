@@ -514,6 +514,7 @@
   height: calc(100% - 30px);
   position: absolute;
   background: white;
+  width: 100%;
 }
 
 .AttachmentCaptioning .toolbar {
