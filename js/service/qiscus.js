@@ -42,14 +42,14 @@ define(['service/emitter'], function(emitter) {
 
   var conv = new showdown.Converter()
 
-  // Here is an implementatio of interceptor for semi translate
+  // Here is an implementation of interceptor for semi translate
   qiscus.intercept(Qiscus.Interceptor.MESSAGE_BEFORE_SENT, function(message) {
     return message
   })
   qiscus.intercept(Qiscus.Interceptor.MESSAGE_BEFORE_RECEIVED, async function(
     message
   ) {
-    let content = message.message.replace(/(qis)(cus)/im, function(_, $1, $2) {
+    const content = message.message.replace(/(qis)(cus)/im, function(_, $1, $2) {
       return `**${$1.toLowerCase()}**${$2.toLowerCase()}`
     })
 
@@ -59,8 +59,6 @@ define(['service/emitter'], function(emitter) {
     })
     return message
   })
-
-  const sleep = time => new Promise(res => setTimeout(res, time))
 
   return qiscus
 })

@@ -149,6 +149,21 @@ define([
           </div>
         </a>
       `
+    } else if (type === 'file_attachment') {
+      var fileURL = comment.payload.url
+      var thumbnailURL = getAttachmentURL(fileURL).thumbnailURL
+      var caption = comment.payload.caption
+      caption = caption.length === 0 ? null : caption
+      content = `
+        <a href="${fileURL}" target="_blank" style="${
+        caption ? 'height:80%' : ''
+      }">
+          <img class="image-preview" src="${thumbnailURL}" alt="preview">
+        </a>
+        <div class="image-caption ${caption ? '' : 'hidden'}">
+          ${caption}
+        </div>
+      `
     }
     if (type === 'date') {
       return `
@@ -498,16 +513,13 @@ define([
         }
         if (fileURL) {
           var roomId = qiscus.selected.id
-          var text = `Send Image`
-          var type = 'custom'
+          var text = `[file] ${fileURL} [/file]`
+          var type = 'file_attachment'
           var payload = JSON.stringify({
-            type: 'image',
-            content: {
-              url: fileURL,
-              caption: caption,
-              file_name: file.name,
-              size: file.size,
-            },
+            url: fileURL,
+            caption: caption,
+            file_name: file.name,
+            size: file.size,
           })
           qiscus
             .sendComment(roomId, text, uniqueId, type, payload)
@@ -519,7 +531,7 @@ define([
                 .removeClass('icon-message-sending')
                 .addClass('icon-message-sent')
               $comment.find('.upload-overlay').remove()
-              var url = getAttachmentURL(resp.payload.content.url)
+              var url = getAttachmentURL(resp.payload.url)
               $comment.find('a').attr('href', url.origin)
               var objectURL = $comment.find('img').attr('src')
               URL.revokeObjectURL(objectURL)
