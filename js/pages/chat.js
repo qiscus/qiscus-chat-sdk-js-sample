@@ -151,18 +151,28 @@ define([
       `
     } else if (type === 'file_attachment') {
       var fileURL = comment.payload.url
-      var thumbnailURL = getAttachmentURL(fileURL).thumbnailURL
+      var filename = comment.payload.file_name
+      var attachmentURL = getAttachmentURL(fileURL)
+      var thumbnailURL = attachmentURL.thumbnailURL
+      var isImage = attachmentURL.isImage
       var caption = comment.payload.caption
       caption = caption.length === 0 ? null : caption
+      type = 'file'
       content = `
-        <a href="${fileURL}" target="_blank" style="${
-        caption ? 'height:80%' : ''
-      }">
-          <img class="image-preview" src="${thumbnailURL}" alt="preview">
+        <a href="${fileURL}" target="_blank"
+          style="${caption ? 'height:80%' : ''}">
+          ${ !isImage ? (
+            `<div class="comment-file">
+              <i class="icon icon-attachment-file"></i><div class="filename">${filename}</div>
+            </div>`
+          ) : ''}
+          ${ isImage ? `<img class="image-preview" src="${thumbnailURL}" alt="preview">` : '' }
         </a>
-        <div class="image-caption ${caption ? '' : 'hidden'}">
-          ${caption}
-        </div>
+        ${ isImage ? (
+          `<div class="image-caption ${caption ? '' : 'hidden'}">
+            ${caption}
+          </div>`
+        ) : ''}
       `
     }
     if (type === 'date') {
@@ -208,9 +218,11 @@ define([
 
   function getAttachmentURL(fileURL) {
     var thumbnailURL = fileURL.replace('upload', 'upload/w_320,h_320,c_limit')
+    var reImage = /\S+(jpe?g|gif|png|svg)/ig
     return {
       origin: fileURL,
       thumbnailURL: thumbnailURL,
+      isImage: reImage.test(thumbnailURL)
     }
   }
 
@@ -576,15 +588,12 @@ define([
         if (fileURL) {
           var roomId = qiscus.selected.id
           var text = 'Send Attachment'
-          var type = 'custom'
+          var type = 'file_attachment'
           var payload = JSON.stringify({
-            type: 'file',
-            content: {
-              url: fileURL,
-              caption: '',
-              file_name: file.name,
-              size: file.size,
-            },
+            url: fileURL,
+            caption: '',
+            file_name: file.name,
+            size: file.size,
           })
           qiscus
             .sendComment(roomId, text, uniqueId, type, payload)
