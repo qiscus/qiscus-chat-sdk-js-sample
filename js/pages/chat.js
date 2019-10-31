@@ -605,7 +605,7 @@ define([
                 .removeClass('icon-message-sending')
                 .addClass('icon-message-sent')
               $comment.find('.upload-overlay').remove()
-              var url = getAttachmentURL(resp.payload.content.url)
+              var url = getAttachmentURL(resp.payload.url)
               $comment.find('a').attr('href', url.origin)
             })
             .catch(function(error) {
