@@ -40,12 +40,12 @@
 
 .ChatList button.start-chat {
   margin-top: 40px;
-  background: #94CA62;
+  background: #94ca62;
   border-radius: 4px;
   font-weight: 600;
   font-size: 14px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
   border: none;
   height: 36px;
   width: 138px;
@@ -264,7 +264,7 @@
 }
 
 .Chat .comment-list-container .message-container {
-  background: #E8E8E8;
+  background: #e8e8e8;
   box-shadow: 0px 7px 16px rgba(199, 199, 199, 0.25);
   border-radius: 4px;
   line-height: 23px;
@@ -284,8 +284,8 @@
   padding: 0 10px;
 }
 
-.Chat .comment-list-container .comment-item[data-comment-type=upload] .message-container,
-.Chat .comment-list-container .comment-item[data-comment-type=image] .message-container {
+.Chat .comment-list-container .comment-item[data-comment-type='upload'] .message-container,
+.Chat .comment-list-container .comment-item[data-comment-type='image'] .message-container {
   width: 200px;
   height: 120px;
   padding: 4px;
@@ -294,7 +294,7 @@
   align-items: flex-start;
 }
 
-.Chat .comment-list-container .comment-item[data-comment-type=uploading] a {
+.Chat .comment-list-container .comment-item[data-comment-type='uploading'] a {
   position: relative;
 }
 
@@ -329,9 +329,8 @@
   width: 100%;
 }
 
-
-.Chat .comment-list-container .comment-item[data-comment-type=upload-file] a,
-.Chat .comment-list-container .comment-item[data-comment-type=file] a {
+.Chat .comment-list-container .comment-item[data-comment-type='upload-file'] a,
+.Chat .comment-list-container .comment-item[data-comment-type='file'] a {
   text-decoration: none;
   font-weight: 600;
   line-height: 18px;
@@ -339,9 +338,8 @@
   color: #666666;
 }
 
-
-.Chat .comment-list-container .comment-item[data-comment-type=upload-file] .comment-file,
-.Chat .comment-list-container .comment-item[data-comment-type=file] .comment-file {
+.Chat .comment-list-container .comment-item[data-comment-type='upload-file'] .comment-file,
+.Chat .comment-list-container .comment-item[data-comment-type='file'] .comment-file {
   display: flex;
   padding: 10px;
   background: #fafafa;
@@ -365,7 +363,7 @@
   display: none;
 }
 
-.Chat .comment-list-container .comment-item[data-comment-type=file] .icon {
+.Chat .comment-list-container .comment-item[data-comment-type='file'].me .icon {
   display: block;
 }
 
@@ -442,7 +440,7 @@
   background: white;
   display: flex;
   width: 100%;
-  border-top: 1px solid #E8E8E8;
+  border-top: 1px solid #e8e8e8;
 }
 
 .Chat .message-form button {
@@ -465,7 +463,7 @@
 }
 
 .Chat .attachment-overlay {
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, 0.5);
   top: 29px;
   bottom: 0;
   width: 100%;
@@ -495,7 +493,6 @@
   text-indent: 15px;
   padding: 0 16px;
 }
-
 
 /* Attachment Caption */
 ::placeholder {
@@ -542,7 +539,7 @@
   font-weight: 600;
   font-size: 18px;
   text-align: center;
-  color: #362C33;
+  color: #362c33;
   justify-content: center;
   align-items: center;
   display: flex;

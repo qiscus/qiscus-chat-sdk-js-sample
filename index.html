@@ -38,15 +38,25 @@
       <div class="widget-content" id="widget-content"></div>
     </div>
 
+    <script>
+      // Check that service workers are supported
+      if ('serviceWorker' in navigator) {
+        // Use the window load event to keep the page load performant
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+        })
+      }
+    </script>
+
     <!-- <script src="js/lib/qiscus-sdk-core.min.js"></script> -->
 
     <!-- For local development -->
     <!-- <script src="http://localhost:1234/qiscus-sdk-core.js"></script> -->
 
     <!-- For deployment with beta sdk version -->
-    <script src="https://unpkg.com/qiscus-sdk-core@beta"></script>
+    <script src="https://unpkg.com/qiscus-sdk-core@2.9.0-7"></script>
 
-    <script src="https://unpkg.com/showdown"></script>
+    <script src="https://unpkg.com/showdown@1.9.1/dist/showdown.js"></script>
     <script src="js/lib/require.js" data-main="js/main.js"></script>
   </body>
 </html>

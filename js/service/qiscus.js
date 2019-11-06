@@ -9,6 +9,7 @@ define(['service/emitter'], function(emitter) {
 
   qiscus.init({
     AppId: appId,
+    // baseURL: 'https://dragongo.qiscus.com',
     options: {
       loginSuccessCallback: function(authData) {
         emitter.emit('qiscus::login-success', authData)

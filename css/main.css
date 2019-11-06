@@ -45,9 +45,21 @@ button {
   display: flex;
   flex-direction: column;
 }
+@media screen and (max-width: 400px) {
+  .widget-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+  }
+  .widget-container .title-bar {
+    display: none !important;
+  }
+}
 
 .widget-container .title-bar {
-  background: #94CA62;
+  background: #94ca62;
   color: white;
   height: 30px;
   display: flex;
