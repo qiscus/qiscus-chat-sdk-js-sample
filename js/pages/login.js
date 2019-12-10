@@ -1,9 +1,9 @@
 define([
   'jquery', 'service/route', 'service/content', 'service/qiscus',
   'service/html'
-], function ($, route, $content, qiscus, html) {
+], function ($, route, $content, Qiscus, html) {
 
-  function LoginPage(state) {
+  function LoginPage() {
     // For some reason, jquery.on('submit') are very slow
     // and did not want to call qiscus.setUser
     document.addEventListener('submit', function (event) {
@@ -11,7 +11,11 @@ define([
         event.preventDefault()
         var userId = $('#user-id').val()
         var userKey = $('#user-key').val()
-        qiscus.setUser(userId, userKey, userId)
+        Qiscus.instance
+          .setUser(userId, userKey, userId, undefined, undefined, function (user, error) {
+            if (error) return console.error('Error when login', error)
+            route.push('/chat')
+          })
       }
     })
     return html`

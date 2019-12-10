@@ -3,15 +3,16 @@ define([
   'service/qiscus',
   'service/content',
   'service/route',
-  'service/emitter'
-], function ($, dateFns, _, qiscus, $content, route, emitter) {
+  'service/emitter',
+  'service/html',
+], function ($, dateFns, _, Qiscus, $content, route, emitter, html) {
   var newMessageIds = []
 
-  function Toolbar() {
-    return `
+  function Toolbar () {
+    return html`
       <div class="Toolbar">
         <button id="profile-btn" type="button" class="avatar-btn">
-          <img src="${qiscus.userData.avatar_url}">
+          <img src="${Qiscus.instance.currentUser.avatarUrl}" />
         </button>
         <div class="toolbar-title">Conversations</div>
         <button type="button" class="chat-btn">
@@ -21,12 +22,12 @@ define([
     `
   }
 
-  function Empty() {
-    return `
+  function Empty () {
+    return html`
       <div class="ChatList">
         ${Toolbar()}
         <div class="empty-content-container">
-          <img src="/img/img-empty-chat.svg" class="empty-logo">
+          <img src="/img/img-empty-chat.svg" class="empty-logo" />
           <div class="empty-title">Oops!!</div>
           <p class="empty-description">
             You don't have any conversation. <br>
@@ -40,7 +41,7 @@ define([
     `
   }
 
-  function getTime(lastMessageTime) {
+  function getTime (lastMessageTime) {
     if (dateFns.isSameDay(lastMessageTime, new Date())) {
       return dateFns.format(lastMessageTime, 'HH:mm')
     } else {
@@ -48,27 +49,28 @@ define([
     }
   }
 
-  function roomFormatter(room) {
-    var lastComment = room.last_comment_message.startsWith('[file]')
+  function roomFormatter (room) {
+    var lastComment = room.lastMessage.text.startsWith('[file]')
       ? 'File attachment'
-      : room.last_comment_message
-    var unreadCountClass = room.count_notif > 0 ? 'room-unread-count' : 'room-unread-count hidden'
-    return `
+      : room.lastMessage.text
+    var unreadCountClass = room.unreadCount > 0
+      ? 'room-unread-count'
+      : 'room-unread-count hidden'
+    return html`
       <li class="room-item"
         data-room-id="${room.id}"
         data-room-name="${room.name}"
-        data-room-avatar="${room.avatar}">
-        <img class="room-avatar" src="${room.avatar}">
+        data-room-avatar="${room.avatarUrl}">
+        <img class="room-avatar" src="${room.avatarUrl}" />
         <div class="room-data-container">
           <div class="room-content">
             <div class="room-name">${room.name}</div>
             <div class="room-last-message">${lastComment}</div>
           </div>
           <div class="room-meta">
-            <div class="room-time">${getTime(room.last_comment_message_created_at)}</div>
-            <div class="${unreadCountClass}">${room.count_notif}</div>
+            <div class="room-time">${getTime(room.lastMessage.timestamp)}</div>
+            <div class="${unreadCountClass}">${room.unreadCount}</div>
           </div>
-
         </div>
       </li>
     `
@@ -82,14 +84,14 @@ define([
       var roomId = target.data('room-id')
       var roomName = target.data('room-name')
       var roomAvatar = target.data('room-avatar')
-      qiscus.getRoomById(roomId)
-        .then(function (data) {
-          route.push('/chat-room', {
-            roomId: roomId,
-            roomName: roomName,
-            roomAvatar: roomAvatar
-          })
+      Qiscus.instance.getChatRoomWithMessages(roomId, function (room, error) {
+        if (error) return console.error('Error when getting room', error.message)
+        route.push('/chat-room', {
+          roomId: roomId,
+          roomName: roomName,
+          roomAvatar: roomAvatar,
         })
+      })
     })
     .on('click', '.ChatList .chat-btn', function (event) {
       event.preventDefault()
@@ -127,7 +129,7 @@ define([
       .prepend($room.detach())
   })
 
-  function RoomList(rooms) {
+  function RoomList (rooms) {
     return `
       <div class="ChatList">
         ${Toolbar()}
@@ -145,7 +147,7 @@ define([
 
   var isLoadingRooms = false
   var isAbleToLoadRoom = true
-  var loadRooms = _.debounce(function loadRooms(currentLength) {
+  var loadRooms = _.debounce(function loadRooms (currentLength) {
     if (isLoadingRooms || !isAbleToLoadRoom) return
 
     var perPage = 10
@@ -153,23 +155,35 @@ define([
     var nextPage = currentPage + 1
 
     isLoadingRooms = true
-    return qiscus.loadRoomList({
-      page: nextPage,
-      limit: perPage
-    }).then(function (roomData) {
-      isLoadingRooms = false
-      if (roomData.length < perPage) {
-        isAbleToLoadRoom = false
-        $content.find('.room-list .scrollspy').hide()
+    Qiscus.instance.getAllChatRooms(
+      false,
+      false,
+      false,
+      nextPage,
+      perPage,
+      function (rooms, error) {
+        if (error) console.error('Error when load more room', error)
+        isLoadingRooms = false
+        if (rooms.length < perPage) {
+          isAbleToLoadRoom = false
+          $content.find('.room-list .scrollspy').hide()
+        }
+        var rooms_ = rooms.map(roomFormatter).join('')
+        $(rooms_).insertBefore('.room-list .scrollspy')
       }
-      var rooms = roomData.map(roomFormatter).join('')
-      $(rooms).insertBefore('.room-list .scrollspy')
-    })
+    )
   }, 100)
 
-  function ChatList() {
-    qiscus.loadRoomList()
-      .then(function (rooms) {
+  function ChatList () {
+    var showParticipant = true
+    var showRemoved = false
+    var showEmpty = false
+    var page = 1
+    var limit = 10
+    Qiscus.instance.getAllChatRooms(
+      showParticipant, showRemoved, showEmpty,
+      page, limit, function (rooms, error) {
+        if (error) console.error('Error when getting room list', error)
         if (rooms.length === 0) $content.html(Empty())
         else $content.html(RoomList(rooms))
       })

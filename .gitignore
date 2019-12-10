@@ -1,3 +1,4 @@
-dist/
-.cache/
-.idea
+/dist
+/.cache
+/.idea
+/node_modules

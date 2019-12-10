@@ -654,12 +654,16 @@ define([
     })
 
   function Chat(state) {
-    qiscus.loadComments(qiscus.selected.id).then(function(comments) {
-      // Here we replace all messages data with the newly messages data
+    var roomId = state.roomId
+    var limit = 10
+    var messageId = 0
+    qiscus.instance.getNextMessagesById(roomId, limit, messageId, function (messages, error) {
+      if (error) return console.error('Error when loading message', error.message)
+
       $content
         .find('.comment-list-container')
         .removeClass('--empty')
-        .html(CommentList(comments))
+        .html(CommentList(messages))
 
       // Apply scroll into bottom with animation
       var $commentList = $content.find('.comment-list-container ul')
@@ -679,7 +683,6 @@ define([
           $content.find('.load-more').addClass('hidden')
         }
       }
-
       $('.comment-list-container ul').on(
         'scroll',
         _.debounce(function() {

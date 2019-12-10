@@ -6,9 +6,10 @@ define(["jquery", "service/route", "service/content"], function(
   var avatarBlobURL = null;
 
   function Profile() {
-    var avatarURL = qiscus.userData.avatar_url;
-    var username = qiscus.userData.username;
-    var userId = qiscus.userData.email;
+    var currentUser = qiscus.instance.currentUser
+    var avatarURL = currentUser.avatarUrl;
+    var username = currentUser.name;
+    var userId = currentUser.id;
     return `
       <div class="Profile">
         <div class="toolbar">
