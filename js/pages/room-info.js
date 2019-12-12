@@ -2,6 +2,7 @@ define([
   'jquery', 'lodash', 'service/content', 'service/route',
   'service/qiscus'
 ], function ($, _, $content, route, qiscus) {
+  var currentUser = JSON.parse(localStorage.getItem('chat::user'))
   var blobURL = null
   var searchQuery = null
   var selectedIds = window.selectedIds = []
@@ -16,28 +17,27 @@ define([
     var nextPage = currentPage + 1
 
     isLoadingUser = true
-    qiscus.getUsers(query)
-      .then(function (data) {
-        isLoadingUser = false
-        var users = data.users.map(function (user) {
-          var selected = selectedIds.includes(user.email)
-          return ContactItem(user, selected)
-        }).join('')
+    qiscus.instance.getUsers(query, nextPage, perPage, function (users) {
+      isLoadingUser = false
+      var users = users.map(function (user) {
+        var selected = selectedIds.includes(user.email)
+        return ContactItem(user, selected)
+      }).join('')
 
-        $(users).insertBefore('.contact-list .load-more')
-      })
+      $(users).insertBefore('.contact-list .load-more')
+    })
   }, 300)
 
   function ParticipantItem(user) {
     return `
       <li class="participant-item"
-        data-user-id="${user.email}">
-        <img src="${user.avatar_url}">
-        <div class="name">${user.username}</div>
+        data-user-id="${user.id}">
+        <img src="${user.avatarUrl}">
+        <div class="name">${user.name}</div>
         <button id="remove-participant-btn"
           class="remove-participant-btn"
           type="button"
-          data-userid="${user.email}">
+          data-userid="${user.id}">
           <i class="icon icon-cross-red"></i>
         </button>
       </li>
@@ -47,13 +47,12 @@ define([
     var selected = selected || false
     return `
       <li class="contact-item"
-        data-contact-id="${contact.id}"
         data-contact-name="${contact.name}"
-        data-contact-avatar="${contact.avatar_url}"
-        data-contact-userid="${contact.email}"
+        data-contact-avatar="${contact.avatarUrl}"
+        data-contact-userid="${contact.id}"
         ${selected ? `data-selected="${selected}"` : ''}>
         <div class="avatar-container">
-          <img class="contact-avatar" src="${contact.avatar_url}" alt="${contact.email}">
+          <img class="contact-avatar" src="${contact.avatarUrl}" alt="${contact.id}">
         </div>
         <button type="button">
           <div class="displayname-container">
@@ -73,13 +72,13 @@ define([
         <div class="icon-container">
           <i class="icon icon-user"></i>
         </div>
-        <input id="input-user-name" type="text" value="${user.username}" disabled>
+        <input id="input-user-name" type="text" value="${user.name}" disabled>
       </div>
       <div class="field-group">
         <div class="icon-container">
           <i class="icon icon-id-card"></i>
         </div>
-        <input id="input-user-id" type="text" value="${user.email}" disabled>
+        <input id="input-user-id" type="text" value="${user.id}" disabled>
       </div>
     `
   }
@@ -101,15 +100,12 @@ define([
   }
 
   function ContactChooser() {
-    qiscus.getUsers()
-      .then(function (data) {
-        var users = data.users.map(function (user) {
-          return ContactItem(user)
-        }).join('')
-        // $content.find('.contact-list')
-        //   .html(users)
-        $(users).insertBefore('.ContactChooser .contact-list .load-more')
-      })
+    qiscus.instance.getUsers('', 1, 10, function (users) {
+      var users = users.map(function (user) {
+        return ContactItem(user)
+      }).join('')
+      $(users).insertBefore('.ContactChooser .contact-list .load-more')
+    })
     return `
       <div class="ContactChooser" style="display:none;">
         <div class="toolbar">
@@ -140,38 +136,38 @@ define([
   }
 
   function RoomInfo(state) {
-    qiscus.getRoomsInfo({ room_ids: [`${state.roomId}`]})
-      .then(function (resp) {
-        var info = resp.results.rooms_info.pop()
-        if (info.chat_type === 'single') {
-          var user = info.participants.find(function (user) {
-            return user.email !== qiscus.user_id
-          })
-          $content.find('.info-container')
-            .html(SingleRoomInfo(user))
-          $content.find('.toolbar-title')
-            .text(user.username)
-          $content.find('.profile-avatar')
-            .attr('src', info.avatar_url)
-          $content.find('#input-user-name')
-            .attr('value', user.username)
-          $content.find('#input-user-id')
-            .attr('value', user.email)
-        } else if (info.chat_type === 'group') {
-          $content.find('.info-container')
-            .html(GroupRoomInfo(info))
-          $content.find('#input-room-name')
-            .val(info.room_name)
-          $content.find('.profile-avatar')
-            .attr('src', info.avatar_url)
+    qiscus.instance.getChatRooms([state.roomId], 1, false, true, function (rooms, err) {
+      if (err) return console.log('error while getting room info', err)
+      var room = rooms.pop()
+      if (room.type === 'single') {
+        var user = room.participants.find(function (user) {
+          return user.id !== currentUser.id
+        })
+        $content.find('.info-container')
+          .html(SingleRoomInfo(user))
+        $content.find('.toolbar-title')
+          .text(user.username)
+        $content.find('.profile-avatar')
+          .attr('src', room.avatarUrl)
+        $content.find('#input-user-name')
+          .attr('value', user.name)
+        $content.find('#input-user-id')
+          .attr('value', user.email)
+      } else if (room.type === 'group') {
+        $content.find('.info-container')
+          .html(GroupRoomInfo(room))
+        $content.find('#input-room-name')
+          .val(room.name)
+        $content.find('.profile-avatar')
+          .attr('src', room.avatarUrl)
 
-          $content.find('.change-avatar-container')
-            .children()
-            .each(function () {
-              $(this).removeClass('hidden')
-            })
-        }
-      })
+        $content.find('.change-avatar-container')
+          .children()
+          .each(function () {
+            $(this).removeClass('hidden')
+          })
+      }
+    })
     return `
       <div class="RoomInfo">
         ${ContactChooser()}
@@ -251,7 +247,10 @@ define([
         event.preventDefault()
         var name = event.target.value.trim()
         $(this).attr('disabled', true)
-        qiscus.updateRoom({ id: qiscus.selected.id, room_name: name })
+        var roomId = route.location.state.roomId
+        qiscus.instance.updateChatRoom(roomId, name, void 0, void 0, function (room) {
+          // do nothing
+        })
       }
     })
     .on('change', '.RoomInfo #input-avatar', function (event) {
@@ -261,14 +260,14 @@ define([
       $content.find('img.profile-avatar')
         .attr('src', blobURL)
 
-      qiscus.upload(file, function (err, progress, url) {
+      qiscus.instance.upload(file, function (err, progress, url) {
         if (err) return console.log('Error while uploading file', err)
         if (progress) return
         if (url) {
-          qiscus.updateRoom({ id: qiscus.selected.id, avatar_url: url })
-            .then(function (resp) {
-              console.log('Success updating avatar', resp)
-            })
+          var roomId = route.location.state.roomId
+          qiscus.instance.updateChatRoom(roomId, void 0, url, void 0, function (room) {
+            // do nothing
+          })
         }
       })
     })
@@ -324,17 +323,17 @@ define([
       if (query.length === 0) searchQuery = null
       else searchQuery = query
 
-      return qiscus.getUsers(searchQuery)
-        .then(function (resp) {
-          var users = resp.users.map(function (user) {
-            var selected = selectedIds.includes(user.email)
-            return ContactItem(user, selected)
-          }).join('')
-          $content.find('.contact-list')
-            .empty()
-            .append(users)
-            .append('<li class="load-more"><button>Load more</button></li>')
-        })
+      return qiscus.instance.getUsers(searchQuery, 1, 10, function (users, err) {
+        if (err) return console.log('error while getting user list', err)
+        var users = users.map(function (user) {
+          var selected = selectedIds.includes(user.id)
+          return ContactItem(user, selected)
+        }).join('')
+        $content.find('.contact-list')
+          .empty()
+          .append(users)
+          .append('<li class="load-more"><button>Load more</button></li>')
+      })
     })
     .on('click', '.RoomInfo .load-more button', function (event) {
       event.preventDefault()

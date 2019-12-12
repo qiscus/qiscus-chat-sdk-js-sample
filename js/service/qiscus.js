@@ -1,9 +1,9 @@
-/* globals QiscusSDKCore */
+/* globals QiscusSDK */
 // This service is to bridge QiscusSDK with this sample app
 
 define(['service/emitter'], function(emitter) {
   var appId = 'sdksample'
-  var QiscusSDK = QiscusSDKCore
+  // var QiscusSDK = QiscusSDKCore
 
   QiscusSDK.instance.setup(appId)
   QiscusSDK.instance.onMessageReceived(function (message) {

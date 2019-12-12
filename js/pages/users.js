@@ -6,9 +6,9 @@ define([
   function contactFormatter(contact) {
     return `
       <li class="contact-item"
-        data-user-id="${contact.email}">
-        <img src="${contact.avatar_url}">
-        <div class="name">${contact.username}</div>
+        data-user-id="${contact.id}">
+        <img src="${contact.avatarUrl}">
+        <div class="name">${contact.name}</div>
       </li>
     `
   }
@@ -27,29 +27,26 @@ define([
     var nextPage = currentPage + 1
 
     isLoadingUser = true
-    return qiscus.getUsers(searchQuery, nextPage)
-      .then(function (resp) {
-        isLoadingUser = false
-        var users = resp.users.map(contactFormatter).join('')
-        $(users).insertBefore('.contact-list .load-more')
+    return qiscus.instance.getUsers(searchQuery, nextPage, perPage, function (users) {
+      isLoadingUser = false
+      var users = users.map(contactFormatter).join('')
+      $(users).insertBefore('.contact-list .load-more')
 
-        if (resp.meta.total_page === nextPage) {
-          isAbleToLoadMore = false
-          $content.find('.load-more').css({
-            display: 'none'
-          })
-        }
-      })
-
+      // if (resp.meta.total_page === nextPage) {
+      //   isAbleToLoadMore = false
+      //   $content.find('.load-more').css({
+      //     display: 'none'
+      //   })
+      // }
+    })
   }, 100)
 
   function Users() {
-    qiscus.getUsers()
-      .then(function (resp) {
-        var users = resp.users.map(contactFormatter)
-          .join('')
-        $(users).insertBefore('.contact-list .load-more')
-      })
+    qiscus.instance.getUsers('', 1, 20, function (users) {
+      var users = users.map(contactFormatter)
+        .join('')
+      $(users).insertBefore('.contact-list .load-more')
+    })
     return `
       <div class="Users">
         <div class="toolbar">
@@ -87,13 +84,14 @@ define([
     .on('click', '.Users li.contact-item', function (event) {
       event.preventDefault()
       var userId = $(event.currentTarget).data('user-id')
-      qiscus.chatTarget(userId)
-        .then(function (room) {
-          route.push('/chat-room', {
-            roomName: room.name,
-            roomAvatar: room.avatar
-          })
+      qiscus.instance.chatUser(userId, void 0, function (room, err) {
+        if (err) return console.log('error while chatting user', err)
+        route.push('/chat-room', {
+          roomName: room.name,
+          roomAvatar: room.avatar,
+          roomId: room.id,
         })
+      })
     })
     .on('input', '.Users input#search-input', _.debounce(function (event) {
       searchQuery = event.target.value.length === 0
@@ -103,14 +101,13 @@ define([
         isAbleToLoadMore = true
         return
       }
-      return qiscus.getUsers(searchQuery)
-        .then(function (resp) {
-          var users = resp.users.map(contactFormatter).join('')
-          $content.find('.contact-list')
-            .empty()
-            .append(users)
-            .append('<li class="load-more"><button>Load more</button></li>')
-        })
+      return qiscus.instance.getUsers(searchQuery, void 0, void 0, function (users) {
+        var users = users.map(contactFormatter).join('')
+        $content.find('.contact-list')
+          .empty()
+          .append(users)
+          .append('<li class="load-more"><button>Load more</button></li>')
+      })
     }, 300))
     .on('click', '.Users .create-group-btn', function (event) {
       event.preventDefault()

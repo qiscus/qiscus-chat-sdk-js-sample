@@ -4,6 +4,7 @@ define(["jquery", "service/route", "service/content"], function(
   $content
 ) {
   var avatarBlobURL = null;
+  var currentUser = JSON.parse(localStorage.getItem('chat::user'))
 
   function Profile() {
     var currentUser = qiscus.instance.currentUser
@@ -69,16 +70,18 @@ define(["jquery", "service/route", "service/content"], function(
       avatarBlobURL = URL.createObjectURL(file);
       $content.find(".profile-avatar").attr("src", avatarBlobURL);
 
-      qiscus.upload(file, function(err, progress, url) {
+      qiscus.instance.upload(file, function(err, progress, url) {
         if (err) return console.error("error when uploading new avatar", err);
-        if (progress) return console.info("uploading avatar", progress.percent);
+        if (progress) return console.info("uploading avatar", progress);
         if (url) {
           console.log("done uploading avatar", url);
-          qiscus.userData.avatar_url = url;
-          qiscus.updateProfile({ avatar_url: url }).then(function(resp) {
-            console.log("done updating avatar profile", resp);
-            URL.revokeObjectURL(avatarBlobURL);
-          });
+          qiscus.instance.updateUser(undefined, url, undefined, function (user, err) {
+            if (err) return console.log('error while updating user profile', err)
+            var newUser = Object.assign(currentUser || {}, user)
+            console.log('done updating user profile', user)
+            localStorage.setItem('chat::user', JSON.stringify(newUser))
+            URL.revokeObjectURL(avatarBlobURL)
+          })
         }
       });
     })
@@ -95,11 +98,11 @@ define(["jquery", "service/route", "service/content"], function(
         $(this).attr("disabled", true);
         $content.find("#edit-name-btn").removeClass("hidden");
         var newName = event.target.value;
-        qiscus.updateProfile({ name: newName }).then(function() {
-          qiscus.userData.username = newName;
-          console.log("Done updating profile", qiscus.userData);
-          localStorage.setItem("authdata", JSON.stringify(qiscus.userData));
-        });
+        qiscus.instance.updateUser(newName, void 0, void 0, function (user) {
+          console.log("Done updating profile", user);
+          var newUser = Object.assign(currentUser || {}, user)
+          localStorage.setItem('chat::user', JSON.stringify(newUser))
+        })
       }
     })
     .on("click", ".Profile #logout-btn", function(event) {

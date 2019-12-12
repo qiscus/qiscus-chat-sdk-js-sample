@@ -13,10 +13,10 @@ define([
       <li class="contact-item"
         data-contact-id="${contact.id}"
         data-contact-name="${contact.name}"
-        data-contact-avatar="${contact.avatar_url}"
-        data-contact-userid="${contact.email}">
+        data-contact-avatar="${contact.avatarUrl}"
+        data-contact-userid="${contact.id}">
         <div class="avatar-container">
-          <img class="contact-avatar" src="${contact.avatar_url}" alt="${contact.email}">
+          <img class="contact-avatar" src="${contact.avatarUrl}" alt="${contact.id}">
         </div>
         <button type="button">
           <div class="displayname-container">
@@ -31,7 +31,7 @@ define([
     return `
       <li class="participant-item"
         data-contact-id="${detail.id}"
-        data-contact-userid="${detail.email}">
+        data-contact-userid="${detail.id}">
         <div class="avatar-container">
           <img class="participant-avatar" src="${detail.avatar}">
         </div>
@@ -47,6 +47,7 @@ define([
     `
   }
   function SelectedContactItem(contactDetail) {
+    console.log('contactDetail', contactDetail)
     return `
       <li class="selected-contact-item" data-contact-id="${contactDetail.id}">
         <div class="avatar-container">
@@ -92,28 +93,26 @@ define([
 
   function loadContacts(query, page) {
     page = page || 1
-    return qiscus.getUsers(query, page, perPage)
-      .then(function (resp) {
-        var contacts = resp.users.map(ContactItem).join('')
-        $content.find('.contact-list')
-          .empty()
-          .append(contacts)
-          .append('<li class="load-more"><button type="button" id="load-more">Load more</button></li>')
-      })
+    return qiscus.instance.getUsers(query, page, perPage, function (users) {
+      var contacts = users.map(ContactItem).join('')
+      $content.find('.contact-list')
+        .empty()
+        .append(contacts)
+        .append('<li class="load-more"><button type="button" id="load-more">Load more</button></li>')
+    })
   }
   function loadMoreContacts(query, page) {
     page = page || 1
-    return qiscus.getUsers(query, page, perPage)
-      .then(function (resp) {
-        var contacts = resp.users.map(ContactItem).join('')
-        var $contacts = $(contacts)
-        $contacts.insertBefore('li.load-more')
-        // If users response are shorter than the requested limit, then has
-        // the end of user list, and we need to hide load more button
-        if (resp.users.length < perPage) {
-          $content.find('li.load-more').addClass('hidden')
-        }
-      })
+    return qiscus.instance.getUsers(query, page, perPage, function (users) {
+      var contacts = users.map(ContactItem).join('')
+      var $contacts = $(contacts)
+      $contacts.insertBefore('li.load-more')
+      // If users response are shorter than the requested limit, then has
+      // the end of user list, and we need to hide load more button
+      if (users.length < perPage) {
+        $content.find('li.load-more').addClass('hidden')
+      }
+    })
   }
 
   function ContactChooser() {
@@ -181,8 +180,7 @@ define([
     `
   }
 
-  function CreateGroup(state) {
-    var item = Array.from(Array(10).keys())
+  function CreateGroup() {
     loadContacts()
     return `
       <div class="CreateGroupPage">
@@ -224,13 +222,13 @@ define([
         .find('.icon')
         .addClass('hidden')
     })
-    .on('click', '.CreateGroupPage button#hide-group-info', function (event) {
+    .on('click', '.CreateGroupPage button#hide-group-info', function () {
       $('.GroupInfo').animate({ right: -500 })
     })
-    .on('click', '.CreateGroupPage #close-create-group', function (event) {
+    .on('click', '.CreateGroupPage #close-create-group', function () {
       route.push('/chat')
     })
-    .on('click', '.CreateGroupPage button#show-group-info', function (event) {
+    .on('click', '.CreateGroupPage button#show-group-info', function () {
       $('.GroupInfo').animate({ right: 0 })
     })
     .on('click', '.CreateGroupPage button.avatar-picker-btn', function (event) {
@@ -261,19 +259,23 @@ define([
         .map(function (el) {
           return el.dataset.contactUserid
         })
-      qiscus.createGroupRoom(name, participantIds, { avatar: avatar })
-        .then(function (room) {
-          qiscus.getRoomById(room.id)
-            .then(function () {
-              route.push('/chat-room', {
-                roomId: room.id,
-                roomName: room.name,
-                roomAvatar: room.avatarURL
-              })
+      var extras = { createdFrom: 'sample-sdk-web' }
+      qiscus.instance.upload(avatar, function (err, progress, url) {
+        if (err) return
+        if (progress) return
+        if (url) {
+          qiscus.instance.createGroupChat(name, participantIds, url, extras, function (room, err) {
+            if (err) return console.log('error while creating group chat', err)
+            route.push('/chat-room', {
+              roomId: room.id,
+              roomName: room.name,
+              roomAvatar: room.avatarUrl,
             })
-        })
+          })
+        }
+      })
     })
-    .on('input', '.CreateGroupPage #search', _.debounce(function (event) {
+    .on('input', '.CreateGroupPage #search', _.debounce(function () {
       var $el = $(this)
       var value = $el.val()
       searchValue = value
