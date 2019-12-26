@@ -5,12 +5,12 @@ define([
 
   function LoginPage() {
     // For development only to bypass login
-    Qiscus.instance
-      .setUser('guest-1001', 'passkey', 'guest-1001', undefined, undefined, function (user, error) {
-        if (error) return console.error('Error when login', error)
-        localStorage.setItem('chat::user', JSON.stringify(user))
-        route.push('/chat')
-      })
+    // Qiscus.instance
+    //   .setUser('guest-1001', 'passkey', 'guest-1001', undefined, undefined, function (user, error) {
+    //     if (error) return console.error('Error when login', error)
+    //     localStorage.setItem('chat::user', JSON.stringify(user))
+    //     route.push('/chat')
+    //   })
     // For some reason, jquery.on('submit') are very slow
     // and did not want to call qiscus.setUser
     document.addEventListener('submit', function (event) {

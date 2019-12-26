@@ -672,6 +672,7 @@ define([
           )
         })
     qiscus.instance.onMessageReceived(function (message) {
+      //
 
       // skip if it is owned message
       if (message.sender.id === currentUser.id) return

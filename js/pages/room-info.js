@@ -2,6 +2,8 @@ define([
   'jquery', 'lodash', 'service/content', 'service/route',
   'service/qiscus'
 ], function ($, _, $content, route, qiscus) {
+  var state = route.location.state || {}
+  var roomId = state.roomId
   var currentUser = JSON.parse(localStorage.getItem('chat::user'))
   var blobURL = null
   var searchQuery = null
@@ -19,7 +21,7 @@ define([
     isLoadingUser = true
     qiscus.instance.getUsers(query, nextPage, perPage, function (users) {
       isLoadingUser = false
-      var users = users.map(function (user) {
+      users = users.map(function (user) {
         var selected = selectedIds.includes(user.email)
         return ContactItem(user, selected)
       }).join('')
@@ -44,7 +46,7 @@ define([
     `
   }
   function ContactItem(contact, selected) {
-    var selected = selected || false
+    selected = selected || false
     return `
       <li class="contact-item"
         data-contact-name="${contact.name}"
@@ -101,7 +103,7 @@ define([
 
   function ContactChooser() {
     qiscus.instance.getUsers('', 1, 10, function (users) {
-      var users = users.map(function (user) {
+      users = users.map(function (user) {
         return ContactItem(user)
       }).join('')
       $(users).insertBefore('.ContactChooser .contact-list .load-more')
@@ -275,10 +277,10 @@ define([
       event.preventDefault()
       var $el = $(this)
       var userId = $el.attr('data-userid')
-      qiscus.removeParticipantsFromGroup(qiscus.selected.id, [userId])
-        .then(function (resp) {
-          $el.closest('li.participant-item').remove()
-        })
+      qiscus.instance.removeParticipants(roomId, [userId], function (_, error) {
+        if (error) return console.log('error while removing participant')
+        $el.closest('li.participant-item').remove()
+      })
     })
     // Contact chooser
     .on('click', '.RoomInfo #close-contact-chooser', function () {
@@ -307,16 +309,15 @@ define([
     })
     .on('click', '.RoomInfo #add-participant-btn', function (event) {
       event.preventDefault()
-      qiscus.addParticipantsToGroup(qiscus.selected.id, selectedIds)
-        .then(function (users) {
-          var participants = users.map(function (user) {
-            return ParticipantItem(user)
-          }).join('')
-          $content.find('.participant-list')
-            .append(participants)
-          $content.find('.ContactChooser').slideUp()
-          selectedIds.splice(0, selectedIds.length)
-        })
+      qiscus.instance.addParticipants(roomId, selectedIds, function (users, err) {
+        var participants = users.map(function (user) {
+          return ParticipantItem(user)
+        }).join('')
+        $content.find('.participant-list')
+          .append(participants)
+        $content.find('.ContactChooser').slideUp()
+        selectedIds.splice(0, selectedIds.length)
+      })
     })
     .on('input', '.RoomInfo #search', function (event) {
       var query = $(this).val()
@@ -325,7 +326,7 @@ define([
 
       return qiscus.instance.getUsers(searchQuery, 1, 10, function (users, err) {
         if (err) return console.log('error while getting user list', err)
-        var users = users.map(function (user) {
+        users = users.map(function (user) {
           var selected = selectedIds.includes(user.id)
           return ContactItem(user, selected)
         }).join('')

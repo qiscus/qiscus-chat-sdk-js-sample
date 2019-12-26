@@ -6,6 +6,7 @@ define(['service/emitter'], function(emitter) {
   // var QiscusSDK = QiscusSDKCore
 
   QiscusSDK.instance.setup(appId)
+  QiscusSDK.instance.enableDebugMode(true)
   QiscusSDK.instance.onMessageReceived(function (message) {
     console.log('qiscus.on-message-received', message)
   })
