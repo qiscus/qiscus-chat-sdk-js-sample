@@ -3,7 +3,7 @@ define([
   'service/qiscus'
 ], function ($, _, $content, route, qiscus) {
   var state = route.location.state || {}
-  var roomId = state.roomId
+  var roomId = function () { return route.location.state.roomId }
   var currentUser = JSON.parse(localStorage.getItem('chat::user'))
   var blobURL = null
   var searchQuery = null
@@ -33,7 +33,7 @@ define([
   function ParticipantItem(user) {
     return `
       <li class="participant-item"
-        data-user-id="${user.id}">
+        data-user-userid="${user.id}">
         <img src="${user.avatarUrl}">
         <div class="name">${user.name}</div>
         <button id="remove-participant-btn"
@@ -201,7 +201,7 @@ define([
 
   function removeParticipant(contactId) {
     // remove check from contact list
-    var $el = $content.find(`li.contact-item[data-contact-id="${contactId}"]`)
+    var $el = $content.find(`li.contact-item[data-contact-userid="${contactId}"]`)
     $el
       .removeAttr('data-selected')
       .find('.icon')
@@ -214,7 +214,7 @@ define([
   }
   function addParticipant(detail) {
     // add check mark to contact list
-    var $el = $(`li.contact-item[data-contact-id="${detail.id}"]`)
+    var $el = $(`li.contact-item[data-contact-userid="${detail.id}"]`)
     $el
       .attr('data-selected', true)
       .find('.icon')
@@ -277,7 +277,7 @@ define([
       event.preventDefault()
       var $el = $(this)
       var userId = $el.attr('data-userid')
-      qiscus.instance.removeParticipants(roomId, [userId], function (_, error) {
+      qiscus.instance.removeParticipants(roomId(), [userId], function (_, error) {
         if (error) return console.log('error while removing participant')
         $el.closest('li.participant-item').remove()
       })
@@ -291,7 +291,7 @@ define([
       var $el = $(this).closest('li.contact-item')
       var $selectedContact = $content.find('.selected-contact-container')
       var isSelected = $el.attr('data-selected')
-      var contactId = $el.attr('data-contact-id')
+      var contactId = $el.attr('data-contact-userid')
       var contactName = $el.attr('data-contact-name')
       var contactAvatar = $el.attr('data-contact-avatar')
       var contactEmail = $el.attr('data-contact-userid')
@@ -309,7 +309,8 @@ define([
     })
     .on('click', '.RoomInfo #add-participant-btn', function (event) {
       event.preventDefault()
-      qiscus.instance.addParticipants(roomId, selectedIds, function (users, err) {
+      qiscus.instance.addParticipants(roomId(), selectedIds, function (users, err) {
+        if (err) return console.log('error while adding participants', err)
         var participants = users.map(function (user) {
           return ParticipantItem(user)
         }).join('')

@@ -260,20 +260,31 @@ define([
           return el.dataset.contactUserid
         })
       var extras = { createdFrom: 'sample-sdk-web' }
-      qiscus.instance.upload(avatar, function (err, progress, url) {
-        if (err) return
-        if (progress) return
-        if (url) {
-          qiscus.instance.createGroupChat(name, participantIds, url, extras, function (room, err) {
-            if (err) return console.log('error while creating group chat', err)
-            route.push('/chat-room', {
-              roomId: room.id,
-              roomName: room.name,
-              roomAvatar: room.avatarUrl,
+      if (avatar != null) {
+        qiscus.instance.upload(avatar, function (err, progress, url) {
+          if (err) return
+          if (progress) return
+          if (url) {
+            qiscus.instance.createGroupChat(name, participantIds, url, extras, function (room, err) {
+              if (err) return console.log('error while creating group chat', err)
+              route.push('/chat-room', {
+                roomId: room.id,
+                roomName: room.name,
+                roomAvatar: room.avatarUrl,
+              })
             })
+          }
+        })
+      } else {
+        qiscus.instance.createGroupChat(name, participantIds, null, extras, function (room, err) {
+          if (err) return console.log('error while creating group chat', err)
+          route.push('/chat-room', {
+            roomId: room.id,
+            roomName: room.name,
+            roomAvatar: room.avatarUrl,
           })
-        }
-      })
+        })
+      }
     })
     .on('input', '.CreateGroupPage #search', _.debounce(function () {
       var $el = $(this)

@@ -9,7 +9,7 @@ define([
 ], function (dateFns, $, _, $content, route, qiscus, emitter) {
   var isAbleToScroll = false
   var room = null
-  var currentUser = JSON.parse(localStorage.getItem('chat::user'))
+  var currentUser = () => JSON.parse(localStorage.getItem('chat::user'))
 
   function Toolbar (roomId) {
     var isGroup = false
@@ -105,7 +105,7 @@ define([
   function CommentItem (comment) {
     var content = comment.text
     var type = comment.type
-    var isMe = comment.sender.id === currentUser.id
+    var isMe = comment.sender.id === currentUser().id
     if (type === 'upload') {
       var thumbnailURL = URL.createObjectURL(comment.file)
       var caption = comment.caption
@@ -382,8 +382,8 @@ define([
         text: message,
         type: 'text',
         sender: {
-          id: currentUser.id,
-          name: currentUser.name,
+          id: currentUser().id,
+          name: currentUser().name,
         },
         timestamp: timestamp,
         status: 'sending',
@@ -423,6 +423,7 @@ define([
               .addClass('icon-message-failed')
             return console.log('error when sending message', err)
           }
+          comment.attr('data-unique-id', message.uniqueId)
           comment.attr('data-comment-id', message.id)
           comment.attr('data-last-comment-id', message.previousMessageId)
           comment.attr('data-comment-timestamp', message.timestamp)
@@ -607,7 +608,7 @@ define([
     .on(
       'keydown',
       '.Chat input#message',
-      _.throttle(function (event) {
+      _.throttle(function () {
         qiscus.instance.publishTyping(1)
       }, 300),
     )
@@ -675,7 +676,7 @@ define([
       //
 
       // skip if it is owned message
-      if (message.sender.id === currentUser.id) return
+      if (message.sender.id === currentUser().id) return
 
       // Skip if comment room_id are not matched current room id
       if (message.chatRoomId !== roomId) return
