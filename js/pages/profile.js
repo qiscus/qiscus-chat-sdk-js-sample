@@ -4,13 +4,12 @@ define(["jquery", "service/route", "service/content"], function(
   $content
 ) {
   var avatarBlobURL = null;
-  var currentUser = JSON.parse(localStorage.getItem('chat::user'))
+  var currentUser = () => JSON.parse(localStorage.getItem('chat::user'))
 
   function Profile() {
-    var currentUser = qiscus.instance.currentUser
-    var avatarURL = currentUser.avatarUrl;
-    var username = currentUser.name;
-    var userId = currentUser.id;
+    var avatarURL = currentUser().avatarUrl;
+    var username = currentUser().name;
+    var userId = currentUser().id;
     return `
       <div class="Profile">
         <div class="toolbar">
@@ -77,7 +76,7 @@ define(["jquery", "service/route", "service/content"], function(
           console.log("done uploading avatar", url);
           qiscus.instance.updateUser(undefined, url, undefined, function (user, err) {
             if (err) return console.log('error while updating user profile', err)
-            var newUser = Object.assign(currentUser || {}, user)
+            var newUser = Object.assign(currentUser() || {}, user)
             console.log('done updating user profile', user)
             localStorage.setItem('chat::user', JSON.stringify(newUser))
             URL.revokeObjectURL(avatarBlobURL)
@@ -100,7 +99,7 @@ define(["jquery", "service/route", "service/content"], function(
         var newName = event.target.value;
         qiscus.instance.updateUser(newName, void 0, void 0, function (user) {
           console.log("Done updating profile", user);
-          var newUser = Object.assign(currentUser || {}, user)
+          var newUser = Object.assign(currentUser() || {}, user)
           localStorage.setItem('chat::user', JSON.stringify(newUser))
         })
       }
