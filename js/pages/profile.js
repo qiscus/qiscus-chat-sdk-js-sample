@@ -106,7 +106,7 @@ define(["jquery", "service/route", "service/content"], function(
       }
     })
     .on("click", ".Profile #logout-btn", function(event) {
-      qiscus.logout();
+      qiscus.instance.clearUser();
       localStorage.clear();
       route.push("/login");
     });
