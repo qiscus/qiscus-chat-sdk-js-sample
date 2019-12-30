@@ -11,6 +11,7 @@ define([
     //     localStorage.setItem('chat::user', JSON.stringify(user))
     //     route.push('/chat')
     //   })
+
     // For some reason, jquery.on('submit') are very slow
     // and did not want to call qiscus.setUser
     document.addEventListener('submit', function (event) {
@@ -18,8 +19,9 @@ define([
         event.preventDefault()
         var userId = $('#user-id').val()
         var userKey = $('#user-key').val()
+        var username = $('#username').val()
         Qiscus.instance
-          .setUser(userId, userKey, userId, undefined, undefined, function (user, error) {
+          .setUser(userId, userKey, username, null, null, function (user, error) {
             if (error) return console.error('Error when login', error)
             localStorage.setItem('chat::user', JSON.stringify(user))
             route.push('/chat')
@@ -33,6 +35,10 @@ define([
           <div class="form-group">
             <label for="userId">User ID</label>
             <input id="user-id" type="text" name="user-id" value="guest-101" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" type="text" name="username" value="guest-101" autocomplete="off" />
           </div>
           <div class="form-group">
             <label for="user-key">User Key</label>

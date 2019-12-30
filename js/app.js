@@ -11,7 +11,6 @@ define([
   RoomInfoPage
 ) {
   window.route = route
-  window.qiscus = qiscus
   var routes = [
     LoginPage,
     ChatListPage,

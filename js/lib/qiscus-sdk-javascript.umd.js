@@ -30846,9 +30846,7 @@ function getLogger() {
     } : function () {};
   });
   return {
-    isEnabled: enabled.derive(function (it) {
-      return it;
-    }),
+    isEnabled: enabled,
     setEnable: function setEnable(enable) {
       return enabled.set(enable);
     },
@@ -33588,7 +33586,11 @@ function () {
             extras = _ref8[2];
 
         return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.fromPromise(_this5.userAdapter.updateUser(username, avatarUrl, extras));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toCallbackOrPromise"])(callback));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["tap"])(function (user) {
+        var currentUser = _this5.storage.getCurrentUser();
+
+        _this5.storage.setCurrentUser(_objectSpread({}, currentUser, {}, user));
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getBlockedUsers",
@@ -34164,14 +34166,48 @@ function () {
 
   }, {
     key: "publishCustomEvent",
-    value: function publishCustomEvent(roomId, data) {
-      var userId = this.currentUser.id;
-      this.realtimeAdapter.mqtt.publishCustomEvent(roomId, userId, data);
+    value: function publishCustomEvent(roomId, data, callback) {
+      var _this$currentUser,
+          _this32 = this;
+
+      var userId = (_this$currentUser = this.currentUser) === null || _this$currentUser === void 0 ? void 0 : _this$currentUser.id;
+      xstream__WEBPACK_IMPORTED_MODULE_22___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_30__["isReqNumber"])({
+        roomId: roomId
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_30__["isReqString"])({
+        userId: userId
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["process"])(data, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_30__["isOptJson"])({
+        data: data
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
+        return _this32.isLogin;
+      })).map(function (_ref55) {
+        var _ref56 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_16___default()(_ref55, 3),
+            roomId = _ref56[0],
+            userId = _ref56[1],
+            data = _ref56[2];
+
+        return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.fromPromise(_this32.realtimeAdapter.mqtt.publishCustomEvent(roomId, userId, data));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "publishOnlinePresence",
-    value: function publishOnlinePresence(isOnline) {
-      this.realtimeAdapter.sendPresence(this.currentUser.id, isOnline);
+    value: function publishOnlinePresence(isOnline, callback) {
+      var _this$currentUser2,
+          _this33 = this;
+
+      var userId = (_this$currentUser2 = this.currentUser) === null || _this$currentUser2 === void 0 ? void 0 : _this$currentUser2.id;
+      xstream__WEBPACK_IMPORTED_MODULE_22___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["process"])(isOnline, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_30__["isReqBoolean"])({
+        isOnline: isOnline
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_30__["isReqString"])({
+        userId: userId
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
+        return _this33.isLogin;
+      })).map(function (_ref57) {
+        var _ref58 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_16___default()(_ref57, 2),
+            isOnline = _ref58[0],
+            userId = _ref58[1];
+
+        return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.fromPromise(_this33.realtimeAdapter.sendPresence(userId, isOnline));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "publishTyping",
@@ -34220,7 +34256,7 @@ function () {
   }, {
     key: "sendFileMessage",
     value: function sendFileMessage(roomId, message, file, callback) {
-      var _this32 = this;
+      var _this34 = this;
 
       this.upload(file, function (error, progress, url) {
         if (error) return callback(error);
@@ -34239,7 +34275,7 @@ function () {
             message: "[file] ".concat(url, " [/file]")
           };
 
-          _this32.sendMessage(roomId, _message, function (msg) {
+          _this34.sendMessage(roomId, _message, function (msg) {
             callback(null, null, msg);
           });
         }
@@ -34267,153 +34303,161 @@ function () {
     }
   }, {
     key: "enableDebugMode",
-    value: function enableDebugMode(enable) {
-      this._loggerAdapter.get().setEnable(enable);
+    value: function enableDebugMode(enable, callback) {
+      var _this35 = this;
+
+      Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["process"])(enable, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_30__["isReqBoolean"])({
+        enable: enable
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
+        return _this35.isLogin;
+      })).map(function (enable) {
+        return _this35._loggerAdapter.get().setEnable(enable);
+      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "onMessageReceived",
     value: function onMessageReceived(handler) {
-      var _this33 = this;
+      var _this36 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this33.isLogin;
+        return _this36.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toEventSubscription"])(this.realtimeAdapter.onNewMessage));
     }
   }, {
     key: "onMessageDeleted",
     value: function onMessageDeleted(handler) {
-      var _this34 = this;
+      var _this37 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this34.isLogin;
+        return _this37.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toEventSubscription"])(this.realtimeAdapter.onMessageDeleted));
     }
   }, {
     key: "onMessageDelivered",
     value: function onMessageDelivered(handler) {
-      var _this35 = this;
+      var _this38 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this35.isLogin;
+        return _this38.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toEventSubscription"])(this.realtimeAdapter.onMessageDelivered));
     }
   }, {
     key: "onMessageRead",
     value: function onMessageRead(handler) {
-      var _this36 = this;
+      var _this39 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this36.isLogin;
+        return _this39.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toEventSubscription"])(this.realtimeAdapter.onMessageRead));
     }
   }, {
     key: "onUserTyping",
     value: function onUserTyping(handler) {
-      var _this37 = this;
+      var _this40 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this37.isLogin;
+        return _this40.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toEventSubscription"])(this.realtimeAdapter.onTyping));
     }
   }, {
     key: "onUserOnlinePresence",
     value: function onUserOnlinePresence(handler) {
-      var _this38 = this;
+      var _this41 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this38.isLogin;
+        return _this41.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toEventSubscription"])(this.realtimeAdapter.onPresence));
     }
   }, {
     key: "onChatRoomCleared",
     value: function onChatRoomCleared(handler) {
-      var _this39 = this;
+      var _this42 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this39.isLogin;
+        return _this42.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toEventSubscription"])(this.realtimeAdapter.onRoomCleared));
     }
   }, {
     key: "onConnected",
     value: function onConnected(handler) {
-      var _this40 = this;
+      var _this43 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this40.isLogin;
+        return _this43.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttConnected));
     }
   }, {
     key: "onReconnecting",
     value: function onReconnecting(handler) {
-      var _this41 = this;
+      var _this44 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this41.isLogin;
+        return _this44.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttReconnecting));
     }
   }, {
     key: "onDisconnected",
     value: function onDisconnected(handler) {
-      var _this42 = this;
+      var _this45 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this42.isLogin;
+        return _this45.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttDisconnected));
     }
   }, {
     key: "subscribeChatRoom",
     value: function subscribeChatRoom(room) {
-      var _this43 = this;
+      var _this46 = this;
 
       xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of([room]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this43.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["subscribeOnNext"])(function (_ref55) {
-        var _ref56 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_16___default()(_ref55, 1),
-            room = _ref56[0];
+        return _this46.isLogin;
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["subscribeOnNext"])(function (_ref59) {
+        var _ref60 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_16___default()(_ref59, 1),
+            room = _ref60[0];
 
-        if (room.type === 'channel') _this43.realtimeAdapter.mqtt.subscribeChannel(_this43.appId, room.uniqueId);else _this43.realtimeAdapter.mqtt.subscribeRoom(room.id);
+        if (room.type === 'channel') _this46.realtimeAdapter.mqtt.subscribeChannel(_this46.appId, room.uniqueId);else _this46.realtimeAdapter.mqtt.subscribeRoom(room.id);
       }));
     }
   }, {
     key: "unsubscribeChatRoom",
     value: function unsubscribeChatRoom(room) {
-      var _this44 = this;
+      var _this47 = this;
 
       xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of([room]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this44.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["subscribeOnNext"])(function (_ref57) {
-        var _ref58 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_16___default()(_ref57, 1),
-            room = _ref58[0];
+        return _this47.isLogin;
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["subscribeOnNext"])(function (_ref61) {
+        var _ref62 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_16___default()(_ref61, 1),
+            room = _ref62[0];
 
-        if (room.type === 'channel') _this44.realtimeAdapter.mqtt.unsubscribeChannel(_this44.appId, room.uniqueId);else _this44.realtimeAdapter.mqtt.unsubscribeRoom(room.id);
+        if (room.type === 'channel') _this47.realtimeAdapter.mqtt.unsubscribeChannel(_this47.appId, room.uniqueId);else _this47.realtimeAdapter.mqtt.unsubscribeRoom(room.id);
       }));
     }
   }, {
     key: "subscribeUserOnlinePresence",
     value: function subscribeUserOnlinePresence(userId) {
-      var _this45 = this;
+      var _this48 = this;
 
       xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of([userId]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this45.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["subscribeOnNext"])(function (_ref59) {
-        var _ref60 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_16___default()(_ref59, 1),
-            userId = _ref60[0];
+        return _this48.isLogin;
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["subscribeOnNext"])(function (_ref63) {
+        var _ref64 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_16___default()(_ref63, 1),
+            userId = _ref64[0];
 
-        return _this45.realtimeAdapter.mqtt.subscribeUserPresence(userId);
+        return _this48.realtimeAdapter.mqtt.subscribeUserPresence(userId);
       }));
     }
   }, {
     key: "unsubscribeUserOnlinePresence",
     value: function unsubscribeUserOnlinePresence(userId) {
-      var _this46 = this;
+      var _this49 = this;
 
       xstream__WEBPACK_IMPORTED_MODULE_22___default.a.of([userId]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["bufferUntil"])(function () {
-        return _this46.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["subscribeOnNext"])(function (_ref61) {
-        var _ref62 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_16___default()(_ref61, 1),
-            userId = _ref62[0];
+        return _this49.isLogin;
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_31__["subscribeOnNext"])(function (_ref65) {
+        var _ref66 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_16___default()(_ref65, 1),
+            userId = _ref66[0];
 
-        return _this46.realtimeAdapter.mqtt.unsubscribeUserPresence(userId);
+        return _this49.realtimeAdapter.mqtt.unsubscribeUserPresence(userId);
       }));
     }
   }, {

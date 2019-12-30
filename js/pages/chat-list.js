@@ -7,12 +7,13 @@ define([
   'service/html',
 ], function ($, dateFns, _, Qiscus, $content, route, emitter, html) {
   var newMessageIds = []
+  var currentUser = () => Qiscus.instance.currentUser
 
   function Toolbar () {
     return html`
       <div class="Toolbar">
         <button id="profile-btn" type="button" class="avatar-btn">
-          <img src="${Qiscus.instance.currentUser.avatarUrl}" />
+          <img src="${currentUser().avatarUrl}" />
         </button>
         <div class="toolbar-title">Conversations</div>
         <button type="button" class="chat-btn">

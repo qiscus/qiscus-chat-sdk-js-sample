@@ -54,7 +54,7 @@ define([
         <button type="button" class="btn-icon" id="chat-toolbar-btn">
           <i class="icon icon-arrow-back"></i>
         </button>
-        <img class="avatar" src="${avatar}">
+        <img class="avatar" src="${avatar}" />
         <button class="room-meta">
           <div class="room-name">${name}</div>
           ${
