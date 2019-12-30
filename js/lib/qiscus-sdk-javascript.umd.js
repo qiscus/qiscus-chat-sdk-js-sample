@@ -34196,7 +34196,7 @@ function () {
       data.append('token', this.token);
       axios__WEBPACK_IMPORTED_MODULE_21___default()(_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_28__["withHeaders"](this.storage), {
         baseURL: this.storage.getBaseUrl(),
-        url: '/upload',
+        url: this.storage.getUploadUrl(),
         method: 'post',
         data: data,
         onUploadProgress: function onUploadProgress(event) {

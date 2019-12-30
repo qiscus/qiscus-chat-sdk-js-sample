@@ -478,11 +478,12 @@ define([
         unique_temp_id: uniqueId,
         message: message,
         type: 'upload',
-        email: qiscus.user_id,
+        email: currentUser().id,
         timestamp: timestamp,
         status: 'sending',
         file: file,
         caption: caption,
+        sender: currentUser()
       }
       $content.find('.comment-list-container ul').append(CommentItem(comment))
       var $comment = $(`.comment-item[data-unique-id="${uniqueId}"]`)
@@ -491,41 +492,63 @@ define([
         behavior: 'smooth',
       })
 
-      qiscus.upload(file, function (error, progress, fileURL) {
+      qiscus.instance.sendFileMessage(room.id, caption, file, function (error, progress, message) {
         if (error) return console.log('failed uploading image', error)
         if (progress) {
           $progress.css({
-            width: `${progress.percent}%`,
+            width: `${progress}`
           })
         }
-        if (fileURL) {
-          var roomId = qiscus.selected.id
-          var text = `[file] ${fileURL} [/file]`
-          var type = 'file_attachment'
-          var payload = JSON.stringify({
-            url: fileURL,
-            caption: caption,
-            file_name: file.name,
-            size: file.size,
-          })
-          qiscus
-            .sendComment(roomId, text, uniqueId, type, payload)
-            .then(function (resp) {
-              $comment
-                .attr('data-comment-id', resp.id)
-                .attr('data-comment-type', 'image')
-                .find('i.icon')
-                .removeClass('icon-message-sending')
-                .addClass('icon-message-sent')
-              $comment.find('.upload-overlay').remove()
-              var url = getAttachmentURL(resp.payload.url)
-              $comment.find('a').attr('href', url.origin)
-              var objectURL = $comment.find('img').attr('src')
-              URL.revokeObjectURL(objectURL)
-              $comment.find('img').attr('src', url.thumbnailURL)
-            })
+        if (message) {
+          $comment
+            .attr('data-comment-id', resp.id)
+            .attr('data-comment-type', 'image')
+            .find('i.icon')
+            .removeClass('icon-message-sending')
+            .addClass('icon-message-sent')
+          $comment.find('.upload-overlay').remove()
+          var url = getAttachmentURL(resp.payload.url)
+          $comment.find('a').attr('href', url.origin)
+          var objectURL = $comment.find('img').attr('src')
+          URL.revokeObjectURL(objectURL)
+          $comment.find('img').attr('src', url.thumbnailURL)
         }
       })
+      // qiscus.upload(file, function (error, progress, fileURL) {
+      //   if (error) return console.log('failed uploading image', error)
+      //   if (progress) {
+      //     $progress.css({
+      //       width: `${progress.percent}%`,
+      //     })
+      //   }
+      //   if (fileURL) {
+      //     var roomId = qiscus.selected.id
+      //     var text = `[file] ${fileURL} [/file]`
+      //     var type = 'file_attachment'
+      //     var payload = JSON.stringify({
+      //       url: fileURL,
+      //       caption: caption,
+      //       file_name: file.name,
+      //       size: file.size,
+      //     })
+      //     qiscus
+      //       .sendComment(roomId, text, uniqueId, type, payload)
+      //       .then(function (resp) {
+      //         $comment
+      //           .attr('data-comment-id', resp.id)
+      //           .attr('data-comment-type', 'image')
+      //           .find('i.icon')
+      //           .removeClass('icon-message-sending')
+      //           .addClass('icon-message-sent')
+      //         $comment.find('.upload-overlay').remove()
+      //         var url = getAttachmentURL(resp.payload.url)
+      //         $comment.find('a').attr('href', url.origin)
+      //         var objectURL = $comment.find('img').attr('src')
+      //         URL.revokeObjectURL(objectURL)
+      //         $comment.find('img').attr('src', url.thumbnailURL)
+      //       })
+      //   }
+      // })
     })
     .on('change', '#input-file', function (event) {
       closeAttachment()
