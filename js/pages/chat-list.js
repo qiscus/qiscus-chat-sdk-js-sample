@@ -102,7 +102,7 @@ define([
       event.preventDefault()
       route.push('/users')
     })
-    .on('click', '.ChatList #profile-btn', function (event) {
+    .on('click', '.ChatList #profile-btn', function () {
       route.push('/profile')
     })
     .on('click', '.ChatList .load-more button', function (event) {
@@ -113,18 +113,15 @@ define([
       loadRooms(childLength)
     })
 
-  emitter.on('qiscus::new-message', function (comment) {
-    if (newMessageIds.includes(comment.id)) return
-    newMessageIds.push(comment.id)
-
-    var roomId = comment.room_id
-    var $room = $content.find(`.room-item[data-room-id="${roomId}"]`)
+  Qiscus.instance.onMessageReceived(function (message) {
+    console.log('on message received', message)
+    var roomTarget = message.chatRoomId
+    var $room = $content.find(`.room-item[data-room-id=${roomTarget}]`)
     $room.find('.room-last-message')
-      .text(comment.message)
+      .html(message.text)
     var $unreadCount = $room.find('.room-unread-count')
     var lastUnreadCount = Number($unreadCount.text())
-    $unreadCount
-      .removeClass('hidden')
+    $unreadCount.removeClass('hidden')
       .text(lastUnreadCount + 1)
     $content.find('.ChatList .room-list')
       .prepend($room.detach())
