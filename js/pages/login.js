@@ -4,6 +4,12 @@ define([
 ], function ($, route, $content, Qiscus, html) {
 
   function LoginPage() {
+    // var $inputUsername = $content.find('input#username')
+    $content.on('input', 'input#user-id', function () {
+      var $el = $(this)
+      $content.find('input#username').val($el.val())
+    })
+
     // For development only to bypass login
     // Qiscus.instance
     //   .setUser('guest-1001', 'passkey', 'guest-1001', undefined, undefined, function (user, error) {

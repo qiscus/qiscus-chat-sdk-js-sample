@@ -716,27 +716,25 @@ define([
     })
     qiscus.instance.onMessageDelivered(function (message) {
       var commentId = message.id
-      var commentTimestamp = message.timestamp
 
       $content
         .find(`.comment-item[data-comment-id="${commentId}"]`)
         .find('i.icon')
         .removeClass('icon-message-sent')
         .addClass('icon-message-delivered')
-      $content.find('.comment-item').each(function () {
-        var $el = $(this)
-        var timestamp = Number($el.attr('data-comment-timestamp'))
-        if (timestamp <= commentTimestamp) {
-          $el
-            .find('i.icon')
-            .removeClass('icon-message-sent')
-            .addClass('icon-message-delivered')
-        }
+      var commentItems = $content.find('.comment-item')
+      var targetIdx = Array.from(commentItems)
+        .findIndex(it => it.dataset['commentId'] === String(commentId))
+      $content.find('.comment-item').each(function (idx) {
+        if (idx >= targetIdx) return
+
+        $(this)
+          .find('i.icon')
+          .removeClass('icon-message-sent')
+          .addClass('icon-message-delivered')
       })
     })
     qiscus.instance.onMessageRead(function (message) {
-      var userId = message.sender.id
-      var commentTimestamp = message.timestamp
       var commentId = message.id
 
       $content
@@ -744,22 +742,22 @@ define([
         .find('i.icon')
         .removeClass('icon-message-sent')
         .addClass('icon-message-read')
+      var commentItems = $content.find('.comment-item')
+      var targetIdx = Array.from(commentItems)
+        .findIndex(it => it.dataset['commentId'] === String(commentId))
 
-      $content.find('.comment-item').each(function () {
-        var $el = $(this)
-        var timestamp = Number($el.attr('data-comment-timestamp'))
-        if (timestamp <= commentTimestamp) {
-          // mark as read
-          $el
-            .find('i.icon')
-            .removeClass('icon-message-sent')
-            .removeClass('icon-message-delivered')
-            .addClass('icon-message-read')
-        }
+      $content.find('.comment-item').each(function (idx) {
+        if (idx >= targetIdx) return
+
+        $(this)
+          .find('i.icon')
+          .removeClass('icon-message-sent')
+          .removeClass('icon-message-delivered')
+          .addClass('icon-message-read')
       })
     })
     return `
-      <div class="Chat">
+      <div class="Chat" data-room-id="${roomId}">
         ${Toolbar(roomId)}
         ${Empty()}
         ${AttachmentCaptioning({ url: '#', name: '' })}
@@ -767,7 +765,7 @@ define([
           <button type="button" id="attachment-btn">
             <i class="icon icon-attachment"></i>
           </button>
-          <input autocomplete="off" type="text" placeholder="Type your message" id="message" name="message">
+          <input autofocus autocomplete="off" type="text" placeholder="Type your message" id="message" name="message">
           <button type="submit">
             <i class="icon icon-send"></i>
           </button>

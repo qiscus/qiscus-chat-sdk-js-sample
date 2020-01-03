@@ -1,7 +1,8 @@
-define(["jquery", "service/route", "service/content"], function(
+define(["jquery", "service/route", "service/content", 'service/qiscus'], function(
   $,
   route,
-  $content
+  $content,
+  qiscus
 ) {
   var avatarBlobURL = null;
   var currentUser = () => JSON.parse(localStorage.getItem('chat::user'))

@@ -5,7 +5,7 @@ define(['service/emitter'], function(emitter) {
   var appId = 'sdksample'
   // var QiscusSDK = QiscusSDKCore
 
-  QiscusSDK.instance.enableDebugMode(true)
+  // QiscusSDK.instance.enableDebugMode(true)
   QiscusSDK.instance.setup(appId)
   QiscusSDK.instance.onMessageReceived(function (message) {
     console.log('qiscus.on-message-received', message)
@@ -25,6 +25,29 @@ define(['service/emitter'], function(emitter) {
   QiscusSDK.instance.onUserTyping(function (data) {
     console.log('qiscus.on-user-typing', data)
   })
+
+  // region private
+  var translateApiKey = 'AIzaSyDQBOfwCpHEXIAsP-gP_gQq4s9sf_cdNu0'
+  // endregion
+  QTranslate.translate(QiscusSDK.instance, translateApiKey, {
+    targetLang: 'zh'
+  })
+
+  QiscusSDK.instance.intercept(QiscusSDK.Interceptor.MESSAGE_BEFORE_SENT, function (message) {
+    message.extras = {
+      ...message.extras,
+      interceptedBeforeSent: true
+    }
+    return message
+  })
+  QiscusSDK.instance.intercept(QiscusSDK.Interceptor.MESSAGE_BEFORE_RECEIVED, function (message) {
+    message.extras = {
+      ...message.extras,
+      interceptedBeforeReceived: true
+    }
+    return message
+  })
+
   // Qiscus.instance.noop({
   //   AppId: appId,
   //   options: {
