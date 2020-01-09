@@ -5,10 +5,10 @@ define([
 
   function LoginPage() {
     // var $inputUsername = $content.find('input#username')
-    $content.on('input', 'input#user-id', function () {
-      var $el = $(this)
-      $content.find('input#username').val($el.val())
-    })
+    // $content.on('input', 'input#user-id', function () {
+    //   var $el = $(this)
+    //   $content.find('input#username').val($el.val())
+    // })
 
     // For development only to bypass login
     // Qiscus.instance
