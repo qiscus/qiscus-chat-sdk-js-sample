@@ -220,6 +220,7 @@ define([
           data-last-comment-id="${comment.previousMessageId}"
           data-unique-id="${comment.uniqueId}"
           data-comment-timestamp="${comment.timestamp}"
+          data-status="${comment.status}"
           data-comment-type="${type}">
           <div class="message-container">
             ${content}
@@ -285,7 +286,7 @@ define([
 
   function CommentList (comments) {
     return `
-      <ul>
+      <ul id="comment-list-container">
         <li class="load-more">
           <button type="button" class="load-more-btn">Load more</button>
         </li>
@@ -309,9 +310,10 @@ define([
   }
 
   function loadComment (lastCommentId) {
+    var limit = 20
     return qiscus
       .instance
-      .getPreviousMessagesById(room.id, 20, lastCommentId || 0, function (messages, err) {
+      .getPreviousMessagesById(room.id, limit, lastCommentId || 0, function (messages, err) {
         if (err) return console.log('error while getting comments', err)
         if (messages.length == 0) return
         var comments = commentListFormatter(messages)
@@ -681,7 +683,10 @@ define([
               $content.find('.load-more').addClass('hidden')
             }
           }
-          $('.comment-list-container ul').on(
+
+          var $commentListContainer = $('.comment-list-container ul')
+          window.$commentListContainer = $commentListContainer
+          $commentListContainer.on(
             'scroll',
             _.debounce(function () {
               var $root = $(this)
@@ -692,11 +697,39 @@ define([
 
               var offset = 50 // CommentItem height
               isAbleToScroll = !(required - offset >= total)
+
+              // detect comments scrolling
+              var $lastComment = $commentListContainer.find('.comment-item:not(.me)').last()
+              var topOfElement = $lastComment.offset().top
+              var bottomOfElement = topOfElement + $lastComment.outerHeight()
+              var topOfParent = $commentListContainer.scrollTop()
+              var bottomOfParent = topOfParent + $commentListContainer.innerHeight()
+
+              // console.group('scroll...')
+              // window.$parent = $commentListContainer
+              // window.$element = $lastComment
+              // console.log('topOfElement', window.topOfElement = topOfElement)
+              // console.log('bottomOfElement', window.bottomOfElement = bottomOfElement)
+              // console.log('topOfParent', window.topOfParent = topOfParent)
+              // console.log('bottomOfParent', window.bottomOfParent = bottomOfParent)
+
+              var status = $lastComment.attr('data-status')
+              var messageId = Number($lastComment.attr('data-comment-id'))
+              // bottomOfParent > element position inside scrollable area - error boundary
+              if (
+                (bottomOfParent > ((topOfParent + topOfElement + $lastComment.height()) - 80))
+                && status !== 'read'
+              ) {
+                // Mark comment as read if only it is not read yet
+                qiscus.instance.markAsRead(roomId, messageId, function (data, err) {
+                  // do nothing
+                })
+              }
+              // console.groupEnd()
             }, 300),
           )
         })
     qiscus.instance.onMessageReceived(function (message) {
-      //
 
       // skip if it is owned message
       if (message.sender.id === currentUser().id) return
@@ -742,6 +775,9 @@ define([
         .find('i.icon')
         .removeClass('icon-message-sent')
         .addClass('icon-message-read')
+      $content
+        .find(`.comment-item[data-comment-id=${commentId}]`)
+        .attr('data-status', 'read')
       var commentItems = $content.find('.comment-item')
       var targetIdx = Array.from(commentItems)
         .findIndex(it => it.dataset['commentId'] === String(commentId))
@@ -749,6 +785,8 @@ define([
       $content.find('.comment-item').each(function (idx) {
         if (idx >= targetIdx) return
 
+        $(this)
+          .attr('data-status', 'read')
         $(this)
           .find('i.icon')
           .removeClass('icon-message-sent')
