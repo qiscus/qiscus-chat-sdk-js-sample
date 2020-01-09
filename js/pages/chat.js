@@ -698,34 +698,17 @@ define([
               var offset = 50 // CommentItem height
               isAbleToScroll = !(required - offset >= total)
 
-              // detect comments scrolling
+              // Mark comment as read if it appear in the viewport
               var $lastComment = $commentListContainer.find('.comment-item:not(.me)').last()
-              var topOfElement = $lastComment.offset().top
-              var bottomOfElement = topOfElement + $lastComment.outerHeight()
-              var topOfParent = $commentListContainer.scrollTop()
-              var bottomOfParent = topOfParent + $commentListContainer.innerHeight()
-
-              // console.group('scroll...')
-              // window.$parent = $commentListContainer
-              // window.$element = $lastComment
-              // console.log('topOfElement', window.topOfElement = topOfElement)
-              // console.log('bottomOfElement', window.bottomOfElement = bottomOfElement)
-              // console.log('topOfParent', window.topOfParent = topOfParent)
-              // console.log('bottomOfParent', window.bottomOfParent = bottomOfParent)
-
               var status = $lastComment.attr('data-status')
-              var messageId = Number($lastComment.attr('data-comment-id'))
-              // bottomOfParent > element position inside scrollable area - error boundary
-              if (
-                (bottomOfParent > ((topOfParent + topOfElement + $lastComment.height()) - 80))
-                && status !== 'read'
-              ) {
-                // Mark comment as read if only it is not read yet
+              var isRead = status === 'read'
+
+              if (isAbleToScroll && !isRead) {
+                var messageId = Number($lastComment.attr('data-comment-id'))
                 qiscus.instance.markAsRead(roomId, messageId, function (data, err) {
-                  // do nothing
+                  console.log('Done marking as read')
                 })
               }
-              // console.groupEnd()
             }, 300),
           )
         })
