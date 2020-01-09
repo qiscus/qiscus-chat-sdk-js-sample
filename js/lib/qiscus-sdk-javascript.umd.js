@@ -33630,6 +33630,8 @@ var Qiscus =
 /*#__PURE__*/
 function () {
   function Qiscus() {
+    var _this = this;
+
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_20___default()(this, Qiscus);
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "storage", Object(_storage__WEBPACK_IMPORTED_MODULE_34__["storageFactory"])());
@@ -33648,7 +33650,9 @@ function () {
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "_customHeaders", Object(derivable__WEBPACK_IMPORTED_MODULE_24__["atom"])(null));
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "_onMessageReceived$", this.realtimeAdapter.onNewMessage$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "_onMessageReceived$", this.realtimeAdapter.onNewMessage$().map(this.hookAdapter.triggerBeforeReceived$).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["tap"])(function (message) {
+      return _this.currentUser.id !== message.sender.id ? _this.messageAdapter.markAsDelivered(message.chatRoomId, message.id) : undefined;
+    })));
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "_onMessageRead$", this.realtimeAdapter.onMessageRead$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
 
@@ -33706,7 +33710,7 @@ function () {
   }, {
     key: "setUser",
     value: function setUser(userId, userKey, username, avatarUrl, extras, callback) {
-      var _this = this;
+      var _this2 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
         userId: userId
@@ -33728,69 +33732,69 @@ function () {
             avatarUrl = _ref2[3],
             extras = _ref2[4];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this.userAdapter.login(userId, userKey, {
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this2.userAdapter.login(userId, userKey, {
           name: username,
           avatarUrl: avatarUrl,
           extras: extras
         }));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["tap"])(function () {
-        _this.realtimeAdapter.mqtt.conneck();
+        _this2.realtimeAdapter.mqtt.conneck();
 
-        _this.realtimeAdapter.mqtt.subscribeUser(_this.storage.getToken());
+        _this2.realtimeAdapter.mqtt.subscribeUser(_this2.storage.getToken());
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "blockUser",
     value: function blockUser(userId, callback) {
-      var _this2 = this;
+      var _this3 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
         userId: userId
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this2.isLogin;
+        return _this3.isLogin;
       })).map(function (_ref3) {
         var _ref4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref3, 1),
             userId = _ref4[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this2.userAdapter.blockUser(userId));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this3.userAdapter.blockUser(userId));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "clearUser",
     value: function clearUser(callback) {
-      var _this3 = this;
+      var _this4 = this;
 
       // this method should clear currentUser and token
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).map(function () {
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(Promise.resolve(_this3.userAdapter.clear()));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(Promise.resolve(_this4.userAdapter.clear()));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "unblockUser",
     value: function unblockUser(userId, callback) {
-      var _this4 = this;
+      var _this5 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
         userId: userId
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this4.isLogin;
+        return _this5.isLogin;
       })).map(function (_ref5) {
         var _ref6 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref5, 1),
             userId = _ref6[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this4.userAdapter.unblockUser(userId));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this5.userAdapter.unblockUser(userId));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "updateUser",
     value: function updateUser(username, avatarUrl, extras, callback) {
-      var _this5 = this;
+      var _this6 = this;
 
       // this method should update current user
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(username, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
@@ -33802,24 +33806,24 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this5.isLogin;
+        return _this6.isLogin;
       })).map(function (_ref7) {
         var _ref8 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref7, 3),
             username = _ref8[0],
             avatarUrl = _ref8[1],
             extras = _ref8[2];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this5.userAdapter.updateUser(username, avatarUrl, extras));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this6.userAdapter.updateUser(username, avatarUrl, extras));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["tap"])(function (user) {
-        var currentUser = _this5.storage.getCurrentUser();
+        var currentUser = _this6.storage.getCurrentUser();
 
-        _this5.storage.setCurrentUser(_objectSpread({}, currentUser, {}, user));
+        _this6.storage.setCurrentUser(_objectSpread({}, currentUser, {}, user));
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getBlockedUsers",
     value: function getBlockedUsers(page, limit, callback) {
-      var _this6 = this;
+      var _this7 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
         page: page
@@ -33828,19 +33832,19 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this6.isLogin;
+        return _this7.isLogin;
       })).map(function (_ref9) {
         var _ref10 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref9, 2),
             page = _ref10[0],
             limit = _ref10[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this6.userAdapter.getBlockedUser(page, limit));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this7.userAdapter.getBlockedUser(page, limit));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getUsers",
     value: function getUsers(searchUsername, page, limit, callback) {
-      var _this7 = this;
+      var _this8 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(searchUsername, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
         searchUsername: searchUsername
@@ -33851,25 +33855,25 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this7.isLogin;
+        return _this8.isLogin;
       })).map(function (_ref11) {
         var _ref12 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref11, 3),
             search = _ref12[0],
             page = _ref12[1],
             limit = _ref12[2];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this7.userAdapter.getUserList(search, page, limit));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this8.userAdapter.getUserList(search, page, limit));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getJWTNonce",
     value: function getJWTNonce(callback) {
-      var _this8 = this;
+      var _this9 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).map(function () {
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this8.userAdapter.getNonce());
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this9.userAdapter.getNonce());
       }).flatten().map(function (nonce) {
         return nonce;
       }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
@@ -33877,40 +33881,19 @@ function () {
   }, {
     key: "getUserData",
     value: function getUserData(callback) {
-      var _this9 = this;
+      var _this10 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this9.isLogin;
+        return _this10.isLogin;
       })).map(function () {
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this9.userAdapter.getUserData());
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this10.userAdapter.getUserData());
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "registerDeviceToken",
     value: function registerDeviceToken(token, isDevelopment, callback) {
-      var _this10 = this;
-
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(token, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
-        token: token
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(isDevelopment, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptBoolean"])({
-        isDevelopment: isDevelopment
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
-        callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this10.isLogin;
-      })).map(function (_ref13) {
-        var _ref14 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref13, 2),
-            token = _ref14[0],
-            isDevelopment = _ref14[1];
-
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this10.userAdapter.registerDeviceToken(token, isDevelopment));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
-    }
-  }, {
-    key: "removeDeviceToken",
-    value: function removeDeviceToken(token, isDevelopment, callback) {
       var _this11 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(token, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
@@ -33921,18 +33904,39 @@ function () {
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
         return _this11.isLogin;
+      })).map(function (_ref13) {
+        var _ref14 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref13, 2),
+            token = _ref14[0],
+            isDevelopment = _ref14[1];
+
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this11.userAdapter.registerDeviceToken(token, isDevelopment));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+    }
+  }, {
+    key: "removeDeviceToken",
+    value: function removeDeviceToken(token, isDevelopment, callback) {
+      var _this12 = this;
+
+      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(token, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+        token: token
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(isDevelopment, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptBoolean"])({
+        isDevelopment: isDevelopment
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+        callback: callback
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+        return _this12.isLogin;
       })).map(function (_ref15) {
         var _ref16 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref15, 2),
             token = _ref16[0],
             isDevelopment = _ref16[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this11.userAdapter.unregisterDeviceToken(token, isDevelopment));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this12.userAdapter.unregisterDeviceToken(token, isDevelopment));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "updateChatRoom",
     value: function updateChatRoom(roomId, name, avatarUrl, extras, callback) {
-      var _this12 = this;
+      var _this13 = this;
 
       // this method should update room list
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
@@ -33944,7 +33948,7 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptJson"])({
         extras: extras
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this12.isLogin;
+        return _this13.isLogin;
       })).map(function (_ref17) {
         var _ref18 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref17, 4),
             roomId = _ref18[0],
@@ -33952,13 +33956,13 @@ function () {
             avatarUrl = _ref18[2],
             extras = _ref18[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this12.roomAdapter.updateRoom(roomId, name, avatarUrl, extras));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this13.roomAdapter.updateRoom(roomId, name, avatarUrl, extras));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "setUserWithIdentityToken",
     value: function setUserWithIdentityToken(token, callback) {
-      var _this13 = this;
+      var _this14 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(token, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
         token: token
@@ -33968,13 +33972,13 @@ function () {
         var _ref20 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref19, 1),
             token = _ref20[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this13.userAdapter.setUserFromIdentityToken(token));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this14.userAdapter.setUserFromIdentityToken(token));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getChannel",
     value: function getChannel(uniqueId, callback) {
-      var _this14 = this;
+      var _this15 = this;
 
       // throw new Error('Method not implemented.')
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(uniqueId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
@@ -33985,7 +33989,7 @@ function () {
         var _ref22 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref21, 1),
             uniqueId = _ref22[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this14.roomAdapter.getChannel(uniqueId));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this15.roomAdapter.getChannel(uniqueId));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     } // -------------------------------------------------------
     // Room Adapter ------------------------------------------
@@ -33993,7 +33997,7 @@ function () {
   }, {
     key: "chatUser",
     value: function chatUser(userId, extras, callback) {
-      var _this15 = this;
+      var _this16 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
         userId: userId
@@ -34002,39 +34006,18 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this15.isLogin;
+        return _this16.isLogin;
       })).map(function (_ref23) {
         var _ref24 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref23, 2),
             userId = _ref24[0],
             extras = _ref24[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this15.roomAdapter.chatUser(userId, extras));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this16.roomAdapter.chatUser(userId, extras));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "addParticipants",
     value: function addParticipants(roomId, userIds, callback) {
-      var _this16 = this;
-
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
-        roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqArrayString"])({
-        userIds: userIds
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
-        callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this16.isLogin;
-      })).map(function (_ref25) {
-        var _ref26 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref25, 2),
-            roomId = _ref26[0],
-            userIds = _ref26[1];
-
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this16.roomAdapter.addParticipants(roomId, userIds));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
-    }
-  }, {
-    key: "removeParticipants",
-    value: function removeParticipants(roomId, userIds, callback) {
       var _this17 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
@@ -34045,36 +34028,57 @@ function () {
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
         return _this17.isLogin;
+      })).map(function (_ref25) {
+        var _ref26 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref25, 2),
+            roomId = _ref26[0],
+            userIds = _ref26[1];
+
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this17.roomAdapter.addParticipants(roomId, userIds));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+    }
+  }, {
+    key: "removeParticipants",
+    value: function removeParticipants(roomId, userIds, callback) {
+      var _this18 = this;
+
+      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+        roomId: roomId
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqArrayString"])({
+        userIds: userIds
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+        callback: callback
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+        return _this18.isLogin;
       })).map(function (_ref27) {
         var _ref28 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref27, 2),
             roomId = _ref28[0],
             userIds = _ref28[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this17.roomAdapter.removeParticipants(roomId, userIds));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this18.roomAdapter.removeParticipants(roomId, userIds));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "clearMessagesByChatRoomId",
     value: function clearMessagesByChatRoomId(roomUniqueIds, callback) {
-      var _this18 = this;
+      var _this19 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomUniqueIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqArrayString"])({
         roomIds: roomUniqueIds
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this18.isLogin;
+        return _this19.isLogin;
       })).map(function (_ref29) {
         var _ref30 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref29, 1),
             roomIds = _ref30[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this18.roomAdapter.clearRoom(roomIds));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this19.roomAdapter.clearRoom(roomIds));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "createGroupChat",
     value: function createGroupChat(name, userIds, avatarUrl, extras, callback) {
-      var _this19 = this;
+      var _this20 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(name, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
         name: name
@@ -34087,7 +34091,7 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this19.isLogin;
+        return _this20.isLogin;
       })).map(function (_ref31) {
         var _ref32 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref31, 4),
             name = _ref32[0],
@@ -34095,13 +34099,13 @@ function () {
             avatarUrl = _ref32[2],
             extras = _ref32[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this19.roomAdapter.createGroup(name, userIds, avatarUrl, extras));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this20.roomAdapter.createGroup(name, userIds, avatarUrl, extras));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "createChannel",
     value: function createChannel(uniqueId, name, avatarUrl, extras, callback) {
-      var _this20 = this;
+      var _this21 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(uniqueId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
         uniqueId: uniqueId
@@ -34114,7 +34118,7 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this20.isLogin;
+        return _this21.isLogin;
       })).map(function (_ref33) {
         var _ref34 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref33, 4),
             uniqueId = _ref34[0],
@@ -34122,13 +34126,13 @@ function () {
             avatarUrl = _ref34[2],
             extras = _ref34[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this20.roomAdapter.getChannel(uniqueId, name, avatarUrl, extras));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this21.roomAdapter.getChannel(uniqueId, name, avatarUrl, extras));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getParticipants",
     value: function getParticipants(roomUniqueId, page, limit, sorting, callback) {
-      var _this21 = this;
+      var _this22 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomUniqueId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
         roomUniqueId: roomUniqueId
@@ -34141,7 +34145,7 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this21.isLogin;
+        return _this22.isLogin;
       })).map(function (_ref35) {
         var _ref36 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref35, 4),
             roomId = _ref36[0],
@@ -34149,13 +34153,13 @@ function () {
             limit = _ref36[2],
             sorting = _ref36[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this21.roomAdapter.getParticipantList(roomId, page, limit, sorting));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this22.roomAdapter.getParticipantList(roomId, page, limit, sorting));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getChatRooms",
     value: function getChatRooms(ids, page, showRemoved, showParticipant, callback) {
-      var _this22 = this;
+      var _this23 = this;
 
       var uniqueIds = null;
       var roomIds = null;
@@ -34181,7 +34185,7 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this22.isLogin;
+        return _this23.isLogin;
       })).map(function (_ref37) {
         var _ref38 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref37, 4),
             _ = _ref38[0],
@@ -34189,7 +34193,7 @@ function () {
             showRemoved = _ref38[2],
             showParticipant = _ref38[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this22.roomAdapter.getRoomInfo(roomIds.map(function (it) {
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this23.roomAdapter.getRoomInfo(roomIds.map(function (it) {
           return String(it);
         }), uniqueIds, page, showRemoved, showParticipant));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
@@ -34197,7 +34201,7 @@ function () {
   }, {
     key: "getAllChatRooms",
     value: function getAllChatRooms(showParticipant, showRemoved, showEmpty, page, limit, callback) {
-      var _this23 = this;
+      var _this24 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(showParticipant, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptBoolean"])({
         showParticipant: showParticipant
@@ -34212,7 +34216,7 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this23.isLogin;
+        return _this24.isLogin;
       })).map(function (_ref39) {
         var _ref40 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref39, 5),
             showParticipant = _ref40[0],
@@ -34221,38 +34225,38 @@ function () {
             page = _ref40[3],
             limit = _ref40[4];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this23.roomAdapter.getRoomList(showParticipant, showRemoved, showEmpty, page, limit));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this24.roomAdapter.getRoomList(showParticipant, showRemoved, showEmpty, page, limit));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getChatRoomWithMessages",
     value: function getChatRoomWithMessages(roomId, callback) {
-      var _this24 = this;
+      var _this25 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
         roomId: roomId
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this24.isLogin;
+        return _this25.isLogin;
       })).map(function (_ref41) {
         var _ref42 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref41, 1),
             roomId = _ref42[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this24.roomAdapter.getRoom(roomId));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this25.roomAdapter.getRoom(roomId));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getTotalUnreadCount",
     value: function getTotalUnreadCount(callback) {
-      var _this25 = this;
+      var _this26 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this25.isLogin;
+        return _this26.isLogin;
       })).map(function () {
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this25.roomAdapter.getUnreadCount());
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this26.roomAdapter.getUnreadCount());
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     } // ------------------------------------------------------
     // Message Adapter --------------------------------------
@@ -34260,7 +34264,7 @@ function () {
   }, {
     key: "sendMessage",
     value: function sendMessage(roomId, message, callback) {
-      var _this26 = this;
+      var _this27 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
         roomId: roomId
@@ -34269,45 +34273,24 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this26.isLogin;
+        return _this27.isLogin;
       })).map(function (_ref43) {
         var _ref44 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref43, 2),
             roomId = _ref44[0],
             message = _ref44[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(Promise.all([roomId, _this26.hookAdapter.trigger(_hook__WEBPACK_IMPORTED_MODULE_32__["Hooks"].MESSAGE_BEFORE_SENT, message)]));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(Promise.all([roomId, _this27.hookAdapter.trigger(_hook__WEBPACK_IMPORTED_MODULE_32__["Hooks"].MESSAGE_BEFORE_SENT, message)]));
       }).flatten().map(function (_ref45) {
         var _ref46 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref45, 2),
             roomId = _ref46[0],
             message = _ref46[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this26.messageAdapter.sendMessage(roomId, message));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this27.messageAdapter.sendMessage(roomId, message));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "markAsDelivered",
     value: function markAsDelivered(roomId, messageId, callback) {
-      var _this27 = this;
-
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
-        roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
-        messageId: messageId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
-        callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this27.isLogin;
-      })).map(function (_ref47) {
-        var _ref48 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref47, 2),
-            roomId = _ref48[0],
-            messageId = _ref48[1];
-
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this27.messageAdapter.markAsDelivered(roomId, messageId));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
-    }
-  }, {
-    key: "markAsRead",
-    value: function markAsRead(roomId, messageId, callback) {
       var _this28 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
@@ -34318,59 +34301,56 @@ function () {
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
         return _this28.isLogin;
+      })).map(function (_ref47) {
+        var _ref48 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref47, 2),
+            roomId = _ref48[0],
+            messageId = _ref48[1];
+
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this28.messageAdapter.markAsDelivered(roomId, messageId));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+    }
+  }, {
+    key: "markAsRead",
+    value: function markAsRead(roomId, messageId, callback) {
+      var _this29 = this;
+
+      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+        roomId: roomId
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+        messageId: messageId
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+        callback: callback
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+        return _this29.isLogin;
       })).map(function (_ref49) {
         var _ref50 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref49, 2),
             roomId = _ref50[0],
             messageId = _ref50[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this28.messageAdapter.markAsRead(roomId, messageId));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this29.messageAdapter.markAsRead(roomId, messageId));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "deleteMessages",
     value: function deleteMessages(messageUniqueIds, callback) {
-      var _this29 = this;
+      var _this30 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(messageUniqueIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqArrayString"])({
         messageUniqueIds: messageUniqueIds
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this29.isLogin;
+        return _this30.isLogin;
       })).map(function (_ref51) {
         var _ref52 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref51, 1),
             messageUniqueIds = _ref52[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this29.messageAdapter.deleteMessage(messageUniqueIds));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this30.messageAdapter.deleteMessage(messageUniqueIds));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getPreviousMessagesById",
     value: function getPreviousMessagesById(roomId, limit, messageId, callback) {
-      var _this30 = this;
-
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
-        roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
-        limit: limit
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
-        messageId: messageId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
-        callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this30.isLogin;
-      })).map(function (_ref53) {
-        var _ref54 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref53, 3),
-            roomId = _ref54[0],
-            limit = _ref54[1],
-            messageId = _ref54[2];
-
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this30.messageAdapter.getMessages(roomId, messageId, limit, false));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
-    }
-  }, {
-    key: "getNextMessagesById",
-    value: function getNextMessagesById(roomId, limit, messageId, callback) {
       var _this31 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
@@ -34383,13 +34363,37 @@ function () {
         callback: callback
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
         return _this31.isLogin;
+      })).map(function (_ref53) {
+        var _ref54 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref53, 3),
+            roomId = _ref54[0],
+            limit = _ref54[1],
+            messageId = _ref54[2];
+
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this31.messageAdapter.getMessages(roomId, messageId, limit, false));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+    }
+  }, {
+    key: "getNextMessagesById",
+    value: function getNextMessagesById(roomId, limit, messageId, callback) {
+      var _this32 = this;
+
+      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+        roomId: roomId
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+        limit: limit
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+        messageId: messageId
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+        callback: callback
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+        return _this32.isLogin;
       })).map(function (_ref55) {
         var _ref56 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref55, 3),
             roomId = _ref56[0],
             limit = _ref56[1],
             messageId = _ref56[2];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this31.messageAdapter.getMessages(roomId, messageId, limit, true));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this32.messageAdapter.getMessages(roomId, messageId, limit, true));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     } // -------------------------------------------------------
     // Misc --------------------------------------------------
@@ -34398,7 +34402,7 @@ function () {
     key: "publishCustomEvent",
     value: function publishCustomEvent(roomId, data, callback) {
       var _this$currentUser,
-          _this32 = this;
+          _this33 = this;
 
       var userId = (_this$currentUser = this.currentUser) === null || _this$currentUser === void 0 ? void 0 : _this$currentUser.id;
       xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
@@ -34408,21 +34412,21 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(data, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptJson"])({
         data: data
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this32.isLogin;
+        return _this33.isLogin;
       })).map(function (_ref57) {
         var _ref58 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref57, 3),
             roomId = _ref58[0],
             userId = _ref58[1],
             data = _ref58[2];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this32.realtimeAdapter.mqtt.publishCustomEvent(roomId, userId, data));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this33.realtimeAdapter.mqtt.publishCustomEvent(roomId, userId, data));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "publishOnlinePresence",
     value: function publishOnlinePresence(isOnline, callback) {
       var _this$currentUser2,
-          _this33 = this;
+          _this34 = this;
 
       var userId = (_this$currentUser2 = this.currentUser) === null || _this$currentUser2 === void 0 ? void 0 : _this$currentUser2.id;
       xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(isOnline, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqBoolean"])({
@@ -34430,13 +34434,13 @@ function () {
       })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
         userId: userId
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this33.isLogin;
+        return _this34.isLogin;
       })).map(function (_ref59) {
         var _ref60 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref59, 2),
             isOnline = _ref60[0],
             userId = _ref60[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this33.realtimeAdapter.sendPresence(userId, isOnline));
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this34.realtimeAdapter.sendPresence(userId, isOnline));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
@@ -34486,7 +34490,7 @@ function () {
   }, {
     key: "sendFileMessage",
     value: function sendFileMessage(roomId, message, file, callback) {
-      var _this34 = this;
+      var _this35 = this;
 
       this.upload(file, function (error, progress, url) {
         if (error) return callback(error);
@@ -34505,7 +34509,7 @@ function () {
             message: "[file] ".concat(url, " [/file]")
           };
 
-          _this34.sendMessage(roomId, _message, function (msg) {
+          _this35.sendMessage(roomId, _message, function (msg) {
             callback(null, null, msg);
           });
         }
@@ -34534,14 +34538,14 @@ function () {
   }, {
     key: "enableDebugMode",
     value: function enableDebugMode(enable, callback) {
-      var _this35 = this;
+      var _this36 = this;
 
       Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(enable, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqBoolean"])({
         enable: enable
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this35.isLogin;
+        return _this36.isLogin;
       })).map(function (enable) {
-        return _this35.loggerAdapter.setEnable(enable);
+        return _this36.loggerAdapter.setEnable(enable);
       }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
     }
   }, {
@@ -34552,10 +34556,10 @@ function () {
   }, {
     key: "onMessageReceived",
     value: function onMessageReceived(handler) {
-      var _this36 = this;
+      var _this37 = this;
 
       return this._onMessageReceived$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription_"])(handler, function (error) {
-        _this36.loggerAdapter.log('Error when receiving message', error);
+        _this37.loggerAdapter.log('Error when receiving message', error);
       }));
     }
   }, {
@@ -34576,111 +34580,111 @@ function () {
   }, {
     key: "onUserTyping",
     value: function onUserTyping(handler) {
-      var _this37 = this;
+      var _this38 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this37.isLogin;
+        return _this38.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.onTyping));
     }
   }, {
     key: "onUserOnlinePresence",
     value: function onUserOnlinePresence(handler) {
-      var _this38 = this;
+      var _this39 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this38.isLogin;
+        return _this39.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.onPresence));
     }
   }, {
     key: "onChatRoomCleared",
     value: function onChatRoomCleared(handler) {
-      var _this39 = this;
+      var _this40 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this39.isLogin;
+        return _this40.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.onRoomCleared));
     }
   }, {
     key: "onConnected",
     value: function onConnected(handler) {
-      var _this40 = this;
+      var _this41 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this40.isLogin;
+        return _this41.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttConnected));
     }
   }, {
     key: "onReconnecting",
     value: function onReconnecting(handler) {
-      var _this41 = this;
+      var _this42 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this41.isLogin;
+        return _this42.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttReconnecting));
     }
   }, {
     key: "onDisconnected",
     value: function onDisconnected(handler) {
-      var _this42 = this;
+      var _this43 = this;
 
       return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this42.isLogin;
+        return _this43.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttDisconnected));
     }
   }, {
     key: "subscribeChatRoom",
     value: function subscribeChatRoom(room) {
-      var _this43 = this;
+      var _this44 = this;
 
       xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of([room]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this43.isLogin;
+        return _this44.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["subscribeOnNext"])(function (_ref61) {
         var _ref62 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref61, 1),
             room = _ref62[0];
 
-        if (room.type === 'channel') _this43.realtimeAdapter.mqtt.subscribeChannel(_this43.appId, room.uniqueId);else _this43.realtimeAdapter.mqtt.subscribeRoom(room.id);
+        if (room.type === 'channel') _this44.realtimeAdapter.mqtt.subscribeChannel(_this44.appId, room.uniqueId);else _this44.realtimeAdapter.mqtt.subscribeRoom(room.id);
       }));
     }
   }, {
     key: "unsubscribeChatRoom",
     value: function unsubscribeChatRoom(room) {
-      var _this44 = this;
+      var _this45 = this;
 
       xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of([room]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this44.isLogin;
+        return _this45.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["subscribeOnNext"])(function (_ref63) {
         var _ref64 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref63, 1),
             room = _ref64[0];
 
-        if (room.type === 'channel') _this44.realtimeAdapter.mqtt.unsubscribeChannel(_this44.appId, room.uniqueId);else _this44.realtimeAdapter.mqtt.unsubscribeRoom(room.id);
+        if (room.type === 'channel') _this45.realtimeAdapter.mqtt.unsubscribeChannel(_this45.appId, room.uniqueId);else _this45.realtimeAdapter.mqtt.unsubscribeRoom(room.id);
       }));
     }
   }, {
     key: "subscribeUserOnlinePresence",
     value: function subscribeUserOnlinePresence(userId) {
-      var _this45 = this;
+      var _this46 = this;
 
       xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of([userId]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this45.isLogin;
+        return _this46.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["subscribeOnNext"])(function (_ref65) {
         var _ref66 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref65, 1),
             userId = _ref66[0];
 
-        return _this45.realtimeAdapter.mqtt.subscribeUserPresence(userId);
+        return _this46.realtimeAdapter.mqtt.subscribeUserPresence(userId);
       }));
     }
   }, {
     key: "unsubscribeUserOnlinePresence",
     value: function unsubscribeUserOnlinePresence(userId) {
-      var _this46 = this;
+      var _this47 = this;
 
       xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of([userId]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
-        return _this46.isLogin;
+        return _this47.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["subscribeOnNext"])(function (_ref67) {
         var _ref68 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref67, 1),
             userId = _ref68[0];
 
-        return _this46.realtimeAdapter.mqtt.unsubscribeUserPresence(userId);
+        return _this47.realtimeAdapter.mqtt.unsubscribeUserPresence(userId);
       }));
     }
   }, {
