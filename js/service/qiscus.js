@@ -1,24 +1,25 @@
-/* globals QiscusSDK */
+/* globals QiscusSDK, R */
 // This service is to bridge QiscusSDK with this sample app
 
 define(['service/emitter'], function(emitter) {
-  var appId = 'sdksample'
+
+  // Get appId from location.search otherwise use sdksample
+  var result = R.pipe(
+    R.split('?'),
+    R.filter(it => it.length !== 0),
+    R.map(R.split('=')),
+    R.fromPairs,
+  )(location.search)
+  var appId = result.appId || 'sdksample'
   // var QiscusSDK = QiscusSDKCore
 
   // QiscusSDK.instance.enableDebugMode(true)
   QiscusSDK.instance.setup(appId)
-  QiscusSDK.instance.onMessageReceived(function (message) {
-    console.log('qiscus.on-message-received', message)
-  })
-  QiscusSDK.instance.onMessageDelivered(function (message) {
-    console.log('qiscus.on-message-delivered', message)
-  })
+
   QiscusSDK.instance.onMessageDeleted(function (message) {
     console.log('qiscus.on-message-deleted', message)
   })
-  QiscusSDK.instance.onMessageRead(function (message) {
-    console.log('qiscus.on-message-read', message)
-  })
+
   QiscusSDK.instance.onUserOnlinePresence(function (data) {
     console.log('qiscus.on-user-online-presence', data)
   })
@@ -26,12 +27,12 @@ define(['service/emitter'], function(emitter) {
     console.log('qiscus.on-user-typing', data)
   })
 
-  // region private
-  var translateApiKey = 'AIzaSyDQBOfwCpHEXIAsP-gP_gQq4s9sf_cdNu0'
+  // region Translate
+  // var translateApiKey = 'your-google-cloud-api-key'
+  // QTranslate.translate(QiscusSDK.instance, translateApiKey, {
+  //   targetLang: 'zh'
+  // })
   // endregion
-  QTranslate.translate(QiscusSDK.instance, translateApiKey, {
-    targetLang: 'zh'
-  })
 
   QiscusSDK.instance.intercept(QiscusSDK.Interceptor.MESSAGE_BEFORE_SENT, function (message) {
     message.extras = {
