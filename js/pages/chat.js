@@ -313,18 +313,19 @@ define([
     var limit = 20
     return qiscus
       .instance
-      .getPreviousMessagesById(room.id, limit, lastCommentId || 0, function (messages, err) {
-        if (err) return console.log('error while getting comments', err)
-        if (messages.length == 0) return
-        var comments = commentListFormatter(messages)
-        var $comments = $(comments.map(CommentItem).join(''))
-        $comments.insertAfter('.load-more')
+      .getPreviousMessagesById(room.id, limit, lastCommentId || 0,
+        function (messages, err) {
+          if (err) return console.log('error while getting comments', err)
+          if (messages.length == 0) return
+          var comments = commentListFormatter(messages)
+          var $comments = $(comments.map(CommentItem).join(''))
+          $comments.insertAfter('.load-more')
 
-        var lastCommentId = messages[0].previousMessageId
-        if (lastCommentId === 0) {
-          $content.find('.load-more').addClass('hidden')
-        }
-      })
+          var lastCommentId = messages[0].previousMessageId
+          if (lastCommentId === 0) {
+            $content.find('.load-more').addClass('hidden')
+          }
+        })
   }
 
   var attachmentPreviewURL = null
@@ -416,7 +417,7 @@ define([
           payload: {},
           extras: {},
           type: 'text',
-          message: message
+          message: message,
         }, function (message, err) {
           if (err) {
             comment
@@ -485,7 +486,7 @@ define([
         status: 'sending',
         file: file,
         caption: caption,
-        sender: currentUser()
+        sender: currentUser(),
       }
       $content.find('.comment-list-container ul').append(CommentItem(comment))
       var $comment = $(`.comment-item[data-unique-id="${uniqueId}"]`)
@@ -494,63 +495,29 @@ define([
         behavior: 'smooth',
       })
 
-      qiscus.instance.sendFileMessage(room.id, caption, file, function (error, progress, message) {
-        if (error) return console.log('failed uploading image', error)
-        if (progress) {
-          $progress.css({
-            width: `${progress}`
-          })
-        }
-        if (message) {
-          $comment
-            .attr('data-comment-id', resp.id)
-            .attr('data-comment-type', 'image')
-            .find('i.icon')
-            .removeClass('icon-message-sending')
-            .addClass('icon-message-sent')
-          $comment.find('.upload-overlay').remove()
-          var url = getAttachmentURL(resp.payload.url)
-          $comment.find('a').attr('href', url.origin)
-          var objectURL = $comment.find('img').attr('src')
-          URL.revokeObjectURL(objectURL)
-          $comment.find('img').attr('src', url.thumbnailURL)
-        }
-      })
-      // qiscus.upload(file, function (error, progress, fileURL) {
-      //   if (error) return console.log('failed uploading image', error)
-      //   if (progress) {
-      //     $progress.css({
-      //       width: `${progress.percent}%`,
-      //     })
-      //   }
-      //   if (fileURL) {
-      //     var roomId = qiscus.selected.id
-      //     var text = `[file] ${fileURL} [/file]`
-      //     var type = 'file_attachment'
-      //     var payload = JSON.stringify({
-      //       url: fileURL,
-      //       caption: caption,
-      //       file_name: file.name,
-      //       size: file.size,
-      //     })
-      //     qiscus
-      //       .sendComment(roomId, text, uniqueId, type, payload)
-      //       .then(function (resp) {
-      //         $comment
-      //           .attr('data-comment-id', resp.id)
-      //           .attr('data-comment-type', 'image')
-      //           .find('i.icon')
-      //           .removeClass('icon-message-sending')
-      //           .addClass('icon-message-sent')
-      //         $comment.find('.upload-overlay').remove()
-      //         var url = getAttachmentURL(resp.payload.url)
-      //         $comment.find('a').attr('href', url.origin)
-      //         var objectURL = $comment.find('img').attr('src')
-      //         URL.revokeObjectURL(objectURL)
-      //         $comment.find('img').attr('src', url.thumbnailURL)
-      //       })
-      //   }
-      // })
+      qiscus.instance.sendFileMessage(room.id, caption, file,
+        function (error, progress, message) {
+          if (error) return console.log('failed uploading image', error)
+          if (progress) {
+            $progress.css({
+              width: `${progress}`,
+            })
+          }
+          if (message) {
+            $comment
+              .attr('data-comment-id', resp.id)
+              .attr('data-comment-type', 'image')
+              .find('i.icon')
+              .removeClass('icon-message-sending')
+              .addClass('icon-message-sent')
+            $comment.find('.upload-overlay').remove()
+            var url = getAttachmentURL(resp.payload.url)
+            $comment.find('a').attr('href', url.origin)
+            var objectURL = $comment.find('img').attr('src')
+            URL.revokeObjectURL(objectURL)
+            $comment.find('img').attr('src', url.thumbnailURL)
+          }
+        })
     })
     .on('change', '#input-file', function (event) {
       closeAttachment()
@@ -652,6 +619,7 @@ define([
     var state = route.location.state
     var roomId = state.roomId
     var limit = 10
+    // var limit = 100
     var messageId = 0
 
     qiscus.instance
@@ -699,15 +667,17 @@ define([
               isAbleToScroll = !(required - offset >= total)
 
               // Mark comment as read if it appear in the viewport
-              var $lastComment = $commentListContainer.find('.comment-item:not(.me)').last()
+              var $lastComment = $commentListContainer.find(
+                '.comment-item:not(.me)').last()
               var status = $lastComment.attr('data-status')
               var isRead = status === 'read'
 
               if (isAbleToScroll && !isRead) {
                 var messageId = Number($lastComment.attr('data-comment-id'))
-                qiscus.instance.markAsRead(roomId, messageId, function (data, err) {
-                  console.log('Done marking as read')
-                })
+                qiscus.instance.markAsRead(roomId, messageId,
+                  function (data, err) {
+                    console.log('Done marking as read')
+                  })
               }
             }, 300),
           )
@@ -721,7 +691,8 @@ define([
       if (message.chatRoomId !== roomId) return
 
       // Skip if comment already there
-      var comments_ = $content.find(`.comment-item[data-unique-id="${message.uniqueId}"]`)
+      var comments_ = $content.find(
+        `.comment-item[data-unique-id="${message.uniqueId}"]`)
       if (comments_.length !== 0) return
 
       var $comment = $(CommentItem(message))

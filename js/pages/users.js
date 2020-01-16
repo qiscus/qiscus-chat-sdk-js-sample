@@ -55,6 +55,13 @@ define([
           </button>
           <div class="toolbar-title">Choose Contacts</div>
         </div>
+        <button id="open-channel-btn" class="create-group-btn">
+          <i class="icon icon-new-chat-group"></i> Open Channel
+        </button>
+        <form id="open-channel-form" class="create-group-btn" style="display:none">
+          <label>Channel name:</label>
+          <input type="text" name="channel-name" autofocus style="border: 1px solid rgba(0,0,0,.2);padding: 5px;margin: 5px;height: 30px;border-radius: 2px;">
+        </form>
         <button id="create-group-btn" class="create-group-btn">
           <i class="icon icon-new-chat-group"></i> Create Group Chat
         </button>
@@ -76,6 +83,8 @@ define([
     `
   }
 
+  window.$ = $
+  window.jQuery = $
   $content
     .on('click', '.Users .back-btn', function (event) {
       event.preventDefault()
@@ -109,16 +118,36 @@ define([
           .append('<li class="load-more"><button>Load more</button></li>')
       })
     }, 300))
-    .on('click', '.Users .create-group-btn', function (event) {
+    .on('click', '.Users #create-group-btn', function (event) {
       event.preventDefault()
       route.push('/create-group')
+    })
+    .on('click', '.Users #open-channel-btn', function (event) {
+      event.preventDefault()
+      var $form = $content.find('#open-channel-form')
+      if ($form.is(':visible')) {
+        $form.fadeOut()
+      } else {
+        $form.fadeIn()
+      }
     })
     .on('click', '.Users .load-more button', function (event) {
       event.preventDefault()
       var childLength = $content.find('.contact-list').children().length - 1
       loadUser(childLength)
     })
-
+    .on('submit', '.Users #open-channel-form', function (event) {
+      event.preventDefault()
+      var channelName = $('#open-channel-form input[type=text]').val()
+      qiscus.instance.getChannel(channelName, function (room, error) {
+        if (error) return console.log('Error while opening channel', error)
+        route.push('/chat-room', {
+          roomName: room.name,
+          roomAvatar: room.avatarUrl,
+          roomId: room.id,
+        })
+      })
+    })
   Users.path = '/users'
   return Users
 })

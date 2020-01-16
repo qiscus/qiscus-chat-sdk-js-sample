@@ -33325,12 +33325,18 @@ var participant = function participant(json) {
     name: json.username
   };
 };
+
+var getRoomType = function getRoomType(type, isChannel) {
+  if (isChannel && type === 'group') return 'channel';
+  return type;
+};
+
 var room = function room(json) {
   var _ref, _json$participants, _ref2, _json$participants2;
 
   return {
     unreadCount: json.unread_count,
-    type: json.chat_type,
+    type: getRoomType(json.chat_type, json.is_public_channel),
     totalParticipants: (_ref = (_json$participants = json.participants) === null || _json$participants === void 0 ? void 0 : _json$participants.length) !== null && _ref !== void 0 ? _ref : 0,
     participants: (_ref2 = (_json$participants2 = json.participants) === null || _json$participants2 === void 0 ? void 0 : _json$participants2.map(participant)) !== null && _ref2 !== void 0 ? _ref2 : [],
     name: json.room_name,
@@ -34187,13 +34193,15 @@ function () {
       }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
         return _this23.isLogin;
       })).map(function (_ref37) {
+        var _roomIds;
+
         var _ref38 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref37, 4),
             _ = _ref38[0],
             page = _ref38[1],
             showRemoved = _ref38[2],
             showParticipant = _ref38[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this23.roomAdapter.getRoomInfo(roomIds.map(function (it) {
+        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this23.roomAdapter.getRoomInfo((_roomIds = roomIds) === null || _roomIds === void 0 ? void 0 : _roomIds.map(function (it) {
           return String(it);
         }), uniqueIds, page, showRemoved, showParticipant));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
