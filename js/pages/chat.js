@@ -16,8 +16,8 @@ define([
     var participants = ''
     var avatar = ''
     var name = ''
-    qiscus.instance.getChatRooms([roomId], 1, false, true,
-      function (rooms, err) {
+    qiscus.instance
+      .getChatRooms([roomId], 1, false, true, function (rooms, err) {
         if (err) return console.log('error when getting room info', err)
         var room_ = rooms.pop()
         room = room_
@@ -221,13 +221,14 @@ define([
           data-unique-id="${comment.uniqueId}"
           data-comment-timestamp="${comment.timestamp}"
           data-status="${comment.status}"
+          data-time="${comment.timestamp.getTime()}"
           data-comment-type="${type}">
           <div class="message-container">
             ${content}
           </div>
           <div class="message-meta">
             <div class="message-time">
-              ${dateFns.format(comment.timestamp, 'HH:mm')}
+              ${dateFns.format(comment.timestamp, 'HH:mm')} | ${comment.timestamp.getTime()}
             </div>
             <i class="icon icon-message-${comment.status}"></i>
           </div>

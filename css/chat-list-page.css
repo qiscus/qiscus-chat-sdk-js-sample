@@ -386,7 +386,7 @@
   margin-right: 5px;
   margin-left: auto;
 }
-.Chat .comment-item:hover .message-meta {
+.Chat .comment-item.me:hover .message-meta {
   display: none;
 }
 .Chat .comment-item .message-deleter {

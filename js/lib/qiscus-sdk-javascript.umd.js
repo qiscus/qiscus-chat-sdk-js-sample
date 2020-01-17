@@ -30954,25 +30954,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var core_js_modules_es_array_map__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.array.map */ "./node_modules/core-js/modules/es.array.map.js");
 /* harmony import */ var core_js_modules_es_array_map__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_map__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.object.define-properties */ "./node_modules/core-js/modules/es.object.define-properties.js");
-/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.object.define-property */ "./node_modules/core-js/modules/es.object.define-property.js");
-/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.object.get-own-property-descriptor */ "./node_modules/core-js/modules/es.object.get-own-property-descriptor.js");
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/es.object.get-own-property-descriptors */ "./node_modules/core-js/modules/es.object.get-own-property-descriptors.js");
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.object.keys */ "./node_modules/core-js/modules/es.object.keys.js");
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var cuid__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! cuid */ "./node_modules/cuid/index.js");
-/* harmony import */ var cuid__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(cuid__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../api */ "./src/api.ts");
-/* harmony import */ var _provider__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../provider */ "./src/provider.ts");
-/* harmony import */ var _decoder__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../decoder */ "./src/decoder.ts");
+/* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.array.sort */ "./node_modules/core-js/modules/es.array.sort.js");
+/* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.object.define-properties */ "./node_modules/core-js/modules/es.object.define-properties.js");
+/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.object.define-property */ "./node_modules/core-js/modules/es.object.define-property.js");
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/es.object.get-own-property-descriptor */ "./node_modules/core-js/modules/es.object.get-own-property-descriptor.js");
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.object.get-own-property-descriptors */ "./node_modules/core-js/modules/es.object.get-own-property-descriptors.js");
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! core-js/modules/es.object.keys */ "./node_modules/core-js/modules/es.object.keys.js");
+/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var cuid__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! cuid */ "./node_modules/cuid/index.js");
+/* harmony import */ var cuid__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(cuid__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../api */ "./src/api.ts");
+/* harmony import */ var _provider__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../provider */ "./src/provider.ts");
+/* harmony import */ var _decoder__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../decoder */ "./src/decoder.ts");
+
 
 
 
@@ -30987,7 +30990,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_10___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_11___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 
@@ -30997,40 +31000,42 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 var getMessageAdapter = function getMessageAdapter(s) {
   return {
     sendMessage: function sendMessage(roomId, messageT) {
-      var apiConfig = _api__WEBPACK_IMPORTED_MODULE_12__["postComment"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_13__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_13__["withCredentials"](s), {
+      var apiConfig = _api__WEBPACK_IMPORTED_MODULE_13__["postComment"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_14__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_14__["withCredentials"](s), {
         roomId: roomId,
         type: messageT.type,
         text: messageT.message,
         payload: messageT.payload,
-        uniqueId: cuid__WEBPACK_IMPORTED_MODULE_11___default()(),
+        uniqueId: cuid__WEBPACK_IMPORTED_MODULE_12___default()(),
         extras: messageT.extras
       }));
-      return _api__WEBPACK_IMPORTED_MODULE_12__["request"](apiConfig).then(function (resp) {
-        return _decoder__WEBPACK_IMPORTED_MODULE_14__["message"](resp.results.comment);
+      return _api__WEBPACK_IMPORTED_MODULE_13__["request"](apiConfig).then(function (resp) {
+        return _decoder__WEBPACK_IMPORTED_MODULE_15__["message"](resp.results.comment);
       });
     },
     getMessages: function getMessages(roomId) {
       var lastMessageId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       var limit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 20;
       var after = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-      return _api__WEBPACK_IMPORTED_MODULE_12__["request"](_api__WEBPACK_IMPORTED_MODULE_12__["getComment"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_13__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_13__["withCredentials"](s), {
+      return _api__WEBPACK_IMPORTED_MODULE_13__["request"](_api__WEBPACK_IMPORTED_MODULE_13__["getComment"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_14__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_14__["withCredentials"](s), {
         lastMessageId: lastMessageId,
         roomId: roomId,
         after: after,
         limit: limit
       }))).then(function (resp) {
-        return resp.results.comments.map(_decoder__WEBPACK_IMPORTED_MODULE_14__["message"]);
+        return resp.results.comments.map(_decoder__WEBPACK_IMPORTED_MODULE_15__["message"]).sort(function (a, b) {
+          return a.timestamp.getTime() - b.timestamp.getTime();
+        });
       });
     },
     deleteMessage: function deleteMessage(uniqueIds) {
-      return _api__WEBPACK_IMPORTED_MODULE_12__["request"](_api__WEBPACK_IMPORTED_MODULE_12__["deleteMessages"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_13__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_13__["withCredentials"](s), {
+      return _api__WEBPACK_IMPORTED_MODULE_13__["request"](_api__WEBPACK_IMPORTED_MODULE_13__["deleteMessages"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_14__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_14__["withCredentials"](s), {
         uniqueIds: uniqueIds
       }))).then(function (resp) {
-        return resp.results.comments.map(_decoder__WEBPACK_IMPORTED_MODULE_14__["message"]);
+        return resp.results.comments.map(_decoder__WEBPACK_IMPORTED_MODULE_15__["message"]);
       });
     },
     markAsRead: function markAsRead(roomId, messageId) {
-      return _api__WEBPACK_IMPORTED_MODULE_12__["request"](_api__WEBPACK_IMPORTED_MODULE_12__["updateCommentStatus"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_13__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_13__["withCredentials"](s), {
+      return _api__WEBPACK_IMPORTED_MODULE_13__["request"](_api__WEBPACK_IMPORTED_MODULE_13__["updateCommentStatus"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_14__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_14__["withCredentials"](s), {
         lastReadId: messageId,
         lastReceivedId: undefined,
         roomId: roomId
@@ -31039,7 +31044,7 @@ var getMessageAdapter = function getMessageAdapter(s) {
       });
     },
     markAsDelivered: function markAsDelivered(roomId, messageId) {
-      return _api__WEBPACK_IMPORTED_MODULE_12__["request"](_api__WEBPACK_IMPORTED_MODULE_12__["updateCommentStatus"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_13__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_13__["withCredentials"](s), {
+      return _api__WEBPACK_IMPORTED_MODULE_13__["request"](_api__WEBPACK_IMPORTED_MODULE_13__["updateCommentStatus"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_14__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_14__["withCredentials"](s), {
         roomId: roomId,
         lastReceivedId: messageId,
         lastReadId: undefined
@@ -31113,9 +31118,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var pietile_eventemitter__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(pietile_eventemitter__WEBPACK_IMPORTED_MODULE_23__);
 /* harmony import */ var mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! mqtt/lib/connect */ "./node_modules/mqtt/lib/connect/index.js");
 /* harmony import */ var mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_24__);
-/* harmony import */ var _decoder__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../decoder */ "./src/decoder.ts");
-/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./logger */ "./src/adapters/logger.ts");
-/* harmony import */ var _utils_try_catch__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ../utils/try-catch */ "./src/utils/try-catch.ts");
+/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ../model */ "./src/model.ts");
+/* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(_model__WEBPACK_IMPORTED_MODULE_25__);
+/* harmony import */ var _decoder__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ../decoder */ "./src/decoder.ts");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./logger */ "./src/adapters/logger.ts");
+/* harmony import */ var _utils_try_catch__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ../utils/try-catch */ "./src/utils/try-catch.ts");
+
 
 
 
@@ -31160,11 +31168,12 @@ var getMqttHandler = function getMqttHandler(emitter) {
       return function (data) {
         var topicData = reChannelMessage.exec(topic);
         var channelUniqueId = topicData[2];
-        var message = JSON.parse(data);
-        emitter.emit('channel-message::new', {
-          channelUniqueId: channelUniqueId,
-          message: message
+        var message = Object(_utils_try_catch__WEBPACK_IMPORTED_MODULE_28__["tryCatch"])(function () {
+          return _decoder__WEBPACK_IMPORTED_MODULE_26__["message"](JSON.parse(data));
+        }, data, function (error) {
+          return console.log('error when parsing data', error);
         });
+        emitter.emit('message::received', message);
       };
     },
     customEventHandler: function customEventHandler(topic) {
@@ -31236,10 +31245,10 @@ var getMqttHandler = function getMqttHandler(emitter) {
     },
     newMessage: function newMessage(_) {
       return function (data) {
-        var message = JSON.parse(data);
-        emitter.emit('message::received', {
-          message: message
-        });
+        var message = Object(_utils_try_catch__WEBPACK_IMPORTED_MODULE_28__["tryCatch"])(function () {
+          return _decoder__WEBPACK_IMPORTED_MODULE_26__["message"](JSON.parse(data));
+        }, data);
+        emitter.emit('message::received', message);
       };
     },
     readHandler: function readHandler(topic) {
@@ -31287,7 +31296,7 @@ function getMqttAdapter(s) {
     return "r/".concat(roomId, "/").concat(roomId, "/e");
   };
 
-  var logger = Object(_logger__WEBPACK_IMPORTED_MODULE_26__["getLogger"])(s);
+  var logger = Object(_logger__WEBPACK_IMPORTED_MODULE_27__["getLogger"])(s);
   var matcher = Object(_utils_match__WEBPACK_IMPORTED_MODULE_20__["match"])((_match = {}, _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_19___default()(_match, Object(_utils_match__WEBPACK_IMPORTED_MODULE_20__["when"])(reNewMessage), handler.newMessage), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_19___default()(_match, Object(_utils_match__WEBPACK_IMPORTED_MODULE_20__["when"])(reNotification), handler.notificationHandler), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_19___default()(_match, Object(_utils_match__WEBPACK_IMPORTED_MODULE_20__["when"])(reTyping), handler.typingHandler), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_19___default()(_match, Object(_utils_match__WEBPACK_IMPORTED_MODULE_20__["when"])(reDelivery), handler.deliveredHandler), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_19___default()(_match, Object(_utils_match__WEBPACK_IMPORTED_MODULE_20__["when"])(reRead), handler.readHandler), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_19___default()(_match, Object(_utils_match__WEBPACK_IMPORTED_MODULE_20__["when"])(reOnlineStatus), handler.onlineHandler), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_19___default()(_match, Object(_utils_match__WEBPACK_IMPORTED_MODULE_20__["when"])(reChannelMessage), handler.channelMessageHandler), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_19___default()(_match, Object(_utils_match__WEBPACK_IMPORTED_MODULE_20__["when"])(reCustomEvent), handler.customEventHandler), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_19___default()(_match, Object(_utils_match__WEBPACK_IMPORTED_MODULE_20__["when"])(), function (topic) {
     return function (message) {
       return logger.log('topic not handled', topic, message);
@@ -31331,7 +31340,9 @@ function getMqttAdapter(s) {
 
   var __mqtt_conneck = function __mqtt_conneck(brokerUrl) {
     if (mqtt != null) {
-      mqtt.removeAllListeners();
+      var _mqtt;
+
+      (_mqtt = mqtt) === null || _mqtt === void 0 ? void 0 : _mqtt.removeAllListeners();
       mqtt = null;
     }
 
@@ -31371,7 +31382,7 @@ function getMqttAdapter(s) {
             // TODO: Need a better way to get all subscribed topics
             topics = Object.keys(mqtt._resubscribeTopics);
             _context.next = 5;
-            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_16___default.a.awrap(Object(_utils_try_catch__WEBPACK_IMPORTED_MODULE_27__["wrapP"])(getMqttNode()));
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_16___default.a.awrap(Object(_utils_try_catch__WEBPACK_IMPORTED_MODULE_28__["wrapP"])(getMqttNode()));
 
           case 5:
             _ref = _context.sent;
@@ -31390,7 +31401,9 @@ function getMqttAdapter(s) {
 
             logger.log("resubscribe to old topics ".concat(topics));
             topics.forEach(function (t) {
-              return mqtt.subscribe(t);
+              var _mqtt2;
+
+              return (_mqtt2 = mqtt) === null || _mqtt2 === void 0 ? void 0 : _mqtt2.subscribe(t);
             });
 
           case 12:
@@ -31436,7 +31449,7 @@ function getMqttAdapter(s) {
     },
     onMessageDeleted: function onMessageDeleted(callback) {
       var handler = function handler(msg) {
-        var message = _decoder__WEBPACK_IMPORTED_MODULE_25__["message"](msg);
+        var message = _decoder__WEBPACK_IMPORTED_MODULE_26__["message"](msg);
         callback(message);
       };
 
@@ -31447,7 +31460,7 @@ function getMqttAdapter(s) {
     },
     onMessageDelivered: function onMessageDelivered(callback) {
       var handler = function handler(data) {
-        var message = _decoder__WEBPACK_IMPORTED_MODULE_25__["message"]({
+        var message = _decoder__WEBPACK_IMPORTED_MODULE_26__["message"]({
           unique_temp_id: data.messageUniqueId,
           id: parseInt(data.messageId),
           email: data.userId,
@@ -31463,7 +31476,7 @@ function getMqttAdapter(s) {
     },
     onMessageRead: function onMessageRead(callback) {
       var handler = function handler(data) {
-        var message = _decoder__WEBPACK_IMPORTED_MODULE_25__["message"]({
+        var message = _decoder__WEBPACK_IMPORTED_MODULE_26__["message"]({
           unique_temp_id: data.messageUniqueId,
           id: parseInt(data.messageId),
           email: data.userId,
@@ -31477,20 +31490,10 @@ function getMqttAdapter(s) {
         return emitter.off('message::read', handler);
       };
     },
-    onNewChannelMessage: function onNewChannelMessage(callback) {
-      emitter.on('channel-message::new', callback);
-      return function () {
-        return emitter.off('channel-message::new', callback);
-      };
-    },
     onNewMessage: function onNewMessage(callback) {
-      var handler = function handler(data) {
-        callback(_decoder__WEBPACK_IMPORTED_MODULE_25__["message"](data.message));
-      };
-
-      emitter.on('message::received', handler);
+      emitter.on('message::received', callback);
       return function () {
-        return emitter.off('message::received', handler);
+        return emitter.off('message::received', callback);
       };
     },
     onRoomDeleted: function onRoomDeleted(callback) {
@@ -31520,33 +31523,43 @@ function getMqttAdapter(s) {
       };
     },
     publishCustomEvent: function publishCustomEvent(roomId, userId, data) {
+      var _mqtt3;
+
       var payload = JSON.stringify({
         sender: userId,
         data: data
       });
-      mqtt.publish(getTopicForCustomEvent(roomId), payload);
+      (_mqtt3 = mqtt) === null || _mqtt3 === void 0 ? void 0 : _mqtt3.publish(getTopicForCustomEvent(roomId), payload);
     },
     subscribeCustomEvent: function subscribeCustomEvent(roomId, callback) {
+      var _mqtt4;
+
       var topic = getTopicForCustomEvent(roomId);
       if (subscribedCustomEventTopics.has(roomId)) return;
-      mqtt.subscribe(topic);
+      (_mqtt4 = mqtt) === null || _mqtt4 === void 0 ? void 0 : _mqtt4.subscribe(topic);
       subscribedCustomEventTopics.set(roomId, callback);
     },
     unsubscribeCustomEvent: function unsubscribeCustomEvent(roomId) {
+      var _mqtt5;
+
       var topic = getTopicForCustomEvent(roomId);
       if (!subscribedCustomEventTopics.has(roomId)) return;
-      mqtt.unsubscribe(topic);
+      (_mqtt5 = mqtt) === null || _mqtt5 === void 0 ? void 0 : _mqtt5.unsubscribe(topic);
       subscribedCustomEventTopics.delete(roomId);
     },
     sendPresence: function sendPresence(userId, isOnline) {
+      var _mqtt6;
+
       var status = isOnline ? '1' : '0';
-      mqtt.publish("u/".concat(userId, "/s"), status, {
+      (_mqtt6 = mqtt) === null || _mqtt6 === void 0 ? void 0 : _mqtt6.publish("u/".concat(userId, "/s"), status, {
         retain: true
       });
     },
     sendTyping: function sendTyping(roomId, userId, isTyping) {
+      var _mqtt7;
+
       var payload = isTyping ? '1' : '0';
-      mqtt.publish("r/".concat(roomId, "/").concat(roomId, "/").concat(userId, "/t"), payload);
+      (_mqtt7 = mqtt) === null || _mqtt7 === void 0 ? void 0 : _mqtt7.publish("r/".concat(roomId, "/").concat(roomId, "/").concat(userId, "/t"), payload);
     },
     subscribeUser: function subscribeUser(userToken) {
       mqtt.subscribe("".concat(userToken, "/c")).subscribe("".concat(userToken, "/n"));
@@ -31555,26 +31568,34 @@ function getMqttAdapter(s) {
       };
     },
     subscribeUserPresence: function subscribeUserPresence(userId) {
-      mqtt.subscribe("u/".concat(userId, "/s"));
+      var _mqtt8;
+
+      (_mqtt8 = mqtt) === null || _mqtt8 === void 0 ? void 0 : _mqtt8.subscribe("u/".concat(userId, "/s"));
     },
     unsubscribeUserPresence: function unsubscribeUserPresence(userId) {
-      mqtt.unsubscribe("u/".concat(userId, "/s"));
+      var _mqtt9;
+
+      (_mqtt9 = mqtt) === null || _mqtt9 === void 0 ? void 0 : _mqtt9.unsubscribe("u/".concat(userId, "/s"));
     },
     subscribeRoom: function subscribeRoom(roomId) {
-      var _mqtt, _mqtt$subscribe, _mqtt$subscribe$subsc;
+      var _mqtt10, _mqtt10$subscribe, _mqtt10$subscribe$sub;
 
-      (_mqtt = mqtt) === null || _mqtt === void 0 ? void 0 : (_mqtt$subscribe = _mqtt.subscribe("r/".concat(roomId, "/").concat(roomId, "/+/t"))) === null || _mqtt$subscribe === void 0 ? void 0 : (_mqtt$subscribe$subsc = _mqtt$subscribe.subscribe("r/".concat(roomId, "/").concat(roomId, "/+/d"))) === null || _mqtt$subscribe$subsc === void 0 ? void 0 : _mqtt$subscribe$subsc.subscribe("r/".concat(roomId, "/").concat(roomId, "/+/r"));
+      (_mqtt10 = mqtt) === null || _mqtt10 === void 0 ? void 0 : (_mqtt10$subscribe = _mqtt10.subscribe("r/".concat(roomId, "/").concat(roomId, "/+/t"))) === null || _mqtt10$subscribe === void 0 ? void 0 : (_mqtt10$subscribe$sub = _mqtt10$subscribe.subscribe("r/".concat(roomId, "/").concat(roomId, "/+/d"))) === null || _mqtt10$subscribe$sub === void 0 ? void 0 : _mqtt10$subscribe$sub.subscribe("r/".concat(roomId, "/").concat(roomId, "/+/r"));
     },
     unsubscribeRoom: function unsubscribeRoom(roomId) {
-      var _mqtt2, _mqtt2$unsubscribe, _mqtt2$unsubscribe$un;
+      var _mqtt11, _mqtt11$unsubscribe, _mqtt11$unsubscribe$u;
 
-      (_mqtt2 = mqtt) === null || _mqtt2 === void 0 ? void 0 : (_mqtt2$unsubscribe = _mqtt2.unsubscribe("r/".concat(roomId, "/").concat(roomId, "/+/t"))) === null || _mqtt2$unsubscribe === void 0 ? void 0 : (_mqtt2$unsubscribe$un = _mqtt2$unsubscribe.unsubscribe("r/".concat(roomId, "/").concat(roomId, "/+/d"))) === null || _mqtt2$unsubscribe$un === void 0 ? void 0 : _mqtt2$unsubscribe$un.unsubscribe("r/".concat(roomId, "/").concat(roomId, "/+/r"));
+      (_mqtt11 = mqtt) === null || _mqtt11 === void 0 ? void 0 : (_mqtt11$unsubscribe = _mqtt11.unsubscribe("r/".concat(roomId, "/").concat(roomId, "/+/t"))) === null || _mqtt11$unsubscribe === void 0 ? void 0 : (_mqtt11$unsubscribe$u = _mqtt11$unsubscribe.unsubscribe("r/".concat(roomId, "/").concat(roomId, "/+/d"))) === null || _mqtt11$unsubscribe$u === void 0 ? void 0 : _mqtt11$unsubscribe$u.unsubscribe("r/".concat(roomId, "/").concat(roomId, "/+/r"));
     },
     subscribeChannel: function subscribeChannel(appId, channelUniqueId) {
-      mqtt.subscribe("".concat(appId, "/").concat(channelUniqueId, "/c"));
+      var _mqtt12;
+
+      (_mqtt12 = mqtt) === null || _mqtt12 === void 0 ? void 0 : _mqtt12.subscribe("".concat(appId, "/").concat(channelUniqueId, "/c"));
     },
     unsubscribeChannel: function unsubscribeChannel(appId, channelUniqueId) {
-      mqtt.unsubscribe("".concat(appId, "/").concat(channelUniqueId, "/c"));
+      var _mqtt13;
+
+      (_mqtt13 = mqtt) === null || _mqtt13 === void 0 ? void 0 : _mqtt13.unsubscribe("".concat(appId, "/").concat(channelUniqueId, "/c"));
     }
   };
 }
@@ -32055,8 +32076,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_wrapAsyncGenerator__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_wrapAsyncGenerator__WEBPACK_IMPORTED_MODULE_19__);
 /* harmony import */ var lodash_flatten__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! lodash.flatten */ "./node_modules/lodash.flatten/index.js");
 /* harmony import */ var lodash_flatten__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(lodash_flatten__WEBPACK_IMPORTED_MODULE_20__);
-/* harmony import */ var events__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! events */ "./node_modules/events/events.js");
-/* harmony import */ var events__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(events__WEBPACK_IMPORTED_MODULE_21__);
+/* harmony import */ var pietile_eventemitter__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! pietile-eventemitter */ "./node_modules/pietile-eventemitter/dist/index.js");
+/* harmony import */ var pietile_eventemitter__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(pietile_eventemitter__WEBPACK_IMPORTED_MODULE_21__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../api */ "./src/api.ts");
 /* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../model */ "./src/model.ts");
 /* harmony import */ var _model__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_model__WEBPACK_IMPORTED_MODULE_23__);
@@ -32087,8 +32108,8 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_16___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
- // import { EventEmitter } from 'pietile-eventemitter'
 
+ // import { EventEmitter } from 'events'
 
 
 
@@ -32104,8 +32125,7 @@ var sleep = function sleep(period) {
 };
 
 function getSyncAdapter(o) {
-  // const emitter = new EventEmitter<IQSyncEvent>()
-  var emitter = new events__WEBPACK_IMPORTED_MODULE_21__["EventEmitter"]();
+  var emitter = new pietile_eventemitter__WEBPACK_IMPORTED_MODULE_21__["EventEmitter"](); // const emitter = new EventEmitter()
 
   var shouldSync = function shouldSync() {
     return o.shouldSync() && o.s.getCurrentUser() != null;
@@ -32190,8 +32210,7 @@ function getSyncAdapter(o) {
 }
 
 var synchronizeFactory = function synchronizeFactory(getInterval, getEnableSync, getId, logger, s) {
-  // const emitter = new EventEmitter<Event>()
-  var emitter = new events__WEBPACK_IMPORTED_MODULE_21__["EventEmitter"]();
+  var emitter = new pietile_eventemitter__WEBPACK_IMPORTED_MODULE_21__["EventEmitter"](); // const emitter = new EventEmitter()
 
   var synchronize = function synchronize(messageId) {
     return _api__WEBPACK_IMPORTED_MODULE_22__["request"](_api__WEBPACK_IMPORTED_MODULE_22__["synchronize"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_25__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_25__["withCredentials"](s), {
@@ -32264,11 +32283,11 @@ var synchronizeFactory = function synchronizeFactory(getInterval, getEnableSync,
     },
 
     get on() {
-      return emitter.on;
+      return emitter.on.bind(emitter);
     },
 
     get off() {
-      return emitter.off;
+      return emitter.off.bind(emitter);
     },
 
     run: function run() {
@@ -32371,8 +32390,7 @@ var synchronizeFactory = function synchronizeFactory(getInterval, getEnableSync,
 };
 
 var synchronizeEventFactory = function synchronizeEventFactory(getInterval, getEnableSync, getId, logger, s) {
-  // const emitter = new EventEmitter<Event>()
-  var emitter = new events__WEBPACK_IMPORTED_MODULE_21__["EventEmitter"]();
+  var emitter = new pietile_eventemitter__WEBPACK_IMPORTED_MODULE_21__["EventEmitter"](); // const emitter = new EventEmitter()
 
   var synchronize = function synchronize(eventId) {
     return _api__WEBPACK_IMPORTED_MODULE_22__["request"](_api__WEBPACK_IMPORTED_MODULE_22__["synchronizeEvent"](_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_25__["withBaseUrl"](s), {}, _provider__WEBPACK_IMPORTED_MODULE_25__["withCredentials"](s), {
@@ -32516,11 +32534,11 @@ var synchronizeEventFactory = function synchronizeEventFactory(getInterval, getE
     },
 
     get on() {
-      return emitter.on;
+      return emitter.on.bind(emitter);
     },
 
     get off() {
-      return emitter.off;
+      return emitter.off.bind(emitter);
     },
 
     run: function run() {
@@ -33363,6 +33381,7 @@ var message = function message(json) {
     previousMessageId: json.comment_before_id,
     sender: user(json),
     status: json.status,
+    // timestamp: new Date(json.unix_timestamp),
     timestamp: new Date(json.timestamp)
   };
 };
@@ -33539,56 +33558,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_map__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_map__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
 /* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.number.to-fixed */ "./node_modules/core-js/modules/es.number.to-fixed.js");
-/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/es.object.define-properties */ "./node_modules/core-js/modules/es.object.define-properties.js");
-/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.object.define-property */ "./node_modules/core-js/modules/es.object.define-property.js");
-/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! core-js/modules/es.object.get-own-property-descriptor */ "./node_modules/core-js/modules/es.object.get-own-property-descriptor.js");
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! core-js/modules/es.object.get-own-property-descriptors */ "./node_modules/core-js/modules/es.object.get-own-property-descriptors.js");
-/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! core-js/modules/es.object.keys */ "./node_modules/core-js/modules/es.object.keys.js");
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! core-js/modules/es.regexp.exec */ "./node_modules/core-js/modules/es.regexp.exec.js");
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
-/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_15__);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_16__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_17__);
-/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
-/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_18__);
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_20__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_21__);
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_23__);
-/* harmony import */ var derivable__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! derivable */ "./node_modules/derivable/dist/derivable.es.js");
-/* harmony import */ var xstream__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! xstream */ "./node_modules/xstream/index.js");
-/* harmony import */ var xstream__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(xstream__WEBPACK_IMPORTED_MODULE_25__);
-/* harmony import */ var _adapters_logger__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./adapters/logger */ "./src/adapters/logger.ts");
-/* harmony import */ var _adapters_message__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./adapters/message */ "./src/adapters/message.ts");
-/* harmony import */ var _adapters_realtime__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./adapters/realtime */ "./src/adapters/realtime.ts");
-/* harmony import */ var _adapters_room__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./adapters/room */ "./src/adapters/room.ts");
-/* harmony import */ var _adapters_user__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./adapters/user */ "./src/adapters/user.ts");
-/* harmony import */ var _defs__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./defs */ "./src/defs.ts");
-/* harmony import */ var _hook__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./hook */ "./src/hook.ts");
-/* harmony import */ var _provider__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./provider */ "./src/provider.ts");
-/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./storage */ "./src/storage.ts");
-/* harmony import */ var _utils_param_utils__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./utils/param-utils */ "./src/utils/param-utils.ts");
-/* harmony import */ var _utils_stream__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./utils/stream */ "./src/utils/stream.ts");
+/* harmony import */ var core_js_modules_es_number_constructor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.number.constructor */ "./node_modules/core-js/modules/es.number.constructor.js");
+/* harmony import */ var core_js_modules_es_number_constructor__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_number_constructor__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/es.number.to-fixed */ "./node_modules/core-js/modules/es.number.to-fixed.js");
+/* harmony import */ var core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_number_to_fixed__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.object.define-properties */ "./node_modules/core-js/modules/es.object.define-properties.js");
+/* harmony import */ var core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_properties__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! core-js/modules/es.object.define-property */ "./node_modules/core-js/modules/es.object.define-property.js");
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! core-js/modules/es.object.get-own-property-descriptor */ "./node_modules/core-js/modules/es.object.get-own-property-descriptor.js");
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! core-js/modules/es.object.get-own-property-descriptors */ "./node_modules/core-js/modules/es.object.get-own-property-descriptors.js");
+/* harmony import */ var core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_own_property_descriptors__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! core-js/modules/es.object.keys */ "./node_modules/core-js/modules/es.object.keys.js");
+/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! core-js/modules/es.regexp.exec */ "./node_modules/core-js/modules/es.regexp.exec.js");
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! core-js/modules/es.string.replace */ "./node_modules/core-js/modules/es.string.replace.js");
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_17___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_17__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_18___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_18__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_19___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_19__);
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_21__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_22__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_24___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_24__);
+/* harmony import */ var derivable__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! derivable */ "./node_modules/derivable/dist/derivable.es.js");
+/* harmony import */ var xstream__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! xstream */ "./node_modules/xstream/index.js");
+/* harmony import */ var xstream__WEBPACK_IMPORTED_MODULE_26___default = /*#__PURE__*/__webpack_require__.n(xstream__WEBPACK_IMPORTED_MODULE_26__);
+/* harmony import */ var _adapters_logger__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./adapters/logger */ "./src/adapters/logger.ts");
+/* harmony import */ var _adapters_message__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./adapters/message */ "./src/adapters/message.ts");
+/* harmony import */ var _adapters_realtime__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./adapters/realtime */ "./src/adapters/realtime.ts");
+/* harmony import */ var _adapters_room__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./adapters/room */ "./src/adapters/room.ts");
+/* harmony import */ var _adapters_user__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./adapters/user */ "./src/adapters/user.ts");
+/* harmony import */ var _defs__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./defs */ "./src/defs.ts");
+/* harmony import */ var _hook__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./hook */ "./src/hook.ts");
+/* harmony import */ var _provider__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./provider */ "./src/provider.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./storage */ "./src/storage.ts");
+/* harmony import */ var _utils_param_utils__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./utils/param-utils */ "./src/utils/param-utils.ts");
+/* harmony import */ var _utils_stream__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./utils/stream */ "./src/utils/stream.ts");
+
 
 
 
@@ -33615,7 +33637,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 
@@ -33638,38 +33660,38 @@ function () {
   function Qiscus() {
     var _this = this;
 
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_20___default()(this, Qiscus);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_21___default()(this, Qiscus);
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "storage", Object(_storage__WEBPACK_IMPORTED_MODULE_34__["storageFactory"])());
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "storage", Object(_storage__WEBPACK_IMPORTED_MODULE_35__["storageFactory"])());
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "hookAdapter", Object(_hook__WEBPACK_IMPORTED_MODULE_32__["hookAdapterFactory"])());
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "hookAdapter", Object(_hook__WEBPACK_IMPORTED_MODULE_33__["hookAdapterFactory"])());
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "userAdapter", Object(_adapters_user__WEBPACK_IMPORTED_MODULE_30__["default"])(this.storage));
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "userAdapter", Object(_adapters_user__WEBPACK_IMPORTED_MODULE_31__["default"])(this.storage));
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "realtimeAdapter", Object(_adapters_realtime__WEBPACK_IMPORTED_MODULE_28__["default"])(this.storage));
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "realtimeAdapter", Object(_adapters_realtime__WEBPACK_IMPORTED_MODULE_29__["default"])(this.storage));
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "loggerAdapter", Object(_adapters_logger__WEBPACK_IMPORTED_MODULE_26__["getLogger"])(this.storage));
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "loggerAdapter", Object(_adapters_logger__WEBPACK_IMPORTED_MODULE_27__["getLogger"])(this.storage));
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "roomAdapter", Object(_adapters_room__WEBPACK_IMPORTED_MODULE_29__["default"])(this.storage));
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "roomAdapter", Object(_adapters_room__WEBPACK_IMPORTED_MODULE_30__["default"])(this.storage));
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "messageAdapter", Object(_adapters_message__WEBPACK_IMPORTED_MODULE_27__["default"])(this.storage));
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "messageAdapter", Object(_adapters_message__WEBPACK_IMPORTED_MODULE_28__["default"])(this.storage));
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "_customHeaders", Object(derivable__WEBPACK_IMPORTED_MODULE_24__["atom"])(null));
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "_customHeaders", Object(derivable__WEBPACK_IMPORTED_MODULE_25__["atom"])(null));
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "_onMessageReceived$", this.realtimeAdapter.onNewMessage$().map(this.hookAdapter.triggerBeforeReceived$).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["tap"])(function (message) {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "_onMessageReceived$", this.realtimeAdapter.onNewMessage$().map(this.hookAdapter.triggerBeforeReceived$).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["tap"])(function (message) {
       return _this.currentUser.id !== message.sender.id ? _this.messageAdapter.markAsDelivered(message.chatRoomId, message.id) : undefined;
     })));
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "_onMessageRead$", this.realtimeAdapter.onMessageRead$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "_onMessageRead$", this.realtimeAdapter.onMessageRead$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "_onMessageDelivered$", this.realtimeAdapter.onMessageDelivered$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "_onMessageDelivered$", this.realtimeAdapter.onMessageDelivered$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "_onMessageDeleted$", this.realtimeAdapter.onMessageDeleted$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "_onMessageDeleted$", this.realtimeAdapter.onMessageDeleted$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(this, "_onRoomCleared$", this.realtimeAdapter.onRoomCleared$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "_onRoomCleared$", this.realtimeAdapter.onRoomCleared$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_21___default()(Qiscus, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_22___default()(Qiscus, [{
     key: "setup",
     // endregion
     value: function setup(appId) {
@@ -33718,54 +33740,54 @@ function () {
     value: function setUser(userId, userKey, username, avatarUrl, extras, callback) {
       var _this2 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         userId: userId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userKey, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userKey, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         userKey: userKey
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(username, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(username, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptString"])({
         username: username
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(avatarUrl, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(avatarUrl, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptString"])({
         avatarUrl: avatarUrl
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptJson"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptJson"])({
         extras: extras
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
       }))).map(function (_ref) {
-        var _ref2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref, 5),
+        var _ref2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref, 5),
             userId = _ref2[0],
             userKey = _ref2[1],
             username = _ref2[2],
             avatarUrl = _ref2[3],
             extras = _ref2[4];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this2.userAdapter.login(userId, userKey, {
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this2.userAdapter.login(userId, userKey, {
           name: username,
           avatarUrl: avatarUrl,
           extras: extras
         }));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["tap"])(function () {
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["tap"])(function () {
         _this2.realtimeAdapter.mqtt.conneck();
 
         _this2.realtimeAdapter.mqtt.subscribeUser(_this2.storage.getToken());
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "blockUser",
     value: function blockUser(userId, callback) {
       var _this3 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         userId: userId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this3.isLogin;
       })).map(function (_ref3) {
-        var _ref4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref3, 1),
+        var _ref4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref3, 1),
             userId = _ref4[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this3.userAdapter.blockUser(userId));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this3.userAdapter.blockUser(userId));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "clearUser",
@@ -33773,29 +33795,29 @@ function () {
       var _this4 = this;
 
       // this method should clear currentUser and token
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
       }))).map(function () {
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(Promise.resolve(_this4.userAdapter.clear()));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(Promise.resolve(_this4.userAdapter.clear()));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "unblockUser",
     value: function unblockUser(userId, callback) {
       var _this5 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         userId: userId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this5.isLogin;
       })).map(function (_ref5) {
-        var _ref6 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref5, 1),
+        var _ref6 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref5, 1),
             userId = _ref6[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this5.userAdapter.unblockUser(userId));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this5.userAdapter.unblockUser(userId));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "updateUser",
@@ -33803,141 +33825,141 @@ function () {
       var _this6 = this;
 
       // this method should update current user
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(username, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(username, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptString"])({
         username: username
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(avatarUrl, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(avatarUrl, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptString"])({
         avatarUrl: avatarUrl
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptJson"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptJson"])({
         extras: extras
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this6.isLogin;
       })).map(function (_ref7) {
-        var _ref8 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref7, 3),
+        var _ref8 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref7, 3),
             username = _ref8[0],
             avatarUrl = _ref8[1],
             extras = _ref8[2];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this6.userAdapter.updateUser(username, avatarUrl, extras));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["tap"])(function (user) {
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this6.userAdapter.updateUser(username, avatarUrl, extras));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["tap"])(function (user) {
         var currentUser = _this6.storage.getCurrentUser();
 
         _this6.storage.setCurrentUser(_objectSpread({}, currentUser, {}, user));
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getBlockedUsers",
     value: function getBlockedUsers(page, limit, callback) {
       var _this7 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         page: page
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         limit: limit
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this7.isLogin;
       })).map(function (_ref9) {
-        var _ref10 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref9, 2),
+        var _ref10 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref9, 2),
             page = _ref10[0],
             limit = _ref10[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this7.userAdapter.getBlockedUser(page, limit));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this7.userAdapter.getBlockedUser(page, limit));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getUsers",
     value: function getUsers(searchUsername, page, limit, callback) {
       var _this8 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(searchUsername, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(searchUsername, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptString"])({
         searchUsername: searchUsername
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         page: page
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         limit: limit
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this8.isLogin;
       })).map(function (_ref11) {
-        var _ref12 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref11, 3),
+        var _ref12 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref11, 3),
             search = _ref12[0],
             page = _ref12[1],
             limit = _ref12[2];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this8.userAdapter.getUserList(search, page, limit));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this8.userAdapter.getUserList(search, page, limit));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getJWTNonce",
     value: function getJWTNonce(callback) {
       var _this9 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
       }))).map(function () {
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this9.userAdapter.getNonce());
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this9.userAdapter.getNonce());
       }).flatten().map(function (nonce) {
         return nonce;
-      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getUserData",
     value: function getUserData(callback) {
       var _this10 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this10.isLogin;
       })).map(function () {
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this10.userAdapter.getUserData());
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this10.userAdapter.getUserData());
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "registerDeviceToken",
     value: function registerDeviceToken(token, isDevelopment, callback) {
       var _this11 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(token, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(token, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         token: token
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(isDevelopment, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptBoolean"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(isDevelopment, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptBoolean"])({
         isDevelopment: isDevelopment
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this11.isLogin;
       })).map(function (_ref13) {
-        var _ref14 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref13, 2),
+        var _ref14 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref13, 2),
             token = _ref14[0],
             isDevelopment = _ref14[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this11.userAdapter.registerDeviceToken(token, isDevelopment));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this11.userAdapter.registerDeviceToken(token, isDevelopment));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "removeDeviceToken",
     value: function removeDeviceToken(token, isDevelopment, callback) {
       var _this12 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(token, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(token, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         token: token
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(isDevelopment, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptBoolean"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(isDevelopment, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptBoolean"])({
         isDevelopment: isDevelopment
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this12.isLogin;
       })).map(function (_ref15) {
-        var _ref16 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref15, 2),
+        var _ref16 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref15, 2),
             token = _ref16[0],
             isDevelopment = _ref16[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this12.userAdapter.unregisterDeviceToken(token, isDevelopment));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this12.userAdapter.unregisterDeviceToken(token, isDevelopment));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "updateChatRoom",
@@ -33945,41 +33967,41 @@ function () {
       var _this13 = this;
 
       // this method should update room list
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(name, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(name, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptString"])({
         name: name
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(avatarUrl, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(avatarUrl, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptString"])({
         avatarUrl: avatarUrl
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptJson"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptJson"])({
         extras: extras
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this13.isLogin;
       })).map(function (_ref17) {
-        var _ref18 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref17, 4),
+        var _ref18 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref17, 4),
             roomId = _ref18[0],
             name = _ref18[1],
             avatarUrl = _ref18[2],
             extras = _ref18[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this13.roomAdapter.updateRoom(roomId, name, avatarUrl, extras));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this13.roomAdapter.updateRoom(roomId, name, avatarUrl, extras));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "setUserWithIdentityToken",
     value: function setUserWithIdentityToken(token, callback) {
       var _this14 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(token, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(token, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         token: token
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
       }))).map(function (_ref19) {
-        var _ref20 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref19, 1),
+        var _ref20 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref19, 1),
             token = _ref20[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this14.userAdapter.setUserFromIdentityToken(token));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this14.userAdapter.setUserFromIdentityToken(token));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getChannel",
@@ -33987,16 +34009,16 @@ function () {
       var _this15 = this;
 
       // throw new Error('Method not implemented.')
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(uniqueId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(uniqueId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         uniqueId: uniqueId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
       }))).map(function (_ref21) {
-        var _ref22 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref21, 1),
+        var _ref22 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref21, 1),
             uniqueId = _ref22[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this15.roomAdapter.getChannel(uniqueId));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this15.roomAdapter.getChannel(uniqueId));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     } // -------------------------------------------------------
     // Room Adapter ------------------------------------------
 
@@ -34005,162 +34027,162 @@ function () {
     value: function chatUser(userId, extras, callback) {
       var _this16 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         userId: userId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptJson"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptJson"])({
         extras: extras
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this16.isLogin;
       })).map(function (_ref23) {
-        var _ref24 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref23, 2),
+        var _ref24 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref23, 2),
             userId = _ref24[0],
             extras = _ref24[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this16.roomAdapter.chatUser(userId, extras));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this16.roomAdapter.chatUser(userId, extras));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "addParticipants",
     value: function addParticipants(roomId, userIds, callback) {
       var _this17 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqArrayString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqArrayString"])({
         userIds: userIds
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this17.isLogin;
       })).map(function (_ref25) {
-        var _ref26 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref25, 2),
+        var _ref26 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref25, 2),
             roomId = _ref26[0],
             userIds = _ref26[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this17.roomAdapter.addParticipants(roomId, userIds));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this17.roomAdapter.addParticipants(roomId, userIds));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "removeParticipants",
     value: function removeParticipants(roomId, userIds, callback) {
       var _this18 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqArrayString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqArrayString"])({
         userIds: userIds
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this18.isLogin;
       })).map(function (_ref27) {
-        var _ref28 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref27, 2),
+        var _ref28 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref27, 2),
             roomId = _ref28[0],
             userIds = _ref28[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this18.roomAdapter.removeParticipants(roomId, userIds));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this18.roomAdapter.removeParticipants(roomId, userIds));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "clearMessagesByChatRoomId",
     value: function clearMessagesByChatRoomId(roomUniqueIds, callback) {
       var _this19 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomUniqueIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqArrayString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomUniqueIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqArrayString"])({
         roomIds: roomUniqueIds
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this19.isLogin;
       })).map(function (_ref29) {
-        var _ref30 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref29, 1),
+        var _ref30 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref29, 1),
             roomIds = _ref30[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this19.roomAdapter.clearRoom(roomIds));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this19.roomAdapter.clearRoom(roomIds));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "createGroupChat",
     value: function createGroupChat(name, userIds, avatarUrl, extras, callback) {
       var _this20 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(name, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(name, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         name: name
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqArrayString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqArrayString"])({
         userIds: userIds
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(avatarUrl, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(avatarUrl, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptString"])({
         avatarUrl: avatarUrl
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptJson"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptJson"])({
         extras: extras
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this20.isLogin;
       })).map(function (_ref31) {
-        var _ref32 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref31, 4),
+        var _ref32 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref31, 4),
             name = _ref32[0],
             userIds = _ref32[1],
             avatarUrl = _ref32[2],
             extras = _ref32[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this20.roomAdapter.createGroup(name, userIds, avatarUrl, extras));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this20.roomAdapter.createGroup(name, userIds, avatarUrl, extras));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "createChannel",
     value: function createChannel(uniqueId, name, avatarUrl, extras, callback) {
       var _this21 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(uniqueId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(uniqueId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         uniqueId: uniqueId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(name, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(name, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         name: name
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(avatarUrl, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(avatarUrl, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptString"])({
         avatarUrl: avatarUrl
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptJson"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(extras, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptJson"])({
         extras: extras
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this21.isLogin;
       })).map(function (_ref33) {
-        var _ref34 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref33, 4),
+        var _ref34 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref33, 4),
             uniqueId = _ref34[0],
             name = _ref34[1],
             avatarUrl = _ref34[2],
             extras = _ref34[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this21.roomAdapter.getChannel(uniqueId, name, avatarUrl, extras));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this21.roomAdapter.getChannel(uniqueId, name, avatarUrl, extras));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getParticipants",
     value: function getParticipants(roomUniqueId, page, limit, sorting, callback) {
       var _this22 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomUniqueId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomUniqueId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         roomUniqueId: roomUniqueId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         page: page
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         limit: limit
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(sorting, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(sorting, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptString"])({
         sorting: sorting
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this22.isLogin;
       })).map(function (_ref35) {
-        var _ref36 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref35, 4),
+        var _ref36 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref35, 4),
             roomId = _ref36[0],
             page = _ref36[1],
             limit = _ref36[2],
             sorting = _ref36[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this22.roomAdapter.getParticipantList(roomId, page, limit, sorting));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this22.roomAdapter.getParticipantList(roomId, page, limit, sorting));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getChatRooms",
@@ -34170,102 +34192,102 @@ function () {
       var uniqueIds = null;
       var roomIds = null;
 
-      if (Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isArrayOfNumber"])(ids)) {
+      if (Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isArrayOfNumber"])(ids)) {
         roomIds = ids;
       }
 
-      if (Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isArrayOfString"])(ids)) {
+      if (Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isArrayOfString"])(ids)) {
         uniqueIds = ids;
       }
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine( // process(roomIds, isOptArrayNumber({ roomIds })),
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine( // process(roomIds, isOptArrayNumber({ roomIds })),
       // process(uniqueIds, isOptArrayString({ uniqueIds })),
-      Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(ids, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqArrayOfStringOrNumber"])({
+      Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(ids, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqArrayOfStringOrNumber"])({
         ids: ids
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         page: page
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(showRemoved, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptBoolean"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(showRemoved, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptBoolean"])({
         showRemoved: showRemoved
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(showParticipant, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptBoolean"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(showParticipant, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptBoolean"])({
         showParticipant: showParticipant
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this23.isLogin;
       })).map(function (_ref37) {
         var _roomIds;
 
-        var _ref38 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref37, 4),
+        var _ref38 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref37, 4),
             _ = _ref38[0],
             page = _ref38[1],
             showRemoved = _ref38[2],
             showParticipant = _ref38[3];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this23.roomAdapter.getRoomInfo((_roomIds = roomIds) === null || _roomIds === void 0 ? void 0 : _roomIds.map(function (it) {
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this23.roomAdapter.getRoomInfo((_roomIds = roomIds) === null || _roomIds === void 0 ? void 0 : _roomIds.map(function (it) {
           return String(it);
         }), uniqueIds, page, showRemoved, showParticipant));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getAllChatRooms",
     value: function getAllChatRooms(showParticipant, showRemoved, showEmpty, page, limit, callback) {
       var _this24 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(showParticipant, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptBoolean"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(showParticipant, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptBoolean"])({
         showParticipant: showParticipant
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(showRemoved, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptBoolean"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(showRemoved, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptBoolean"])({
         showRemoved: showRemoved
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(showEmpty, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptBoolean"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(showEmpty, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptBoolean"])({
         showEmpty: showEmpty
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(page, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         page: page
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         limit: limit
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this24.isLogin;
       })).map(function (_ref39) {
-        var _ref40 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref39, 5),
+        var _ref40 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref39, 5),
             showParticipant = _ref40[0],
             showRemoved = _ref40[1],
             showEmpty = _ref40[2],
             page = _ref40[3],
             limit = _ref40[4];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this24.roomAdapter.getRoomList(showParticipant, showRemoved, showEmpty, page, limit));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this24.roomAdapter.getRoomList(showParticipant, showRemoved, showEmpty, page, limit));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getChatRoomWithMessages",
     value: function getChatRoomWithMessages(roomId, callback) {
       var _this25 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this25.isLogin;
       })).map(function (_ref41) {
-        var _ref42 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref41, 1),
+        var _ref42 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref41, 1),
             roomId = _ref42[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this25.roomAdapter.getRoom(roomId));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this25.roomAdapter.getRoom(roomId));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getTotalUnreadCount",
     value: function getTotalUnreadCount(callback) {
       var _this26 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this26.isLogin;
       })).map(function () {
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this26.roomAdapter.getUnreadCount());
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this26.roomAdapter.getUnreadCount());
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     } // ------------------------------------------------------
     // Message Adapter --------------------------------------
 
@@ -34274,135 +34296,135 @@ function () {
     value: function sendMessage(roomId, message, callback) {
       var _this27 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(message, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqJson"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(message, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqJson"])({
         message: message
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this27.isLogin;
       })).map(function (_ref43) {
-        var _ref44 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref43, 2),
+        var _ref44 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref43, 2),
             roomId = _ref44[0],
             message = _ref44[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(Promise.all([roomId, _this27.hookAdapter.trigger(_hook__WEBPACK_IMPORTED_MODULE_32__["Hooks"].MESSAGE_BEFORE_SENT, message)]));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(Promise.all([roomId, _this27.hookAdapter.trigger(_hook__WEBPACK_IMPORTED_MODULE_33__["Hooks"].MESSAGE_BEFORE_SENT, message)]));
       }).flatten().map(function (_ref45) {
-        var _ref46 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref45, 2),
+        var _ref46 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref45, 2),
             roomId = _ref46[0],
             message = _ref46[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this27.messageAdapter.sendMessage(roomId, message));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this27.messageAdapter.sendMessage(roomId, message));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "markAsDelivered",
     value: function markAsDelivered(roomId, messageId, callback) {
       var _this28 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         messageId: messageId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this28.isLogin;
       })).map(function (_ref47) {
-        var _ref48 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref47, 2),
+        var _ref48 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref47, 2),
             roomId = _ref48[0],
             messageId = _ref48[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this28.messageAdapter.markAsDelivered(roomId, messageId));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this28.messageAdapter.markAsDelivered(roomId, messageId));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "markAsRead",
     value: function markAsRead(roomId, messageId, callback) {
       var _this29 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         messageId: messageId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this29.isLogin;
       })).map(function (_ref49) {
-        var _ref50 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref49, 2),
+        var _ref50 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref49, 2),
             roomId = _ref50[0],
             messageId = _ref50[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this29.messageAdapter.markAsRead(roomId, messageId));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this29.messageAdapter.markAsRead(roomId, messageId));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "deleteMessages",
     value: function deleteMessages(messageUniqueIds, callback) {
       var _this30 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(messageUniqueIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqArrayString"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(messageUniqueIds, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqArrayString"])({
         messageUniqueIds: messageUniqueIds
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this30.isLogin;
       })).map(function (_ref51) {
-        var _ref52 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref51, 1),
+        var _ref52 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref51, 1),
             messageUniqueIds = _ref52[0];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this30.messageAdapter.deleteMessage(messageUniqueIds));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this30.messageAdapter.deleteMessage(messageUniqueIds));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getPreviousMessagesById",
     value: function getPreviousMessagesById(roomId, limit, messageId, callback) {
       var _this31 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         limit: limit
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         messageId: messageId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this31.isLogin;
       })).map(function (_ref53) {
-        var _ref54 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref53, 3),
+        var _ref54 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref53, 3),
             roomId = _ref54[0],
             limit = _ref54[1],
             messageId = _ref54[2];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this31.messageAdapter.getMessages(roomId, messageId, limit, false));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this31.messageAdapter.getMessages(roomId, messageId, limit, false));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "getNextMessagesById",
     value: function getNextMessagesById(roomId, limit, messageId, callback) {
       var _this32 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(limit, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         limit: limit
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptNumber"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(messageId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptNumber"])({
         messageId: messageId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptCallback"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(callback, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptCallback"])({
         callback: callback
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this32.isLogin;
       })).map(function (_ref55) {
-        var _ref56 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref55, 3),
+        var _ref56 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref55, 3),
             roomId = _ref56[0],
             limit = _ref56[1],
             messageId = _ref56[2];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this32.messageAdapter.getMessages(roomId, messageId, limit, true));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this32.messageAdapter.getMessages(roomId, messageId, limit, true));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     } // -------------------------------------------------------
     // Misc --------------------------------------------------
 
@@ -34413,22 +34435,22 @@ function () {
           _this33 = this;
 
       var userId = (_this$currentUser = this.currentUser) === null || _this$currentUser === void 0 ? void 0 : _this$currentUser.id;
-      xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqNumber"])({
+      xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(roomId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqNumber"])({
         roomId: roomId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         userId: userId
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(data, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isOptJson"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(data, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isOptJson"])({
         data: data
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this33.isLogin;
       })).map(function (_ref57) {
-        var _ref58 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref57, 3),
+        var _ref58 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref57, 3),
             roomId = _ref58[0],
             userId = _ref58[1],
             data = _ref58[2];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this33.realtimeAdapter.mqtt.publishCustomEvent(roomId, userId, data));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this33.realtimeAdapter.mqtt.publishCustomEvent(roomId, userId, data));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "publishOnlinePresence",
@@ -34437,19 +34459,19 @@ function () {
           _this34 = this;
 
       var userId = (_this$currentUser2 = this.currentUser) === null || _this$currentUser2 === void 0 ? void 0 : _this$currentUser2.id;
-      xstream__WEBPACK_IMPORTED_MODULE_25___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(isOnline, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqBoolean"])({
+      xstream__WEBPACK_IMPORTED_MODULE_26___default.a.combine(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(isOnline, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqBoolean"])({
         isOnline: isOnline
-      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqString"])({
+      })), Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         userId: userId
-      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      }))).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this34.isLogin;
       })).map(function (_ref59) {
-        var _ref60 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref59, 2),
+        var _ref60 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref59, 2),
             isOnline = _ref60[0],
             userId = _ref60[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.fromPromise(_this34.realtimeAdapter.sendPresence(userId, isOnline));
-      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this34.realtimeAdapter.sendPresence(userId, isOnline));
+      }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "publishTyping",
@@ -34472,14 +34494,14 @@ function () {
       var data = new FormData();
       data.append('file', file);
       data.append('token', this.token);
-      axios__WEBPACK_IMPORTED_MODULE_23___default()(_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_33__["withHeaders"](this.storage), {
+      axios__WEBPACK_IMPORTED_MODULE_24___default()(_objectSpread({}, _provider__WEBPACK_IMPORTED_MODULE_34__["withHeaders"](this.storage), {
         baseURL: this.storage.getBaseUrl(),
         url: this.storage.getUploadUrl(),
         method: 'post',
         data: data,
         onUploadProgress: function onUploadProgress(event) {
           var percentage = (event.loaded / event.total * 100).toFixed(2);
-          callback(void 0, percentage);
+          callback(void 0, Number(percentage));
         }
       })).then(function (resp) {
         var url = resp.data.results.file.url;
@@ -34491,9 +34513,9 @@ function () {
   }, {
     key: "hasSetupUser",
     value: function hasSetupUser(callback) {
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(this.currentUser).map(function (user) {
+      return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.of(this.currentUser).map(function (user) {
         return user != null;
-      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "sendFileMessage",
@@ -34513,7 +34535,7 @@ function () {
               caption: message
             },
             extras: {},
-            type: _defs__WEBPACK_IMPORTED_MODULE_31__["IQMessageType"].Attachment,
+            type: _defs__WEBPACK_IMPORTED_MODULE_32__["IQMessageType"].Attachment,
             message: "[file] ".concat(url, " [/file]")
           };
 
@@ -34548,13 +34570,13 @@ function () {
     value: function enableDebugMode(enable, callback) {
       var _this36 = this;
 
-      Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["process"])(enable, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_35__["isReqBoolean"])({
+      Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(enable, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqBoolean"])({
         enable: enable
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this36.isLogin;
       })).map(function (enable) {
         return _this36.loggerAdapter.setEnable(enable);
-      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toCallbackOrPromise"])(callback));
+      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
     key: "intercept",
@@ -34566,91 +34588,101 @@ function () {
     value: function onMessageReceived(handler) {
       var _this37 = this;
 
-      return this._onMessageReceived$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription_"])(handler, function (error) {
+      return this._onMessageReceived$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler, function (error) {
         _this37.loggerAdapter.log('Error when receiving message', error);
       }));
     }
   }, {
     key: "onMessageDeleted",
     value: function onMessageDeleted(handler) {
-      return this._onMessageDeleted$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription_"])(handler));
+      return this._onMessageDeleted$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
     }
   }, {
     key: "onMessageDelivered",
     value: function onMessageDelivered(handler) {
-      return this._onMessageDelivered$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription_"])(handler));
+      return this._onMessageDelivered$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
     }
   }, {
     key: "onMessageRead",
     value: function onMessageRead(handler) {
-      return this._onMessageRead$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription_"])(handler));
+      return this._onMessageRead$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
     }
   }, {
     key: "onUserTyping",
     value: function onUserTyping(handler) {
       var _this38 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        handler: handler
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this38.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.onTyping));
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.onTyping));
     }
   }, {
     key: "onUserOnlinePresence",
     value: function onUserOnlinePresence(handler) {
       var _this39 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this39.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.onPresence));
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.onPresence));
     }
   }, {
     key: "onChatRoomCleared",
     value: function onChatRoomCleared(handler) {
       var _this40 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this40.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.onRoomCleared));
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.onRoomCleared));
     }
   }, {
     key: "onConnected",
     value: function onConnected(handler) {
       var _this41 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this41.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttConnected));
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttConnected));
     }
   }, {
     key: "onReconnecting",
     value: function onReconnecting(handler) {
       var _this42 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this42.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttReconnecting));
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttReconnecting));
     }
   }, {
     key: "onDisconnected",
     value: function onDisconnected(handler) {
       var _this43 = this;
 
-      return xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this43.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttDisconnected));
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttDisconnected));
     }
   }, {
     key: "subscribeChatRoom",
     value: function subscribeChatRoom(room) {
       var _this44 = this;
 
-      xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of([room]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(room, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        room: room
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this44.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["subscribeOnNext"])(function (_ref61) {
-        var _ref62 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref61, 1),
+      })).map(function (it) {
+        return [it];
+      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["subscribeOnNext"])(function (_ref61) {
+        var _ref62 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref61, 1),
             room = _ref62[0];
 
-        if (room.type === 'channel') _this44.realtimeAdapter.mqtt.subscribeChannel(_this44.appId, room.uniqueId);else _this44.realtimeAdapter.mqtt.subscribeRoom(room.id);
+        if (room.type === 'channel') {
+          _this44.realtimeAdapter.mqtt.subscribeChannel(_this44.appId, room.uniqueId);
+        } else {
+          _this44.realtimeAdapter.mqtt.subscribeRoom(room.id);
+        }
       }));
     }
   }, {
@@ -34658,10 +34690,14 @@ function () {
     value: function unsubscribeChatRoom(room) {
       var _this45 = this;
 
-      xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of([room]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(room, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        room: room
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this45.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["subscribeOnNext"])(function (_ref63) {
-        var _ref64 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref63, 1),
+      })).map(function (it) {
+        return [it];
+      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["subscribeOnNext"])(function (_ref63) {
+        var _ref64 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref63, 1),
             room = _ref64[0];
 
         if (room.type === 'channel') _this45.realtimeAdapter.mqtt.unsubscribeChannel(_this45.appId, room.uniqueId);else _this45.realtimeAdapter.mqtt.unsubscribeRoom(room.id);
@@ -34672,10 +34708,14 @@ function () {
     value: function subscribeUserOnlinePresence(userId) {
       var _this46 = this;
 
-      xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of([userId]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
+        userId: userId
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this46.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["subscribeOnNext"])(function (_ref65) {
-        var _ref66 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref65, 1),
+      })).map(function (it) {
+        return [it];
+      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["subscribeOnNext"])(function (_ref65) {
+        var _ref66 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref65, 1),
             userId = _ref66[0];
 
         return _this46.realtimeAdapter.mqtt.subscribeUserPresence(userId);
@@ -34686,10 +34726,14 @@ function () {
     value: function unsubscribeUserOnlinePresence(userId) {
       var _this47 = this;
 
-      xstream__WEBPACK_IMPORTED_MODULE_25___default.a.of([userId]).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["bufferUntil"])(function () {
+      Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
+        userId: userId
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this47.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_36__["subscribeOnNext"])(function (_ref67) {
-        var _ref68 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_19___default()(_ref67, 1),
+      })).map(function (it) {
+        return [it];
+      }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["subscribeOnNext"])(function (_ref67) {
+        var _ref68 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref67, 1),
             userId = _ref68[0];
 
         return _this47.realtimeAdapter.mqtt.unsubscribeUserPresence(userId);
@@ -34719,7 +34763,7 @@ function () {
   }, {
     key: "Interceptor",
     get: function get() {
-      return _hook__WEBPACK_IMPORTED_MODULE_32__["Hooks"];
+      return _hook__WEBPACK_IMPORTED_MODULE_33__["Hooks"];
     }
   }], [{
     key: "instance",
@@ -34733,9 +34777,9 @@ function () {
   return Qiscus;
 }();
 
-_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(Qiscus, "_instance", null);
+_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(Qiscus, "_instance", null);
 
-_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(Qiscus, "Interceptor", _hook__WEBPACK_IMPORTED_MODULE_32__["Hooks"]);
+_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(Qiscus, "Interceptor", _hook__WEBPACK_IMPORTED_MODULE_33__["Hooks"]);
 
 
 
@@ -34837,11 +34881,12 @@ var Provider = function Provider(s) {
 /*!************************!*\
   !*** ./src/storage.ts ***!
   \************************/
-/*! exports provided: storageFactory */
+/*! exports provided: listStorageFactory, storageFactory */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "listStorageFactory", function() { return listStorageFactory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storageFactory", function() { return storageFactory; });
 /* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.iterator */ "./node_modules/core-js/modules/es.array.iterator.js");
 /* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
@@ -34858,6 +34903,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var listStorageFactory = function listStorageFactory() {
+  return {
+    getOrSet: function getOrSet(id, valueIfNull) {}
+  };
+};
 var storageFactory = function storageFactory() {
   var storage = new Map();
 
@@ -35181,7 +35231,7 @@ when.unserialize = function (serializedKey, value) {
 /*!**********************************!*\
   !*** ./src/utils/param-utils.ts ***!
   \**********************************/
-/*! exports provided: every, some, compose, isReqString, isReqNumber, isReqBoolean, isReqJson, isReqArrayNumber, isReqArrayString, isReqArrayOfStringOrNumber, isOptArrayNumber, isOptArrayString, isOptString, isOptNumber, isOptJson, isOptCallback, isOptBoolean, isArrayOfNumber, isArrayOfString */
+/*! exports provided: every, some, compose, isRequired, isReqString, isReqNumber, isReqBoolean, isReqJson, isReqArrayNumber, isReqArrayString, isReqArrayOfStringOrNumber, isOptArrayNumber, isOptArrayString, isOptString, isOptNumber, isOptJson, isOptCallback, isOptBoolean, isArrayOfNumber, isArrayOfString */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -35189,6 +35239,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "every", function() { return every; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "some", function() { return some; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isRequired", function() { return isRequired; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isReqString", function() { return isReqString; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isReqNumber", function() { return isReqNumber; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isReqBoolean", function() { return isReqBoolean; });
@@ -35258,6 +35309,10 @@ var getMsg = function getMsg(item, msg) {
   return "`".concat(getName(item), "` ").concat(msg);
 };
 
+var isRequired = function isRequired(item) {
+  var msg = getMsg(item, 'are required');
+  return compose(msg, every(is_js__WEBPACK_IMPORTED_MODULE_4___default.a.not.null, is_js__WEBPACK_IMPORTED_MODULE_4___default.a.not.undefined));
+};
 var isReqString = function isReqString(item) {
   var msg = getMsg(item, 'are required and need to be string');
   return compose(msg, every(is_js__WEBPACK_IMPORTED_MODULE_4___default.a.not.null, is_js__WEBPACK_IMPORTED_MODULE_4___default.a.not.undefined, is_js__WEBPACK_IMPORTED_MODULE_4___default.a.string));
@@ -35494,8 +35549,8 @@ var tap = function tap(onNext, onError, onComplete) {
 };
 
 var sleep = function sleep(time) {
-  return new Promise(function (resolve) {
-    return setTimeout(resolve, time);
+  return new Promise(function (res) {
+    return setTimeout(res, time);
   });
 };
 
