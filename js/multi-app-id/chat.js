@@ -9,7 +9,7 @@ define([
 ], function (dateFns, $, _, $content, route, qiscus, emitter) {
   var isAbleToScroll = false
   var room = null
-  var currentUser = () => JSON.parse(localStorage.getItem('chat::user'))
+  var currentUser = () => qiscus.currentUser
 
   function Toolbar (roomId) {
     var isGroup = false

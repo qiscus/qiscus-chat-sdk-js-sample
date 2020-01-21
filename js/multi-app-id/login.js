@@ -10,11 +10,11 @@ define([
     document.addEventListener('submit', function (event) {
       if (event.target.id === 'LoginForm-appId') {
         event.preventDefault()
-        var appId = $('#app-id').val()
-        var userId = $('#user-id').val()
-        var userKey = $('#user-key').val()
-        var username = $('#username').val()
-        var userTarget = $('#user-target').val()
+        var appId = event.target['app-id'].value
+        var userId = event.target['user-id'].value
+        var userKey = event.target['user-key'].value
+        var username = userId
+        var userTarget = event.target['user-target'].value
         Qiscus.setup(appId)
         Qiscus.setUser(userId, userKey, username, null, null, function (user, error) {
           if (error) return console.error('Error when login', error)
