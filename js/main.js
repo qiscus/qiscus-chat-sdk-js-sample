@@ -19,4 +19,4 @@ requirejs.config({
 	}
 });
 
-requirejs(['app']);
+requirejs(['app', 'multi-app-id/index']);

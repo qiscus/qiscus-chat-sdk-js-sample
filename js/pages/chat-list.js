@@ -114,7 +114,6 @@ define([
     })
 
   Qiscus.instance.onMessageReceived(function (message) {
-    console.log('on message received', message)
     var roomTarget = message.chatRoomId
     var $room = $content.find(`.room-item[data-room-id=${roomTarget}]`)
     $room.find('.room-last-message')

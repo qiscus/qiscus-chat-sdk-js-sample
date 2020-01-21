@@ -32,10 +32,20 @@ button {
   cursor: pointer;
 }
 
-.widget-container {
-  position: absolute;
+.container {
+  position: fixed;
   bottom: 0;
-  right: 20px;
+  right: 10px;
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.widget-container {
+    margin-right: 10px;
+  /*position: absolute;*/
+  /*bottom: 0;*/
+  /*right: 20px;*/
   height: 568px;
   width: 320px;
   overflow: hidden;

@@ -26,10 +26,6 @@ define([
     route.replace('/login')
   }
 
-  // emitter.on('qiscus::login-success', function () {
-  //   route.replace('/chat')
-  //   localStorage.setItem('authdata', JSON.stringify(qiscus.userData))
-  // })
   emitter.on('route::change', function (location) {
     var content = routes.find(function (page) {
       return page.path === location.pathname
@@ -45,9 +41,4 @@ define([
     event.preventDefault()
     $('.widget-container').slideDown()
   })
-
-  // if (localStorage['authdata'] != null) {
-  //   var authdata = JSON.parse(localStorage['authdata'])
-  //   qiscus.setUserWithIdentityToken({ user: authdata })
-  // }
 })
