@@ -21,7 +21,6 @@ define([
 
           Qiscus.chatUser(userTarget, null, function (room, error) {
             if (error) return console.error('Error when getting room detail', error)
-            console.log('room', room)
             route.push('/chat-room', { roomId: room.id })
           })
         })
@@ -33,22 +32,23 @@ define([
         <form id="LoginForm-appId">
           <div class="form-group">
             <label for="app-id">App ID</label>
-            <input id="app-id" name="app-id" type="text" value="sdksample" autocomplete="off" />
+            <!--<input name="app-id" type="text" value="qiscus-sa-0ywcivq7nxn" autocomplete="off" />-->
+            <input name="app-id" type="text" value="sdksample" autocomplete="off" />
           </div>
           <div class="form-group">
             <label for="userId">User ID</label>
-            <input id="user-id" type="text" name="user-id" value="guest-1001" autocomplete="off" />
+            <input type="text" name="user-id" value="guest-1001" autocomplete="off" />
           </div>
           <div class="form-group">
             <label for="user-key">User Key</label>
-            <input id="user-key" type="password" name="user-key" value="passkey" />
+            <input type="password" name="user-key" value="passkey" />
           </div>
           <div class="form-group">
             <label for="user-target">User Target</label>
-            <input type="text" id="user-target" name="user-target" value="guest-1002" />
+            <input type="text" name="user-target" value="guest-1002" />
           </div>
           <div class="form-group">
-            <button type="submit" id="submit-login-btn">
+            <button type="submit">
               Start <i class="fas fa-arrow-right"></i>
             </button>
           </div>

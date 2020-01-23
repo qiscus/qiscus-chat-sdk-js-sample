@@ -16,15 +16,12 @@ define(['service/emitter'], function(emitter) {
   // QiscusSDK.instance.enableDebugMode(true)
   QiscusSDK.instance.setup(appId)
 
-  QiscusSDK.instance.onMessageDeleted(function (message) {
-    console.log('qiscus.on-message-deleted', message)
-  })
+  // QiscusSDK.instance.onMessageDeleted(function (message) {
+  // })
 
   QiscusSDK.instance.onUserOnlinePresence(function (data) {
-    console.log('qiscus.on-user-online-presence', data)
   })
   QiscusSDK.instance.onUserTyping(function (data) {
-    console.log('qiscus.on-user-typing', data)
   })
 
   // region Translate

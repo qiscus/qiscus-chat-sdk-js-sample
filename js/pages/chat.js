@@ -9,7 +9,9 @@ define([
 ], function (dateFns, $, _, $content, route, qiscus, emitter) {
   var isAbleToScroll = false
   var room = null
-  var currentUser = () => JSON.parse(localStorage.getItem('chat::user'))
+  var currentUser = function () {
+    return qiscus.instance.currentUser
+  }
 
   function Toolbar (roomId) {
     var isGroup = false
@@ -22,6 +24,10 @@ define([
         var room_ = rooms.pop()
         room = room_
         qiscus.instance.subscribeChatRoom(room)
+        var userId = room.participants.filter(function (user) {
+          return user.id !== currentUser().id
+        }).pop()
+        qiscus.instance.subscribeUserOnlinePresence(userId.id)
 
         participants = (function () {
           var limit = 3
@@ -228,7 +234,8 @@ define([
           </div>
           <div class="message-meta">
             <div class="message-time">
-              ${dateFns.format(comment.timestamp, 'HH:mm')} | ${comment.timestamp.getTime()}
+              ${dateFns.format(comment.timestamp,
+      'HH:mm')} | ${comment.timestamp.getTime()}
             </div>
             <i class="icon icon-message-${comment.status}"></i>
           </div>
@@ -334,6 +341,8 @@ define([
   var attachmentFile = null
 
   // Online status management
+  qiscus.instance.onUserOnlinePresence(function (data) {
+  })
   emitter.on('qiscus::online-presence', function (data) {
     var $onlineStatus = $content.find('small.online-status')
     var lastOnline = dateFns.isSameDay(data.lastOnline, new Date())
@@ -347,23 +356,28 @@ define([
     }
   })
 
-  var typingTimeoutId = -1
   var lastValue = null
-  emitter.on('qiscus::typing', function (event) {
-    var roomId = event.room_id
-    if (qiscus.selected == null) return
-    if (Number(roomId) !== qiscus.selected.id) return
-    if (qiscus.selected.room_type !== 'single') return
-    var $onlineStatus = $content.find('.room-meta .online-status')
-    lastValue = $onlineStatus.text()
-    $onlineStatus.text('Typing ...')
+  var typingTimeoutId = -1
+  var typingText = 'Typing ...'
+  qiscus.instance.onUserTyping(_.debounce(function (userId) {
+    if (userId === currentUser().id) return
 
+    var $onlineStatus = $content.find('.room-meta .online-status')
+    if ($onlineStatus.text() !== typingText) {
+      lastValue = $onlineStatus.text()
+    }
+    $onlineStatus.text(typingText)
     if (typingTimeoutId !== -1) clearTimeout(typingTimeoutId)
     typingTimeoutId = setTimeout(function () {
       $onlineStatus.text(lastValue)
       clearTimeout(typingTimeoutId)
       typingTimeoutId = -1
     }, 1000)
+  }), 1000)
+
+  qiscus.instance.onMessageDeleted(function (message) {
+    var uniqueId = message.uniqueId
+    $content.find(`.comment-item[data-unique-id=${uniqueId}]`).remove()
   })
 
   $('#qiscus-widget')
@@ -602,15 +616,15 @@ define([
       'keydown',
       '.Chat input#message',
       _.throttle(function () {
-        qiscus.instance.publishTyping(1)
+        qiscus.instance.publishTyping(room.id, true)
       }, 300),
     )
     .on('click', '.Chat .message-deleter button', function (event) {
       event.preventDefault()
       var $el = $(this)
-      var commentId = $(this).attr('data-comment-id')
       var $comment = $el.closest('.comment-item')
-      qiscus.instance.deleteMessages([commentId], function (messages, err) {
+      var uniqueId = $comment.attr('data-unique-id')
+      qiscus.instance.deleteMessages([uniqueId], function (messages, err) {
         if (err) return console.log('error while deleting message', err)
         $comment.remove()
       })
@@ -653,7 +667,7 @@ define([
             }
           }
 
-          var $commentListContainer = $('.comment-list-container ul')
+          var $commentListContainer = $content.find('.comment-list-container ul')
           window.$commentListContainer = $commentListContainer
           $commentListContainer.on(
             'scroll',
@@ -673,11 +687,12 @@ define([
               var status = $lastComment.attr('data-status')
               var isRead = status === 'read'
 
-              if (isAbleToScroll && !isRead) {
+              var isChannel = room.type === 'channel'
+              if (isAbleToScroll && !isRead && !isChannel) {
                 var messageId = Number($lastComment.attr('data-comment-id'))
                 qiscus.instance.markAsRead(roomId, messageId,
                   function (data, err) {
-                    console.log('Done marking as read')
+                    // Do something if succeed
                   })
               }
             }, 300),
@@ -737,6 +752,7 @@ define([
       var targetIdx = Array.from(commentItems)
         .findIndex(it => it.dataset['commentId'] === String(commentId))
 
+      console.log('read', targetIdx)
       $content.find('.comment-item').each(function (idx) {
         if (idx >= targetIdx) return
 

@@ -347,23 +347,27 @@ define([
     }
   })
 
-  var typingTimeoutId = -1
   var lastValue = null
-  emitter.on('qiscus::typing', function (event) {
-    var roomId = event.room_id
-    if (qiscus.selected == null) return
-    if (Number(roomId) !== qiscus.selected.id) return
-    if (qiscus.selected.room_type !== 'single') return
+  var typingTimeoutId = -1
+  var typingText = 'Typing ...'
+  qiscus.onUserTyping(_.debounce(function (userId) {
+    if (userId === currentUser().id) return
     var $onlineStatus = $content.find('.room-meta .online-status')
-    lastValue = $onlineStatus.text()
-    $onlineStatus.text('Typing ...')
-
+    if ($onlineStatus.text() !== typingText) {
+      lastValue = $onlineStatus.text()
+    }
+    $onlineStatus.text(typingText)
     if (typingTimeoutId !== -1) clearTimeout(typingTimeoutId)
     typingTimeoutId = setTimeout(function () {
       $onlineStatus.text(lastValue)
       clearTimeout(typingTimeoutId)
       typingTimeoutId = -1
     }, 1000)
+  }), 1000)
+
+  qiscus.onMessageDeleted(function (message) {
+    var uniqueId = message.uniqueId
+    $content.find(`.comment-item[data-unique-id=${uniqueId}]`).remove()
   })
 
   $content
@@ -602,15 +606,15 @@ define([
       'keydown',
       '.Chat input#message',
       _.throttle(function () {
-        qiscus.publishTyping(1)
+        qiscus.publishTyping(room.id, true)
       }, 300),
     )
     .on('click', '.Chat .message-deleter button', function (event) {
       event.preventDefault()
       var $el = $(this)
-      var commentId = $(this).attr('data-comment-id')
       var $comment = $el.closest('.comment-item')
-      qiscus.deleteMessages([commentId], function (messages, err) {
+      var uniqueId = $comment.attr('data-unique-id')
+      qiscus.deleteMessages([uniqueId], function (messages, err) {
         if (err) return console.log('error while deleting message', err)
         $comment.remove()
       })
@@ -653,7 +657,7 @@ define([
             }
           }
 
-          var $commentListContainer = $('.comment-list-container ul')
+          var $commentListContainer = $content.find('.comment-list-container ul')
           window.$commentListContainer = $commentListContainer
           $commentListContainer.on(
             'scroll',
@@ -677,7 +681,8 @@ define([
                 var messageId = Number($lastComment.attr('data-comment-id'))
                 qiscus.markAsRead(roomId, messageId,
                   function (data, err) {
-                    console.log('Done marking as read')
+                    // Do something if succeed
+                    // console.log('Done marking as read')
                   })
               }
             }, 300),
