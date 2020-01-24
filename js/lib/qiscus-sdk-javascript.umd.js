@@ -10728,6 +10728,22 @@ if (DESCRIPTORS && typeof NativeSymbol == 'function' && (!('description' in Nati
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es.symbol.iterator.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/modules/es.symbol.iterator.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var defineWellKnownSymbol = __webpack_require__(/*! ../internals/define-well-known-symbol */ "./node_modules/core-js/internals/define-well-known-symbol.js");
+
+// `Symbol.iterator` well-known symbol
+// https://tc39.github.io/ecma262/#sec-symbol.iterator
+defineWellKnownSymbol('iterator');
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es.symbol.js":
 /*!***************************************************!*\
   !*** ./node_modules/core-js/modules/es.symbol.js ***!
@@ -31449,7 +31465,10 @@ function getMqttAdapter(s) {
     },
     onMessageDeleted: function onMessageDeleted(callback) {
       var handler = function handler(msg) {
-        var message = _decoder__WEBPACK_IMPORTED_MODULE_26__["message"](msg);
+        var message = _decoder__WEBPACK_IMPORTED_MODULE_26__["message"]({
+          room_id: msg.roomId,
+          unique_temp_id: msg.uniqueId
+        });
         callback(message);
       };
 
@@ -31676,7 +31695,7 @@ function getRealtimeAdapter(storage) {
 
   var _onMessageDelivered$ = xstream__WEBPACK_IMPORTED_MODULE_4___default.a.merge(fromSync(sync.onMessageDelivered), fromSync(mqtt.onMessageDelivered));
 
-  var _onMessageDeleted$ = xstream__WEBPACK_IMPORTED_MODULE_4___default.a.merge(fromSync(sync.onMessageDeleted), fromSync(mqtt.onMessageDeleted));
+  var onMessageDeleted$ = xstream__WEBPACK_IMPORTED_MODULE_4___default.a.merge(fromSync(sync.onMessageDeleted), fromSync(mqtt.onMessageDeleted));
 
   var _onRoomCleared$ = xstream__WEBPACK_IMPORTED_MODULE_4___default.a.merge(fromSync(sync.onRoomCleared), fromSync(mqtt.onRoomDeleted));
 
@@ -31686,13 +31705,12 @@ function getRealtimeAdapter(storage) {
     },
 
     onMessageDeleted: function onMessageDeleted(callback) {
-      var subscription = _onMessageDeleted$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_6__["subscribeOnNext"])(function (_ref) {
+      var subscription = onMessageDeleted$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_6__["subscribeOnNext"])(function (_ref) {
         var _ref2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2___default()(_ref, 1),
             message = _ref2[0];
 
         return callback(message);
       }));
-
       return function () {
         return subscription.unsubscribe();
       };
@@ -31756,14 +31774,16 @@ function getRealtimeAdapter(storage) {
         return it;
       });
     },
-    onMessageDeleted$: function onMessageDeleted$() {
-      return _onMessageDeleted$.map(function (_ref15) {
+
+    get onMessageDeleted$() {
+      return onMessageDeleted$.map(function (_ref15) {
         var _ref16 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2___default()(_ref15, 1),
             it = _ref16[0];
 
         return it;
       });
     },
+
     onRoomCleared$: function onRoomCleared$() {
       return _onRoomCleared$.map(function (_ref17) {
         var _ref18 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2___default()(_ref17, 1),
@@ -33205,7 +33225,9 @@ var searchMessages = compose(usePostUrl('/search_messages'), useCredentials, use
 }));
 var deleteMessages = compose(useDeleteUrl('/delete_messages'), useCredentials, useParams(function (o) {
   return {
-    unique_ids: o.uniqueIds
+    unique_ids: o.uniqueIds,
+    is_delete_for_everyone: true,
+    is_hard_delete: true
   };
 }));
 var clearRooms = compose(useDeleteUrl('/clear_room_messages'), useCredentials, useParams(function (o) {
@@ -33686,7 +33708,7 @@ function () {
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "_onMessageDelivered$", this.realtimeAdapter.onMessageDelivered$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "_onMessageDeleted$", this.realtimeAdapter.onMessageDeleted$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "_onMessageDeleted$", this.realtimeAdapter.onMessageDeleted$.map(this.hookAdapter.triggerBeforeReceived$).flatten());
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_23___default()(this, "_onRoomCleared$", this.realtimeAdapter.onRoomCleared$().map(this.hookAdapter.triggerBeforeReceived$).flatten());
   }
@@ -34470,7 +34492,7 @@ function () {
             isOnline = _ref60[0],
             userId = _ref60[1];
 
-        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(_this34.realtimeAdapter.sendPresence(userId, isOnline));
+        return xstream__WEBPACK_IMPORTED_MODULE_26___default.a.fromPromise(Promise.resolve(_this34.realtimeAdapter.sendPresence(userId, isOnline)));
       }).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toCallbackOrPromise"])(callback));
     }
   }, {
@@ -34588,90 +34610,120 @@ function () {
     value: function onMessageReceived(handler) {
       var _this37 = this;
 
-      return this._onMessageReceived$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler, function (error) {
-        _this37.loggerAdapter.log('Error when receiving message', error);
-      }));
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        handler: handler
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
+        return _this37.isLogin;
+      })).mapTo(this._onMessageReceived$).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
     }
   }, {
     key: "onMessageDeleted",
     value: function onMessageDeleted(handler) {
-      return this._onMessageDeleted$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
-    }
-  }, {
-    key: "onMessageDelivered",
-    value: function onMessageDelivered(handler) {
-      return this._onMessageDelivered$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
-    }
-  }, {
-    key: "onMessageRead",
-    value: function onMessageRead(handler) {
-      return this._onMessageRead$.compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
-    }
-  }, {
-    key: "onUserTyping",
-    value: function onUserTyping(handler) {
       var _this38 = this;
 
       return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
         handler: handler
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
         return _this38.isLogin;
+      })).mapTo(this._onMessageDeleted$).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
+    }
+  }, {
+    key: "onMessageDelivered",
+    value: function onMessageDelivered(handler) {
+      var _this39 = this;
+
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        handler: handler
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
+        return _this39.isLogin;
+      })).mapTo(this._onMessageDelivered$).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
+    }
+  }, {
+    key: "onMessageRead",
+    value: function onMessageRead(handler) {
+      var _this40 = this;
+
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        handler: handler
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
+        return _this40.isLogin;
+      })).mapTo(this._onMessageRead$).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
+    }
+  }, {
+    key: "onUserTyping",
+    value: function onUserTyping(handler) {
+      var _this41 = this;
+
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        handler: handler
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
+        return _this41.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.onTyping));
     }
   }, {
     key: "onUserOnlinePresence",
     value: function onUserOnlinePresence(handler) {
-      var _this39 = this;
+      var _this42 = this;
 
-      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
-        return _this39.isLogin;
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        handler: handler
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
+        return _this42.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.onPresence));
     }
   }, {
     key: "onChatRoomCleared",
     value: function onChatRoomCleared(handler) {
-      var _this40 = this;
+      var _this43 = this;
 
-      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
-        return _this40.isLogin;
-      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.onRoomCleared));
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        handler: handler
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
+        return _this43.isLogin;
+      })).mapTo(this._onRoomCleared$).flatten().compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription_"])(handler));
     }
   }, {
     key: "onConnected",
     value: function onConnected(handler) {
-      var _this41 = this;
+      var _this44 = this;
 
-      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
-        return _this41.isLogin;
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        handler: handler
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
+        return _this44.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttConnected));
     }
   }, {
     key: "onReconnecting",
     value: function onReconnecting(handler) {
-      var _this42 = this;
+      var _this45 = this;
 
-      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
-        return _this42.isLogin;
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        handler: handler
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
+        return _this45.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttReconnecting));
     }
   }, {
     key: "onDisconnected",
     value: function onDisconnected(handler) {
-      var _this43 = this;
+      var _this46 = this;
 
-      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
-        return _this43.isLogin;
+      return Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(handler, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
+        handler: handler
+      })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
+        return _this46.isLogin;
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["toEventSubscription"])(this.realtimeAdapter.mqtt.onMqttDisconnected));
     }
   }, {
     key: "subscribeChatRoom",
     value: function subscribeChatRoom(room) {
-      var _this44 = this;
+      var _this47 = this;
 
       Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(room, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
         room: room
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
-        return _this44.isLogin;
+        return _this47.isLogin;
       })).map(function (it) {
         return [it];
       }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["subscribeOnNext"])(function (_ref61) {
@@ -34679,64 +34731,64 @@ function () {
             room = _ref62[0];
 
         if (room.type === 'channel') {
-          _this44.realtimeAdapter.mqtt.subscribeChannel(_this44.appId, room.uniqueId);
+          _this47.realtimeAdapter.mqtt.subscribeChannel(_this47.appId, room.uniqueId);
         } else {
-          _this44.realtimeAdapter.mqtt.subscribeRoom(room.id);
+          _this47.realtimeAdapter.mqtt.subscribeRoom(room.id);
         }
       }));
     }
   }, {
     key: "unsubscribeChatRoom",
     value: function unsubscribeChatRoom(room) {
-      var _this45 = this;
+      var _this48 = this;
 
       Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(room, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isRequired"])({
         room: room
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
-        return _this45.isLogin;
+        return _this48.isLogin;
       })).map(function (it) {
         return [it];
       }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["subscribeOnNext"])(function (_ref63) {
         var _ref64 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref63, 1),
             room = _ref64[0];
 
-        if (room.type === 'channel') _this45.realtimeAdapter.mqtt.unsubscribeChannel(_this45.appId, room.uniqueId);else _this45.realtimeAdapter.mqtt.unsubscribeRoom(room.id);
+        if (room.type === 'channel') _this48.realtimeAdapter.mqtt.unsubscribeChannel(_this48.appId, room.uniqueId);else _this48.realtimeAdapter.mqtt.unsubscribeRoom(room.id);
       }));
     }
   }, {
     key: "subscribeUserOnlinePresence",
     value: function subscribeUserOnlinePresence(userId) {
-      var _this46 = this;
+      var _this49 = this;
 
       Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         userId: userId
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
-        return _this46.isLogin;
+        return _this49.isLogin;
       })).map(function (it) {
         return [it];
       }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["subscribeOnNext"])(function (_ref65) {
         var _ref66 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref65, 1),
             userId = _ref66[0];
 
-        return _this46.realtimeAdapter.mqtt.subscribeUserPresence(userId);
+        return _this49.realtimeAdapter.mqtt.subscribeUserPresence(userId);
       }));
     }
   }, {
     key: "unsubscribeUserOnlinePresence",
     value: function unsubscribeUserOnlinePresence(userId) {
-      var _this47 = this;
+      var _this50 = this;
 
       Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["process"])(userId, Object(_utils_param_utils__WEBPACK_IMPORTED_MODULE_36__["isReqString"])({
         userId: userId
       })).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["bufferUntil"])(function () {
-        return _this47.isLogin;
+        return _this50.isLogin;
       })).map(function (it) {
         return [it];
       }).compose(Object(_utils_stream__WEBPACK_IMPORTED_MODULE_37__["subscribeOnNext"])(function (_ref67) {
         var _ref68 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_20___default()(_ref67, 1),
             userId = _ref68[0];
 
-        return _this47.realtimeAdapter.mqtt.unsubscribeUserPresence(userId);
+        return _this50.realtimeAdapter.mqtt.unsubscribeUserPresence(userId);
       }));
     }
   }, {
@@ -34888,25 +34940,41 @@ var Provider = function Provider(s) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "listStorageFactory", function() { return listStorageFactory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storageFactory", function() { return storageFactory; });
-/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.iterator */ "./node_modules/core-js/modules/es.array.iterator.js");
-/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_map__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.map */ "./node_modules/core-js/modules/es.map.js");
-/* harmony import */ var core_js_modules_es_map__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_map__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
-/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
-/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.symbol */ "./node_modules/core-js/modules/es.symbol.js");
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.symbol.description */ "./node_modules/core-js/modules/es.symbol.description.js");
+/* harmony import */ var core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.symbol.iterator */ "./node_modules/core-js/modules/es.symbol.iterator.js");
+/* harmony import */ var core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.array.iterator */ "./node_modules/core-js/modules/es.array.iterator.js");
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_map__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.map */ "./node_modules/core-js/modules/es.map.js");
+/* harmony import */ var core_js_modules_es_map__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_map__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8__);
+
+
+
+
 
 
 
 
 
 var listStorageFactory = function listStorageFactory() {
-  return {
-    getOrSet: function getOrSet(id, valueIfNull) {}
-  };
+  var storage = new Map();
+  return _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8___default()({
+    getOrSet: function getOrSet(id, valueIfNull) {
+      if (!storage.has(id)) storage.set(id, valueIfNull);
+      return storage.get(id);
+    }
+  }, Symbol.iterator, storage[Symbol.iterator]);
 };
 var storageFactory = function storageFactory() {
   var storage = new Map();
@@ -35640,7 +35708,8 @@ var toEventSubscription_ = function toEventSubscription_(handler, onError) {
         return handler(data);
       },
       error: function error(err) {
-        return onError === null || onError === void 0 ? void 0 : onError(err);
+        console.log('on error', err);
+        onError === null || onError === void 0 ? void 0 : onError(err);
       }
     });
     return function () {
