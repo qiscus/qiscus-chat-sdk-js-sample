@@ -253,7 +253,9 @@ define([
   }
 
   function getAttachmentURL (fileURL) {
-    var thumbnailURL = fileURL.replace('upload', 'upload/w_320,h_320,c_limit')
+    var thumbnailURL = fileURL
+      .replace('upload', 'upload/w_320,h_320,c_limit')
+      .replace(/\.\w+$/, '.png')
     var reImage = /\S+(jpe?g|gif|png|svg)/ig
     return {
       origin: fileURL,
@@ -380,10 +382,72 @@ define([
     $content.find(`.comment-item[data-unique-id=${uniqueId}]`).remove()
   })
 
-  $('#qiscus-widget')
+  var $parent = $content.parent()
+  $parent.on('change', '#input-image-1', function (event) {
+    var file = Array.from(event.currentTarget.files).pop()
+    if (attachmentPreviewURL != null)
+      URL.revokeObjectURL(attachmentPreviewURL)
+    attachmentPreviewURL = URL.createObjectURL(file)
+    attachmentImage = file
+    closeAttachment()
+    var $attachmentCaptioning = $content.find('.AttachmentCaptioning')
+    $attachmentCaptioning.slideDown()
+    $attachmentCaptioning
+      .find('.attachment-preview')
+      .attr('src', attachmentPreviewURL)
+    $content.find('.file-name').text(file.name)
+  })
+  $parent.on('change', '#input-file-1', function (event) {
+    closeAttachment()
+
+    var file = Array.from(event.currentTarget.files).pop()
+    var timestamp = new Date()
+    var uniqueId = timestamp.getTime()
+    var commentId = timestamp.getTime()
+    var comment = {
+      id: commentId,
+      uniqueId: uniqueId,
+      unique_temp_id: uniqueId,
+      message: 'Send Attachment',
+      type: 'upload-file',
+      email: qiscus.instance.currentUser.id,
+      timestamp: timestamp,
+      status: 'sending',
+      file: file,
+      sender: qiscus.instance.currentUser
+    }
+
+    $content.find('.comment-list-container ul').append(CommentItem(comment))
+    var $comment = $(`.comment-item[data-unique-id=${uniqueId}]`)
+    var $progress = $comment.find('.progress-inner')
+    $comment.get(0).scrollIntoView({
+      behavior: 'smooth',
+    })
+
+    qiscus.instance.sendFileMessage(room.id, '', file, function (error, progress, message) {
+      console.log('send', error, progress, message)
+      if (error) return console.log('failed uploading file', error)
+      if (progress) {
+        $progress.css({
+          width: `${progress}%`,
+        })
+      }
+      if (message) {
+        $comment
+          .attr('data-comment-id', message.id)
+          .attr('data-comment-type', 'file')
+          .find('i.icon.icon-message-sending')
+          .removeClass('icon-message-sending')
+          .addClass('icon-message-sent')
+        $comment.find('.upload-overlay').remove()
+        $comment.find('a').attr('href', message.payload.url)
+      }
+    })
+  })
+
+  $content
     .on('click', '.Chat #chat-toolbar-btn', function (event) {
       event.preventDefault()
-      // qiscus.exitChatRoom()
       qiscus.instance.unsubscribeChatRoom(room)
       route.push('/chat')
     })
@@ -455,36 +519,22 @@ define([
     .on('click', '.Chat #attachment-btn', openAttachment)
     .on('click', '.Chat #attachment-image', function (event) {
       event.preventDefault()
-      $('#qiscus-widget')
-        .find('#input-image')
+      $parent
+        .find('#input-image-1')
         .click()
     })
     .on('click', '.Chat #attachment-file', function (event) {
       event.preventDefault()
-      $('#qiscus-widget')
-        .find('#input-file')
+      $parent
+        .find('#input-file-1')
         .click()
-    })
-    .on('change', '#input-image', function (event) {
-      var file = Array.from(event.currentTarget.files).pop()
-      if (attachmentPreviewURL != null)
-        URL.revokeObjectURL(attachmentPreviewURL)
-      attachmentPreviewURL = URL.createObjectURL(file)
-      attachmentImage = file
-      closeAttachment()
-      var $attachmentCaptioning = $content.find('.AttachmentCaptioning')
-      $attachmentCaptioning.slideDown()
-      $attachmentCaptioning
-        .find('.attachment-preview')
-        .attr('src', attachmentPreviewURL)
-      $content.find('.file-name').text(file.name)
     })
     .on('submit', '.Chat .caption-form-container', function (event) {
       event.preventDefault()
       closeAttachment()
       $content.find('.AttachmentCaptioning').slideUp()
 
-      var file = Array.from($('#input-image').get(0).files).pop()
+      var file = Array.from($('#input-image-1').get(0).files).pop()
       var caption = event.currentTarget['caption-input'].value.trim()
 
       var timestamp = new Date()
@@ -504,7 +554,7 @@ define([
         sender: currentUser(),
       }
       $content.find('.comment-list-container ul').append(CommentItem(comment))
-      var $comment = $(`.comment-item[data-unique-id="${uniqueId}"]`)
+      var $comment = $content.find(`.comment-item[data-unique-id="${uniqueId}"]`)
       var $progress = $comment.find('.progress-inner')
       $comment.get(0).scrollIntoView({
         behavior: 'smooth',
@@ -520,81 +570,19 @@ define([
           }
           if (message) {
             $comment
-              .attr('data-comment-id', resp.id)
+              .attr('data-comment-id', message.id)
               .attr('data-comment-type', 'image')
               .find('i.icon')
               .removeClass('icon-message-sending')
               .addClass('icon-message-sent')
             $comment.find('.upload-overlay').remove()
-            var url = getAttachmentURL(resp.payload.url)
+            var url = getAttachmentURL(message.payload.url)
             $comment.find('a').attr('href', url.origin)
             var objectURL = $comment.find('img').attr('src')
             URL.revokeObjectURL(objectURL)
             $comment.find('img').attr('src', url.thumbnailURL)
           }
         })
-    })
-    .on('change', '#input-file', function (event) {
-      closeAttachment()
-
-      var file = Array.from(event.currentTarget.files).pop()
-      var timestamp = new Date()
-      var uniqueId = timestamp.getTime()
-      var commentId = timestamp.getTime()
-      var comment = {
-        id: commentId,
-        uniqueId: uniqueId,
-        unique_temp_id: uniqueId,
-        message: 'Send Attachment',
-        type: 'upload-file',
-        email: qiscus.user_id,
-        timestamp: timestamp,
-        status: 'sending',
-        file: file,
-      }
-
-      $content.find('.comment-list-container ul').append(CommentItem(comment))
-      var $comment = $(`.comment-item[data-unique-id=${uniqueId}]`)
-      var $progress = $comment.find('.progress-inner')
-      $comment.get(0).scrollIntoView({
-        behavior: 'smooth',
-      })
-
-      qiscus.upload(file, function (error, progress, fileURL) {
-        if (error) return console.log('failed uploading file', error)
-        if (progress) {
-          $progress.css({
-            width: `${progress.percent}%`,
-          })
-        }
-        if (fileURL) {
-          var roomId = qiscus.selected.id
-          var text = 'Send Attachment'
-          var type = 'file_attachment'
-          var payload = JSON.stringify({
-            url: fileURL,
-            caption: '',
-            file_name: file.name,
-            size: file.size,
-          })
-          qiscus
-            .sendComment(roomId, text, uniqueId, type, payload)
-            .then(function (resp) {
-              $comment
-                .attr('data-comment-id', resp.id)
-                .attr('data-comment-type', 'file')
-                .find('i.icon.icon-message-sending')
-                .removeClass('icon-message-sending')
-                .addClass('icon-message-sent')
-              $comment.find('.upload-overlay').remove()
-              var url = getAttachmentURL(resp.payload.url)
-              $comment.find('a').attr('href', url.origin)
-            })
-            .catch(function (error) {
-              console.log('failed sending comment', error)
-            })
-        }
-      })
     })
     .on('click', '.Chat #attachment-toolbar-btn', function (event) {
       event.preventDefault()

@@ -31,6 +31,12 @@ define([
             if (error) return console.error('Error when login', error)
             localStorage.setItem('chat::user', JSON.stringify(user))
             route.push('/chat')
+            setInterval(function () {
+              Qiscus.instance.publishOnlinePresence(true, function (...arr) {
+                // Do something after publishing online presence
+                // console.log('cb online presence', ...arr)
+              })
+            }, 1000)
           })
       }
     })

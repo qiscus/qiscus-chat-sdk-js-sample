@@ -142,6 +142,7 @@
 /* Chat room */
 .Chat {
   display: flex;
+  position: relative;
   flex-direction: column;
   background-color: #fafafa;
   height: 100%;
@@ -285,6 +286,7 @@
 }
 
 .Chat .comment-list-container .comment-item[data-comment-type='upload'] .message-container,
+.Chat .comment-list-container .comment-item[data-comment-type='file'] .message-container,
 .Chat .comment-list-container .comment-item[data-comment-type='image'] .message-container {
   width: 200px;
   height: 120px;
@@ -508,7 +510,7 @@
 .AttachmentCaptioning {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 30px);
+  height: 540px;
   position: absolute;
   background: white;
   width: 100%;
@@ -518,6 +520,7 @@
   display: flex;
   height: 48px;
   flex: 0;
+  flex-shrink: 0;
   flex-basis: 48px;
   border-bottom: 1px solid #ececec;
 }
@@ -548,6 +551,7 @@
 
 .AttachmentCaptioning .image-preview-container {
   flex: 1;
+  overflow: hidden;
 }
 
 .AttachmentCaptioning .image-preview-container .attachment-preview {
@@ -560,6 +564,7 @@
 
 .AttachmentCaptioning .caption-form-container {
   flex: 0;
+  flex-shrink: 0;
   flex-basis: 48px;
   display: flex;
   width: 100%;
