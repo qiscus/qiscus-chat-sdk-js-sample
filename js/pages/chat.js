@@ -571,6 +571,7 @@ define([
           if (message) {
             $comment
               .attr('data-comment-id', message.id)
+              .attr('data-unique-id', message.uniqueId)
               .attr('data-comment-type', 'image')
               .find('i.icon')
               .removeClass('icon-message-sending')
