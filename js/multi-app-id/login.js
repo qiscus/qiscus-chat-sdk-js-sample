@@ -3,6 +3,7 @@ define([
   'service/html',
 ], function ($, route, $content, Qiscus, html) {
 
+
   function LoginPage () {
 
     // For some reason, jquery.on('submit') are very slow
@@ -15,7 +16,15 @@ define([
         var userKey = event.target['user-key'].value
         var username = userId
         var userTarget = event.target['user-target'].value
-        Qiscus.setup(appId)
+
+        var baseUrl = 'https://dragongo.qiscus.com'
+        var brokerUrl = 'wss://realtime-stage.qiscus.com:1886/mqtt'
+        // Qiscus.setup(appId)
+        Qiscus.enableDebugMode(true, function () {
+        })
+        Qiscus.setupWithCustomServer(appId, baseUrl, brokerUrl)
+        window.Qiscus = Qiscus
+
         Qiscus.setUser(userId, userKey, username, null, null, function (user, error) {
           if (error) return console.error('Error when login', error)
 
@@ -33,7 +42,7 @@ define([
           <div class="form-group">
             <label for="app-id">App ID</label>
             <!--<input name="app-id" type="text" value="qiscus-sa-0ywcivq7nxn" autocomplete="off" />-->
-            <input name="app-id" type="text" value="sdksample" autocomplete="off" />
+            <input name="app-id" type="text" value="dragongo" autocomplete="off" />
           </div>
           <div class="form-group">
             <label for="userId">User ID</label>
