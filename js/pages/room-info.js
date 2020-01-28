@@ -4,7 +4,6 @@ define([
 ], function ($, _, $content, route, qiscus) {
   var state = route.location.state || {}
   var roomId = function () { return route.location.state.roomId }
-  var currentUser = JSON.parse(localStorage.getItem('chat::user'))
   var blobURL = null
   var searchQuery = null
   var selectedIds = window.selectedIds = []
@@ -143,7 +142,7 @@ define([
       var room = rooms.pop()
       if (room.type === 'single') {
         var user = room.participants.find(function (user) {
-          return user.id !== currentUser.id
+          return user.id !== qiscus.instance.currentUser.id
         })
         $content.find('.info-container')
           .html(SingleRoomInfo(user))
