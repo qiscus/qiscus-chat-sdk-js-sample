@@ -20,8 +20,7 @@ define([
         var baseUrl = 'https://dragongo.qiscus.com'
         var brokerUrl = 'wss://realtime-stage.qiscus.com:1886/mqtt'
         // Qiscus.setup(appId)
-        Qiscus.enableDebugMode(true, function () {
-        })
+        // Qiscus.enableDebugMode(true)
         Qiscus.setupWithCustomServer(appId, baseUrl, brokerUrl)
         window.Qiscus = Qiscus
 
