@@ -338,6 +338,20 @@ define([
         })
   }
 
+
+  function sortMessage() {
+    $content.find('ul#comment-list-container')
+    .html(
+      $content.find('.comment-item')
+      .sort(function (a, b) {
+        var timestampA = $(a).attr('data-timestamp')
+        var timestampB = $(b).attr('data-timestamp')
+        return Number(timestampA) - Number(timestampB)
+      })
+    )
+  }
+
+
   var attachmentPreviewURL = null
   var attachmentImage = null
   var attachmentFile = null
@@ -702,6 +716,9 @@ define([
 
       var $comment = $(CommentItem(message))
       $content.find('.comment-list-container ul').append($comment)
+
+      sortMessage()
+
       if (isAbleToScroll) {
         $comment.get(0).scrollIntoView({ behavior: 'smooth' })
       }

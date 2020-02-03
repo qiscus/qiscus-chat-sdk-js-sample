@@ -289,16 +289,30 @@ define([
   }
 
   function CommentList (comments) {
+    var $comments = commentListFormatter(comments)
+      .map(CommentItem)
+      .join('')
+
     return `
       <ul id="comment-list-container">
         <li class="load-more">
           <button type="button" class="load-more-btn">Load more</button>
         </li>
-        ${commentListFormatter(comments)
-      .map(CommentItem)
-      .join('')}
+        ${$comments}
       </ul>
     `
+  }
+
+  function sortMessage() {
+    $content.find('ul#comment-list-container')
+      .html(
+        $content.find('.comment-item')
+          .sort(function (a, b) {
+            var timestampA = $(a).attr('data-timestamp')
+            var timestampB = $(b).attr('data-timestamp')
+            return Number(timestampA) - Number(timestampB)
+          })
+     )
   }
 
   function openAttachment (event) {
@@ -695,6 +709,7 @@ define([
 
       var $comment = $(CommentItem(message))
       $content.find('.comment-list-container ul').append($comment)
+      sortMessage()
       if (isAbleToScroll) {
         $comment.get(0).scrollIntoView({ behavior: 'smooth' })
       }
@@ -746,6 +761,7 @@ define([
           .addClass('icon-message-read')
       })
     })
+
     return `
       <div class="Chat" data-room-id="${roomId}">
         ${Toolbar(roomId)}
