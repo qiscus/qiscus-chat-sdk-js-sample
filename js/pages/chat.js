@@ -439,7 +439,6 @@ define([
     })
 
     qiscus.instance.sendFileMessage(room.id, '', file, function (error, progress, message) {
-      console.log('send', error, progress, message)
       if (error) return console.log('failed uploading file', error)
       if (progress) {
         $progress.css({
@@ -449,6 +448,7 @@ define([
       if (message) {
         $comment
           .attr('data-comment-id', message.id)
+          .attr('data-unique-id', message.uniqueId)
           .attr('data-comment-type', 'file')
           .find('i.icon.icon-message-sending')
           .removeClass('icon-message-sending')
