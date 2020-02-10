@@ -19,8 +19,13 @@ define([
     qiscus
       .getChatRooms([roomId], 1, false, true, function (rooms, err) {
         if (err) return console.log('error when getting room info', err)
-        var room_ = rooms.pop()
-        room = room_
+        room = rooms.pop()
+        var targetUser = room.participants
+          .filter(function (user) { return user.id !== currentUser().id })
+          .shift()
+        if (targetUser != null) {
+          qiscus.subscribeUserOnlinePresence(targetUser.id)
+        }
         qiscus.subscribeChatRoom(room)
 
         participants = (function () {
@@ -760,6 +765,18 @@ define([
           .removeClass('icon-message-delivered')
           .addClass('icon-message-read')
       })
+    })
+
+    qiscus.onUserOnlinePresence(function (userId, isOnline, lastSeen) {
+      var $onlineStatus = $content.find('small.online-status')
+      var lastOnline = dateFns.isSameDay(lastSeen, new Date())
+        ? dateFns.format(lastSeen, 'HH:mm')
+        : dateFns.format(lastSeen, 'D/M/YY')
+      if (isOnline) {
+        $onlineStatus.removeClass('--offline').text('Online')
+      } else {
+        $onlineStatus.addClass('--offline').text(`Last online on ${lastOnline}`)
+      }
     })
 
     return `

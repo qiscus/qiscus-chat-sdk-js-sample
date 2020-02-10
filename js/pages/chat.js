@@ -21,13 +21,14 @@ define([
     qiscus.instance
       .getChatRooms([roomId], 1, false, true, function (rooms, err) {
         if (err) return console.log('error when getting room info', err)
-        var room_ = rooms.pop()
-        room = room_
+        room = rooms.pop()
+        var targetUser = room.participants
+          .filter(function (user) { return user.id !== currentUser().id })
+          .shift()
+        if (targetUser != null) {
+          qiscus.instance.subscribeUserOnlinePresence(targetUser.id)
+        }
         qiscus.instance.subscribeChatRoom(room)
-        var userId = room.participants.filter(function (user) {
-          return user.id !== currentUser().id
-        }).pop()
-        qiscus.instance.subscribeUserOnlinePresence(userId.id)
 
         participants = (function () {
           var limit = 3
@@ -357,15 +358,12 @@ define([
   var attachmentFile = null
 
   // Online status management
-  qiscus.instance.onUserOnlinePresence(function (data) {
-  })
-  emitter.on('qiscus::online-presence', function (data) {
+  qiscus.instance.onUserOnlinePresence(function (userId, isOnline, lastSeen) {
     var $onlineStatus = $content.find('small.online-status')
-    var lastOnline = dateFns.isSameDay(data.lastOnline, new Date())
-      ? dateFns.format(data.lastOnline, 'hh:mm')
-      : dateFns.format(data.lastOnline, 'D/M/YY')
-
-    if (data.isOnline) {
+    var lastOnline = dateFns.isSameDay(lastSeen, new Date())
+      ? dateFns.format(lastSeen, 'HH:mm')
+      : dateFns.format(lastSeen, 'D/M/YY')
+    if (isOnline) {
       $onlineStatus.removeClass('--offline').text('Online')
     } else {
       $onlineStatus.addClass('--offline').text(`Last online on ${lastOnline}`)
