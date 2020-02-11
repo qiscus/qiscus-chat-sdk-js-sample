@@ -137,7 +137,11 @@ define([
   }
 
   function RoomInfo(state) {
-    qiscus.instance.getChatRooms([state.roomId], 1, false, true, function (rooms, err) {
+    var roomIds = [state.roomId]
+    var page = 1
+    var showRemoved = false
+    var showParticipants = true
+    qiscus.instance.getChatRooms(roomIds, page, showRemoved, showParticipants, function (rooms, err) {
       if (err) return console.log('error while getting room info', err)
       var room = rooms.pop()
       if (room.type === 'single') {
@@ -154,7 +158,8 @@ define([
           .attr('value', user.name)
         $content.find('#input-user-id')
           .attr('value', user.email)
-      } else if (room.type === 'group') {
+      // } else if (room.type === 'group') {
+      } else {
         $content.find('.info-container')
           .html(GroupRoomInfo(room))
         $content.find('#input-room-name')
