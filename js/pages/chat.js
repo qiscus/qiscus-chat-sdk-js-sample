@@ -394,6 +394,13 @@ define([
     $content.find(`.comment-item[data-unique-id=${uniqueId}]`).remove()
   })
 
+  qiscus.instance.onChatRoomCleared(function (roomId) {
+    if (room != null && roomId === room.id) {
+      $content.find('.comment-item').remove()
+      $content.html(Initial(roomId))
+    }
+  })
+
   var $parent = $content.parent()
   $parent.on('change', '#input-image-1', function (event) {
     var file = Array.from(event.currentTarget.files).pop()
@@ -769,6 +776,10 @@ define([
           .addClass('icon-message-read')
       })
     })
+    return Initial(roomId)
+  }
+
+  function Initial (roomId) {
     return `
       <div class="Chat" data-room-id="${roomId}">
         ${Toolbar(roomId)}

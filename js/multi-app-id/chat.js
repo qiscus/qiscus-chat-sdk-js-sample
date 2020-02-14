@@ -308,7 +308,7 @@ define([
     `
   }
 
-  function sortMessage() {
+  function sortMessage () {
     $content.find('ul#comment-list-container')
       .html(
         $content.find('.comment-item')
@@ -317,7 +317,7 @@ define([
             var timestampB = $(b).attr('data-timestamp')
             return Number(timestampA) - Number(timestampB)
           })
-     )
+      )
   }
 
   function openAttachment (event) {
@@ -390,6 +390,12 @@ define([
   qiscus.onMessageDeleted(function (message) {
     var uniqueId = message.uniqueId
     $content.find(`.comment-item[data-unique-id=${uniqueId}]`).remove()
+  })
+  qiscus.onChatRoomCleared(function (roomId) {
+    if (room != null && roomId === room.id) {
+      $content.find('.comment-item').remove()
+      $content.html(Initial(roomId))
+    }
   })
 
   window.$$content = $content
@@ -631,6 +637,43 @@ define([
       })
     })
 
+  function Initial (roomId) {
+    return `
+      <div class="Chat" data-room-id="${roomId}">
+        ${Toolbar(roomId)}
+        ${Empty()}
+        ${AttachmentCaptioning({ url: '#', name: '' })}
+        <form id="message-form" class="message-form">
+          <button type="button" id="attachment-btn">
+            <i class="icon icon-attachment"></i>
+          </button>
+          <input autofocus autocomplete="off" type="text" placeholder="Type your message" id="message" name="message">
+          <button type="submit">
+            <i class="icon icon-send"></i>
+          </button>
+        </form>
+        <div class="attachment-overlay" style="display:none"></div>
+        <ul class="attachment-picker-container" style="display:none">
+          <li>
+            <button type="button" class="attachment-btn" id="attachment-image">
+              <i class="icon icon-attachment-image"></i> Image from Gallery
+            </button>
+          </li>
+          <li>
+            <button type="button" class="attachment-btn" id="attachment-file">
+              <i class="icon icon-attachment-file"></i> File / Document
+            </button>
+          </li>
+          <li>
+            <button type="button" class="attachment-btn" id="attachment-cancel">
+              <i class="icon icon-attachment-cancel"></i> Cancel
+            </button>
+          </li>
+        </ul>
+      </div>
+    `
+  }
+
   function Chat () {
     var state = route.location.state
     var roomId = state.roomId
@@ -779,40 +822,7 @@ define([
       }
     })
 
-    return `
-      <div class="Chat" data-room-id="${roomId}">
-        ${Toolbar(roomId)}
-        ${Empty()}
-        ${AttachmentCaptioning({ url: '#', name: '' })}
-        <form id="message-form" class="message-form">
-          <button type="button" id="attachment-btn">
-            <i class="icon icon-attachment"></i>
-          </button>
-          <input autofocus autocomplete="off" type="text" placeholder="Type your message" id="message" name="message">
-          <button type="submit">
-            <i class="icon icon-send"></i>
-          </button>
-        </form>
-        <div class="attachment-overlay" style="display:none"></div>
-        <ul class="attachment-picker-container" style="display:none">
-          <li>
-            <button type="button" class="attachment-btn" id="attachment-image">
-              <i class="icon icon-attachment-image"></i> Image from Gallery
-            </button>
-          </li>
-          <li>
-            <button type="button" class="attachment-btn" id="attachment-file">
-              <i class="icon icon-attachment-file"></i> File / Document
-            </button>
-          </li>
-          <li>
-            <button type="button" class="attachment-btn" id="attachment-cancel">
-              <i class="icon icon-attachment-cancel"></i> Cancel
-            </button>
-          </li>
-        </ul>
-      </div>
-    `
+    return Initial(roomId)
   }
 
   Chat.path = '/chat-room'
