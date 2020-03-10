@@ -5,7 +5,7 @@ define([
   'service/content',
   'service/route',
   'service/qiscus',
-  'service/emitter',
+  'service/emitter'
 ], function(dateFns, $, _, $content, route, qiscus, emitter) {
   var isAbleToScroll = false
 
@@ -35,7 +35,7 @@ define([
           ${
             isGroup
               ? `<small class="online-status participant-list">${participants}</small>`
-              : `<small class="online-status">Online</small>`
+              : `<small class="online-status">Last Online Few Minutes Ago</small>` 
           }
         </button>
       </div>
@@ -161,18 +161,26 @@ define([
       content = `
         <a href="${fileURL}" target="_blank"
           style="${caption ? 'height:80%' : ''}">
-          ${ !isImage ? (
-            `<div class="comment-file">
+          ${
+            !isImage
+              ? `<div class="comment-file">
               <i class="icon icon-attachment-file"></i><div class="filename">${filename}</div>
             </div>`
-          ) : ''}
-          ${ isImage ? `<img class="image-preview" src="${thumbnailURL}" alt="preview">` : '' }
+              : ''
+          }
+          ${
+            isImage
+              ? `<img class="image-preview" src="${thumbnailURL}" alt="preview">`
+              : ''
+          }
         </a>
-        ${ isImage ? (
-          `<div class="image-caption ${caption ? '' : 'hidden'}">
+        ${
+          isImage
+            ? `<div class="image-caption ${caption ? '' : 'hidden'}">
             ${caption}
           </div>`
-        ) : ''}
+            : ''
+        }
       `
     }
     if (type === 'date') {
@@ -218,7 +226,7 @@ define([
 
   function getAttachmentURL(fileURL) {
     var thumbnailURL = fileURL.replace('upload', 'upload/w_320,h_320,c_limit')
-    var reImage = /\S+(jpe?g|gif|png|svg)/ig
+    var reImage = /\S+(jpe?g|gif|png|svg)/gi
     return {
       origin: fileURL,
       thumbnailURL: thumbnailURL,
@@ -250,7 +258,7 @@ define([
   function createDateComment(date) {
     return {
       type: 'date',
-      message: dateFns.format(date, 'DD MMM YYYY'),
+      message: dateFns.format(date, 'DD MMM YYYY')
     }
   }
   function CommentList(comments) {
@@ -281,7 +289,7 @@ define([
   function loadComment(lastCommentId) {
     return qiscus
       .loadComments(qiscus.selected.id, {
-        last_comment_id: lastCommentId,
+        last_comment_id: lastCommentId
       })
       .then(function(data) {
         var comments = commentListFormatter(data)
@@ -316,7 +324,7 @@ define([
       $comment.get(0).scrollIntoView({ behavior: 'smooth' })
     }
   })
-
+  // ==================================================================================
   // Online status management
   emitter.on('qiscus::online-presence', function(data) {
     var $onlineStatus = $content.find('small.online-status')
@@ -325,12 +333,14 @@ define([
       : dateFns.format(data.lastOnline, 'D/M/YY')
 
     if (data.isOnline) {
+      // console.log(data)
       $onlineStatus.removeClass('--offline').text('Online')
     } else {
+      data.isOnline = false
       $onlineStatus.addClass('--offline').text(`Last online on ${lastOnline}`)
     }
   })
-
+  // ==================================================================================
   // Comment read management
   emitter.on('qiscus::comment-read', function(data) {
     var userId = data.actor
@@ -416,7 +426,7 @@ define([
         type: 'text',
         email: qiscus.user_id,
         timestamp: timestamp,
-        status: 'sending',
+        status: 'sending'
       }
 
       // if empty state change into list comment state
@@ -434,7 +444,7 @@ define([
       if (isAbleToScroll) {
         comment.get(0).scrollIntoView({
           block: 'start',
-          behavior: 'smooth',
+          behavior: 'smooth'
         })
       }
       $content.find('#message-form input[name="message"]').val('')
@@ -507,20 +517,20 @@ define([
         timestamp: timestamp,
         status: 'sending',
         file: file,
-        caption: caption,
+        caption: caption
       }
       $content.find('.comment-list-container ul').append(CommentItem(comment))
       var $comment = $(`.comment-item[data-unique-id="${uniqueId}"]`)
       var $progress = $comment.find('.progress-inner')
       $comment.get(0).scrollIntoView({
-        behavior: 'smooth',
+        behavior: 'smooth'
       })
 
       qiscus.upload(file, function(error, progress, fileURL) {
         if (error) return console.log('failed uploading image', error)
         if (progress) {
           $progress.css({
-            width: `${progress.percent}%`,
+            width: `${progress.percent}%`
           })
         }
         if (fileURL) {
@@ -531,7 +541,7 @@ define([
             url: fileURL,
             caption: caption,
             file_name: file.name,
-            size: file.size,
+            size: file.size
           })
           qiscus
             .sendComment(roomId, text, uniqueId, type, payload)
@@ -568,21 +578,21 @@ define([
         email: qiscus.user_id,
         timestamp: timestamp,
         status: 'sending',
-        file: file,
+        file: file
       }
 
       $content.find('.comment-list-container ul').append(CommentItem(comment))
       var $comment = $(`.comment-item[data-unique-id=${uniqueId}]`)
       var $progress = $comment.find('.progress-inner')
       $comment.get(0).scrollIntoView({
-        behavior: 'smooth',
+        behavior: 'smooth'
       })
 
       qiscus.upload(file, function(error, progress, fileURL) {
         if (error) return console.log('failed uploading file', error)
         if (progress) {
           $progress.css({
-            width: `${progress.percent}%`,
+            width: `${progress.percent}%`
           })
         }
         if (fileURL) {
@@ -593,7 +603,7 @@ define([
             url: fileURL,
             caption: '',
             file_name: file.name,
-            size: file.size,
+            size: file.size
           })
           qiscus
             .sendComment(roomId, text, uniqueId, type, payload)
@@ -666,7 +676,7 @@ define([
       var element = $commentList.children().last()
       element.get(0).scrollIntoView({
         behavior: 'smooth',
-        block: 'start',
+        block: 'start'
       })
 
       // Disable load more if it was the first comment
