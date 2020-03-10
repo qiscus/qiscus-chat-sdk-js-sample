@@ -25689,9 +25689,7 @@ function () {
     key: "publishPresence",
     value: function publishPresence(userId) {
       this.core.logging('emitting presence status for user', userId);
-      this.publish("u/".concat(userId, "/s"), 1, {
-        retain: true
-      });
+      this.publish(`u/${userId}/s`, 1, { retain: true });
     }
   }, {
     key: "subscribeUserPresence",

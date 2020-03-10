@@ -24,7 +24,7 @@ define(['service/emitter'], function(emitter) {
         var lastOnline = new Date(Number(data.split(':')[1]))
         emitter.emit('qiscus::online-presence', {
           isOnline: isOnline,
-          lastOnline: lastOnline,
+          lastOnline: lastOnline
         })
       },
       commentReadCallback: function(data) {
@@ -35,8 +35,8 @@ define(['service/emitter'], function(emitter) {
       },
       typingCallback: function(data) {
         emitter.emit('qiscus::typing', data)
-      },
-    },
+      }
+    }
   })
   // qiscus.debugMode = true
   // qiscus.debugMQTTMode = true
@@ -50,13 +50,17 @@ define(['service/emitter'], function(emitter) {
   qiscus.intercept(Qiscus.Interceptor.MESSAGE_BEFORE_RECEIVED, async function(
     message
   ) {
-    const content = message.message.replace(/(qis)(cus)/im, function(_, $1, $2) {
+    const content = message.message.replace(/(qis)(cus)/im, function(
+      _,
+      $1,
+      $2
+    ) {
       return `**${$1.toLowerCase()}**${$2.toLowerCase()}`
     })
 
     Object.assign(message, {
       message: conv.makeHtml(content),
-      extras: Object.assign(message.extras || {}, { before_received: true }),
+      extras: Object.assign(message.extras || {}, { before_received: true })
     })
     return message
   })
