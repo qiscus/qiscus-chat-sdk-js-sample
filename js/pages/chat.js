@@ -35,7 +35,7 @@ define([
           ${
             isGroup
               ? `<small class="online-status participant-list">${participants}</small>`
-              : `<small class="online-status">Online</small>`
+              : `<small class="online-status">Last Online Few Moments Ago</small>`
           }
         </button>
       </div>

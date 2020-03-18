@@ -61,10 +61,7 @@ define([
         <button id="create-group-btn" class="create-group-btn">
           <i class="icon icon-new-chat-group"></i> Create Group Chat
         </button>
-        <div class="search-container">
-          <i class="icon icon-search"></i>
-          <input type="text" id="search-input" name="search-input" placeholder="Search">
-        </div>
+        
         <div class="contact-list-container">
           <div class="contact-list-title">Contacts</div>
           <ul class="contact-list">
@@ -77,6 +74,11 @@ define([
         </div>
       </div>
     `
+    // EDITED ==> DEPRECATED DURING BACK-END IMPROVEMENT
+    // <div class="search-container">
+    //   <i class="icon icon-search"></i>
+    //   <input type="text" id="search-input" name="search-input" placeholder="Search">
+    // </div>
   }
 
   $content

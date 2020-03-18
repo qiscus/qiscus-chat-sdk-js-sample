@@ -10,8 +10,9 @@ define([
       if (event.target.id === 'LoginForm') {
         event.preventDefault()
         var userId = $('#user-id').val()
+        var username = $('#username').val()
         var userKey = $('#user-key').val()
-        qiscus.setUser(userId, userKey, userId)
+        qiscus.setUser(userId, userKey, username)
       }
     })
     return html`
@@ -21,6 +22,10 @@ define([
           <div class="form-group">
             <label for="userId">User ID</label>
             <input id="user-id" type="text" name="user-id" value="guest-101" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" type="text" name="username" value="guest-101" autocomplete="off" />
           </div>
           <div class="form-group">
             <label for="user-key">User Key</label>
