@@ -1,11 +1,23 @@
 define([
-  'jquery', 'dateFns', 'lodash',
+  'jquery',
+  'dateFns',
+  'lodash',
   'service/qiscus',
   'service/content',
   'service/route',
   'service/emitter'
-], function ($, dateFns, _, qiscus, $content, route, emitter) {
+], function($, dateFns, _, qiscus, $content, route, emitter) {
   var newMessageIds = []
+
+  function searchAndReplace(str, find, replace) {
+    return str.split(find).join(replace)
+  }
+  function escapeHTML(text) {
+    let comment
+    comment = searchAndReplace(text, '<p>', '')
+    comment = searchAndReplace(comment, '</p>', '')
+    return comment
+  }
 
   function Toolbar() {
     return `
@@ -52,7 +64,8 @@ define([
     var lastComment = room.last_comment_message.startsWith('[file]')
       ? 'File attachment'
       : room.last_comment_message
-    var unreadCountClass = room.count_notif > 0 ? 'room-unread-count' : 'room-unread-count hidden'
+    var unreadCountClass =
+      room.count_notif > 0 ? 'room-unread-count' : 'room-unread-count hidden'
     return `
       <li class="room-item"
         data-room-id="${room.id}"
@@ -65,7 +78,9 @@ define([
             <div class="room-last-message">${lastComment}</div>
           </div>
           <div class="room-meta">
-            <div class="room-time">${getTime(room.last_comment_message_created_at)}</div>
+            <div class="room-time">${getTime(
+              room.last_comment_message_created_at
+            )}</div>
             <div class="${unreadCountClass}">${room.count_notif}</div>
           </div>
 
@@ -75,56 +90,49 @@ define([
   }
 
   $content
-    .on('click', '.ChatList .room-item', function (event) {
+    .on('click', '.ChatList .room-item', function(event) {
       event.preventDefault()
       newMessageIds.length = 0
       var target = $(event.currentTarget)
       var roomId = target.data('room-id')
       var roomName = target.data('room-name')
       var roomAvatar = target.data('room-avatar')
-      qiscus.getRoomById(roomId)
-        .then(function (data) {
-          route.push('/chat-room', {
-            roomId: roomId,
-            roomName: roomName,
-            roomAvatar: roomAvatar
-          })
+      qiscus.getRoomById(roomId).then(function(data) {
+        route.push('/chat-room', {
+          roomId: roomId,
+          roomName: roomName,
+          roomAvatar: roomAvatar
         })
+      })
     })
-    .on('click', '.ChatList .chat-btn', function (event) {
+    .on('click', '.ChatList .chat-btn', function(event) {
       event.preventDefault()
       route.push('/users')
     })
-    .on('click', '.ChatList .start-chat', function (event) {
+    .on('click', '.ChatList .start-chat', function(event) {
       event.preventDefault()
       route.push('/users')
     })
-    .on('click', '.ChatList #profile-btn', function (event) {
+    .on('click', '.ChatList #profile-btn', function(event) {
       route.push('/profile')
     })
-    .on('click', '.ChatList .load-more button', function (event) {
+    .on('click', '.ChatList .load-more button', function(event) {
       event.preventDefault()
-      var childLength = $content.find('.room-list')
-        .children()
-        .length - 1 // minus load-more button
+      var childLength = $content.find('.room-list').children().length - 1 // minus load-more button
       loadRooms(childLength)
     })
 
-  emitter.on('qiscus::new-message', function (comment) {
+  emitter.on('qiscus::new-message', function(comment) {
     if (newMessageIds.includes(comment.id)) return
     newMessageIds.push(comment.id)
 
     var roomId = comment.room_id
     var $room = $content.find(`.room-item[data-room-id="${roomId}"]`)
-    $room.find('.room-last-message')
-      .text(comment.message)
+    $room.find('.room-last-message').text(escapeHTML(comment.message))
     var $unreadCount = $room.find('.room-unread-count')
     var lastUnreadCount = Number($unreadCount.text())
-    $unreadCount
-      .removeClass('hidden')
-      .text(lastUnreadCount + 1)
-    $content.find('.ChatList .room-list')
-      .prepend($room.detach())
+    $unreadCount.removeClass('hidden').text(lastUnreadCount + 1)
+    $content.find('.ChatList .room-list').prepend($room.detach())
   })
 
   function RoomList(rooms) {
@@ -153,26 +161,27 @@ define([
     var nextPage = currentPage + 1
 
     isLoadingRooms = true
-    return qiscus.loadRoomList({
-      page: nextPage,
-      limit: perPage
-    }).then(function (roomData) {
-      isLoadingRooms = false
-      if (roomData.length < perPage) {
-        isAbleToLoadRoom = false
-        $content.find('.room-list .scrollspy').hide()
-      }
-      var rooms = roomData.map(roomFormatter).join('')
-      $(rooms).insertBefore('.room-list .scrollspy')
-    })
+    return qiscus
+      .loadRoomList({
+        page: nextPage,
+        limit: perPage
+      })
+      .then(function(roomData) {
+        isLoadingRooms = false
+        if (roomData.length < perPage) {
+          isAbleToLoadRoom = false
+          $content.find('.room-list .scrollspy').hide()
+        }
+        var rooms = roomData.map(roomFormatter).join('')
+        $(rooms).insertBefore('.room-list .scrollspy')
+      })
   }, 100)
 
   function ChatList() {
-    qiscus.loadRoomList()
-      .then(function (rooms) {
-        if (rooms.length === 0) $content.html(Empty())
-        else $content.html(RoomList(rooms))
-      })
+    qiscus.loadRoomList().then(function(rooms) {
+      if (rooms.length === 0) $content.html(Empty())
+      else $content.html(RoomList(rooms))
+    })
 
     return Empty()
   }
