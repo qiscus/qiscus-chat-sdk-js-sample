@@ -357,6 +357,16 @@ define([
     })
   })
 
+  // Comment delete handler
+  emitter.on('qiscus::comment-deleted', function (data) {
+    var uniqueCommentId = data.commentUniqueIds[0]
+    $content
+      .find(`.comment-item[data-unique-id="${uniqueCommentId}"]`)
+      .addClass('hidden')
+    // console.log($content.find(`.comment-item[data-unique-id="${uniqueCommentId}"]`))
+    // console.log(uniqueCommentId)
+  })
+
   var typingTimeoutId = -1
   var lastValue = null
   emitter.on('qiscus::typing', function(event) {

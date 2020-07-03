@@ -1,13 +1,28 @@
 define([
   'jquery',
-  'service/qiscus', 'service/route', 'service/emitter', 'service/content',
-  'pages/login', 'pages/chat-list', 'pages/chat',
-  'pages/users', 'pages/create-group', 'pages/profile',
-  'pages/room-info'
+  'service/qiscus',
+  'service/route',
+  'service/emitter',
+  'service/content',
+  'pages/login',
+  'pages/chat-list',
+  'pages/chat',
+  'pages/users',
+  'pages/create-group',
+  'pages/profile',
+  'pages/room-info',
 ], function (
-  $, qiscus, route, emitter, $content,
-  LoginPage, ChatListPage, ChatPage, UserPage,
-  CreateGroupPage, Profile,
+  $,
+  qiscus,
+  route,
+  emitter,
+  $content,
+  LoginPage,
+  ChatListPage,
+  ChatPage,
+  UserPage,
+  CreateGroupPage,
+  Profile,
   RoomInfoPage
 ) {
   window.route = route
