@@ -96,6 +96,146 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@babel/runtime/helpers/AsyncGenerator.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/AsyncGenerator.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var AwaitValue = __webpack_require__(/*! ./AwaitValue */ "./node_modules/@babel/runtime/helpers/AwaitValue.js");
+
+function AsyncGenerator(gen) {
+  var front, back;
+
+  function send(key, arg) {
+    return new Promise(function (resolve, reject) {
+      var request = {
+        key: key,
+        arg: arg,
+        resolve: resolve,
+        reject: reject,
+        next: null
+      };
+
+      if (back) {
+        back = back.next = request;
+      } else {
+        front = back = request;
+        resume(key, arg);
+      }
+    });
+  }
+
+  function resume(key, arg) {
+    try {
+      var result = gen[key](arg);
+      var value = result.value;
+      var wrappedAwait = value instanceof AwaitValue;
+      Promise.resolve(wrappedAwait ? value.wrapped : value).then(function (arg) {
+        if (wrappedAwait) {
+          resume(key === "return" ? "return" : "next", arg);
+          return;
+        }
+
+        settle(result.done ? "return" : "normal", arg);
+      }, function (err) {
+        resume("throw", err);
+      });
+    } catch (err) {
+      settle("throw", err);
+    }
+  }
+
+  function settle(type, value) {
+    switch (type) {
+      case "return":
+        front.resolve({
+          value: value,
+          done: true
+        });
+        break;
+
+      case "throw":
+        front.reject(value);
+        break;
+
+      default:
+        front.resolve({
+          value: value,
+          done: false
+        });
+        break;
+    }
+
+    front = front.next;
+
+    if (front) {
+      resume(front.key, front.arg);
+    } else {
+      back = null;
+    }
+  }
+
+  this._invoke = send;
+
+  if (typeof gen["return"] !== "function") {
+    this["return"] = undefined;
+  }
+}
+
+if (typeof Symbol === "function" && Symbol.asyncIterator) {
+  AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
+    return this;
+  };
+}
+
+AsyncGenerator.prototype.next = function (arg) {
+  return this._invoke("next", arg);
+};
+
+AsyncGenerator.prototype["throw"] = function (arg) {
+  return this._invoke("throw", arg);
+};
+
+AsyncGenerator.prototype["return"] = function (arg) {
+  return this._invoke("return", arg);
+};
+
+module.exports = AsyncGenerator;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/AwaitValue.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/AwaitValue.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _AwaitValue(value) {
+  this.wrapped = value;
+}
+
+module.exports = _AwaitValue;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+module.exports = _arrayWithHoles;
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":
 /*!******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
@@ -114,6 +254,35 @@ function _arrayWithoutHoles(arr) {
 }
 
 module.exports = _arrayWithoutHoles;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/asyncIterator.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/asyncIterator.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _asyncIterator(iterable) {
+  var method;
+
+  if (typeof Symbol !== "undefined") {
+    if (Symbol.asyncIterator) {
+      method = iterable[Symbol.asyncIterator];
+      if (method != null) return method.call(iterable);
+    }
+
+    if (Symbol.iterator) {
+      method = iterable[Symbol.iterator];
+      if (method != null) return method.call(iterable);
+    }
+  }
+
+  throw new TypeError("Object is not async iterable");
+}
+
+module.exports = _asyncIterator;
 
 /***/ }),
 
@@ -161,6 +330,23 @@ function _asyncToGenerator(fn) {
 }
 
 module.exports = _asyncToGenerator;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/awaitAsyncGenerator.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/awaitAsyncGenerator.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var AwaitValue = __webpack_require__(/*! ./AwaitValue */ "./node_modules/@babel/runtime/helpers/AwaitValue.js");
+
+function _awaitAsyncGenerator(value) {
+  return new AwaitValue(value);
+}
+
+module.exports = _awaitAsyncGenerator;
 
 /***/ }),
 
@@ -249,6 +435,62 @@ module.exports = _iterableToArray;
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _iterableToArrayLimit(arr, i) {
+  if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+    return;
+  }
+
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+module.exports = _iterableToArrayLimit;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/nonIterableRest.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+
+module.exports = _nonIterableRest;
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/nonIterableSpread.js":
 /*!******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/nonIterableSpread.js ***!
@@ -261,6 +503,27 @@ function _nonIterableSpread() {
 }
 
 module.exports = _nonIterableSpread;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/slicedToArray.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/slicedToArray.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles */ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js");
+
+var iterableToArrayLimit = __webpack_require__(/*! ./iterableToArrayLimit */ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js");
+
+var nonIterableRest = __webpack_require__(/*! ./nonIterableRest */ "./node_modules/@babel/runtime/helpers/nonIterableRest.js");
+
+function _slicedToArray(arr, i) {
+  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
+}
+
+module.exports = _slicedToArray;
 
 /***/ }),
 
@@ -292,16 +555,16 @@ module.exports = _toConsumableArray;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof2 = function _typeof2(obj) { return typeof obj; }; } else { _typeof2 = function _typeof2(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof2(obj); }
-
 function _typeof(obj) {
-  if (typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol") {
+  "@babel/helpers - typeof";
+
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
     module.exports = _typeof = function _typeof(obj) {
-      return _typeof2(obj);
+      return typeof obj;
     };
   } else {
     module.exports = _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : _typeof2(obj);
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
     };
   }
 
@@ -309,6 +572,25 @@ function _typeof(obj) {
 }
 
 module.exports = _typeof;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/wrapAsyncGenerator.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/wrapAsyncGenerator.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var AsyncGenerator = __webpack_require__(/*! ./AsyncGenerator */ "./node_modules/@babel/runtime/helpers/AsyncGenerator.js");
+
+function _wrapAsyncGenerator(fn) {
+  return function () {
+    return new AsyncGenerator(fn.apply(this, arguments));
+  };
+}
+
+module.exports = _wrapAsyncGenerator;
 
 /***/ }),
 
@@ -1527,7 +1809,7 @@ module.exports = BufferList
 /* WEBPACK VAR INJECTION */(function(global) {/*!
  * The buffer module from node.js, for the browser.
  *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @author   Feross Aboukhadijeh <http://feross.org>
  * @license  MIT
  */
 /* eslint-disable no-proto */
@@ -3730,6 +4012,38 @@ d.gs = function (dscr, get, set/*, options*/) {
 
 /***/ }),
 
+/***/ "./node_modules/date-fns/_lib/getTimezoneOffsetInMilliseconds/index.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/date-fns/_lib/getTimezoneOffsetInMilliseconds/index.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var MILLISECONDS_IN_MINUTE = 60000
+
+/**
+ * Google Chrome as of 67.0.3396.87 introduced timezones with offset that includes seconds.
+ * They usually appear for dates that denote time before the timezones were introduced
+ * (e.g. for 'Europe/Prague' timezone the offset is GMT+00:57:44 before 1 October 1891
+ * and GMT+01:00:00 after that date)
+ *
+ * Date#getTimezoneOffset returns the offset in minutes and would return 57 for the example above,
+ * which would lead to incorrect calculations.
+ *
+ * This function returns the timezone offset in milliseconds that takes seconds in account.
+ */
+module.exports = function getTimezoneOffsetInMilliseconds (dirtyDate) {
+  var date = new Date(dirtyDate.getTime())
+  var baseTimezoneOffset = date.getTimezoneOffset()
+  date.setSeconds(0, 0)
+  var millisecondsPartOfTimezoneOffset = date.getTime() % MILLISECONDS_IN_MINUTE
+
+  return baseTimezoneOffset * MILLISECONDS_IN_MINUTE + millisecondsPartOfTimezoneOffset
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/date-fns/compare_asc/index.js":
 /*!****************************************************!*\
   !*** ./node_modules/date-fns/compare_asc/index.js ***!
@@ -5219,6 +5533,7 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+var getTimezoneOffsetInMilliseconds = __webpack_require__(/*! ../_lib/getTimezoneOffsetInMilliseconds/index.js */ "./node_modules/date-fns/_lib/getTimezoneOffsetInMilliseconds/index.js")
 var isDate = __webpack_require__(/*! ../is_date/index.js */ "./node_modules/date-fns/is_date/index.js")
 
 var MILLISECONDS_IN_HOUR = 3600000
@@ -5328,14 +5643,25 @@ function parse (argument, dirtyOptions) {
     }
 
     if (dateStrings.timezone) {
-      offset = parseTimezone(dateStrings.timezone)
+      offset = parseTimezone(dateStrings.timezone) * MILLISECONDS_IN_MINUTE
     } else {
-      // get offset accurate to hour in timezones that change offset
-      offset = new Date(timestamp + time).getTimezoneOffset()
-      offset = new Date(timestamp + time + offset * MILLISECONDS_IN_MINUTE).getTimezoneOffset()
+      var fullTime = timestamp + time
+      var fullTimeDate = new Date(fullTime)
+
+      offset = getTimezoneOffsetInMilliseconds(fullTimeDate)
+
+      // Adjust time when it's coming from DST
+      var fullTimeDateNextDay = new Date(fullTime)
+      fullTimeDateNextDay.setDate(fullTimeDate.getDate() + 1)
+      var offsetDiff =
+        getTimezoneOffsetInMilliseconds(fullTimeDateNextDay) -
+        getTimezoneOffsetInMilliseconds(fullTimeDate)
+      if (offsetDiff > 0) {
+        offset += offsetDiff
+      }
     }
 
-    return new Date(timestamp + time + offset * MILLISECONDS_IN_MINUTE)
+    return new Date(timestamp + time + offset)
   } else {
     return new Date(argument)
   }
@@ -8162,8 +8488,9 @@ exports.methods = methods;
   !*** ./node_modules/events/events.js ***!
   \***************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8185,9 +8512,39 @@ exports.methods = methods;
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+
+var R = typeof Reflect === 'object' ? Reflect : null
+var ReflectApply = R && typeof R.apply === 'function'
+  ? R.apply
+  : function ReflectApply(target, receiver, args) {
+    return Function.prototype.apply.call(target, receiver, args);
+  }
+
+var ReflectOwnKeys
+if (R && typeof R.ownKeys === 'function') {
+  ReflectOwnKeys = R.ownKeys
+} else if (Object.getOwnPropertySymbols) {
+  ReflectOwnKeys = function ReflectOwnKeys(target) {
+    return Object.getOwnPropertyNames(target)
+      .concat(Object.getOwnPropertySymbols(target));
+  };
+} else {
+  ReflectOwnKeys = function ReflectOwnKeys(target) {
+    return Object.getOwnPropertyNames(target);
+  };
+}
+
+function ProcessEmitWarning(warning) {
+  if (console && console.warn) console.warn(warning);
+}
+
+var NumberIsNaN = Number.isNaN || function NumberIsNaN(value) {
+  return value !== value;
+}
+
 function EventEmitter() {
-  this._events = this._events || {};
-  this._maxListeners = this._maxListeners || undefined;
+  EventEmitter.init.call(this);
 }
 module.exports = EventEmitter;
 
@@ -8195,276 +8552,390 @@ module.exports = EventEmitter;
 EventEmitter.EventEmitter = EventEmitter;
 
 EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._eventsCount = 0;
 EventEmitter.prototype._maxListeners = undefined;
 
 // By default EventEmitters will print a warning if more than 10 listeners are
 // added to it. This is a useful default which helps finding memory leaks.
-EventEmitter.defaultMaxListeners = 10;
+var defaultMaxListeners = 10;
+
+function checkListener(listener) {
+  if (typeof listener !== 'function') {
+    throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
+  }
+}
+
+Object.defineProperty(EventEmitter, 'defaultMaxListeners', {
+  enumerable: true,
+  get: function() {
+    return defaultMaxListeners;
+  },
+  set: function(arg) {
+    if (typeof arg !== 'number' || arg < 0 || NumberIsNaN(arg)) {
+      throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' + arg + '.');
+    }
+    defaultMaxListeners = arg;
+  }
+});
+
+EventEmitter.init = function() {
+
+  if (this._events === undefined ||
+      this._events === Object.getPrototypeOf(this)._events) {
+    this._events = Object.create(null);
+    this._eventsCount = 0;
+  }
+
+  this._maxListeners = this._maxListeners || undefined;
+};
 
 // Obviously not all Emitters should be limited to 10. This function allows
 // that to be increased. Set to zero for unlimited.
-EventEmitter.prototype.setMaxListeners = function(n) {
-  if (!isNumber(n) || n < 0 || isNaN(n))
-    throw TypeError('n must be a positive number');
+EventEmitter.prototype.setMaxListeners = function setMaxListeners(n) {
+  if (typeof n !== 'number' || n < 0 || NumberIsNaN(n)) {
+    throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + n + '.');
+  }
   this._maxListeners = n;
   return this;
 };
 
-EventEmitter.prototype.emit = function(type) {
-  var er, handler, len, args, i, listeners;
+function _getMaxListeners(that) {
+  if (that._maxListeners === undefined)
+    return EventEmitter.defaultMaxListeners;
+  return that._maxListeners;
+}
 
-  if (!this._events)
-    this._events = {};
+EventEmitter.prototype.getMaxListeners = function getMaxListeners() {
+  return _getMaxListeners(this);
+};
 
-  // If there is no 'error' event listener then throw.
-  if (type === 'error') {
-    if (!this._events.error ||
-        (isObject(this._events.error) && !this._events.error.length)) {
-      er = arguments[1];
-      if (er instanceof Error) {
-        throw er; // Unhandled 'error' event
-      } else {
-        // At least give some kind of context to the user
-        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
-        err.context = er;
-        throw err;
-      }
-    }
-  }
+EventEmitter.prototype.emit = function emit(type) {
+  var args = [];
+  for (var i = 1; i < arguments.length; i++) args.push(arguments[i]);
+  var doError = (type === 'error');
 
-  handler = this._events[type];
-
-  if (isUndefined(handler))
+  var events = this._events;
+  if (events !== undefined)
+    doError = (doError && events.error === undefined);
+  else if (!doError)
     return false;
 
-  if (isFunction(handler)) {
-    switch (arguments.length) {
-      // fast cases
-      case 1:
-        handler.call(this);
-        break;
-      case 2:
-        handler.call(this, arguments[1]);
-        break;
-      case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
-      // slower
-      default:
-        args = Array.prototype.slice.call(arguments, 1);
-        handler.apply(this, args);
+  // If there is no 'error' event listener then throw.
+  if (doError) {
+    var er;
+    if (args.length > 0)
+      er = args[0];
+    if (er instanceof Error) {
+      // Note: The comments on the `throw` lines are intentional, they show
+      // up in Node's output if this results in an unhandled exception.
+      throw er; // Unhandled 'error' event
     }
-  } else if (isObject(handler)) {
-    args = Array.prototype.slice.call(arguments, 1);
-    listeners = handler.slice();
-    len = listeners.length;
-    for (i = 0; i < len; i++)
-      listeners[i].apply(this, args);
+    // At least give some kind of context to the user
+    var err = new Error('Unhandled error.' + (er ? ' (' + er.message + ')' : ''));
+    err.context = er;
+    throw err; // Unhandled 'error' event
+  }
+
+  var handler = events[type];
+
+  if (handler === undefined)
+    return false;
+
+  if (typeof handler === 'function') {
+    ReflectApply(handler, this, args);
+  } else {
+    var len = handler.length;
+    var listeners = arrayClone(handler, len);
+    for (var i = 0; i < len; ++i)
+      ReflectApply(listeners[i], this, args);
   }
 
   return true;
 };
 
-EventEmitter.prototype.addListener = function(type, listener) {
+function _addListener(target, type, listener, prepend) {
   var m;
+  var events;
+  var existing;
 
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
+  checkListener(listener);
 
-  if (!this._events)
-    this._events = {};
+  events = target._events;
+  if (events === undefined) {
+    events = target._events = Object.create(null);
+    target._eventsCount = 0;
+  } else {
+    // To avoid recursion in the case that type === "newListener"! Before
+    // adding it to the listeners, first emit "newListener".
+    if (events.newListener !== undefined) {
+      target.emit('newListener', type,
+                  listener.listener ? listener.listener : listener);
 
-  // To avoid recursion in the case that type === "newListener"! Before
-  // adding it to the listeners, first emit "newListener".
-  if (this._events.newListener)
-    this.emit('newListener', type,
-              isFunction(listener.listener) ?
-              listener.listener : listener);
+      // Re-assign `events` because a newListener handler could have caused the
+      // this._events to be assigned to a new object
+      events = target._events;
+    }
+    existing = events[type];
+  }
 
-  if (!this._events[type])
+  if (existing === undefined) {
     // Optimize the case of one listener. Don't need the extra array object.
-    this._events[type] = listener;
-  else if (isObject(this._events[type]))
-    // If we've already got an array, just append.
-    this._events[type].push(listener);
-  else
-    // Adding the second element, need to change to array.
-    this._events[type] = [this._events[type], listener];
-
-  // Check for listener leak
-  if (isObject(this._events[type]) && !this._events[type].warned) {
-    if (!isUndefined(this._maxListeners)) {
-      m = this._maxListeners;
+    existing = events[type] = listener;
+    ++target._eventsCount;
+  } else {
+    if (typeof existing === 'function') {
+      // Adding the second element, need to change to array.
+      existing = events[type] =
+        prepend ? [listener, existing] : [existing, listener];
+      // If we've already got an array, just append.
+    } else if (prepend) {
+      existing.unshift(listener);
     } else {
-      m = EventEmitter.defaultMaxListeners;
+      existing.push(listener);
     }
 
-    if (m && m > 0 && this._events[type].length > m) {
-      this._events[type].warned = true;
-      console.error('(node) warning: possible EventEmitter memory ' +
-                    'leak detected. %d listeners added. ' +
-                    'Use emitter.setMaxListeners() to increase limit.',
-                    this._events[type].length);
-      if (typeof console.trace === 'function') {
-        // not supported in IE 10
-        console.trace();
-      }
+    // Check for listener leak
+    m = _getMaxListeners(target);
+    if (m > 0 && existing.length > m && !existing.warned) {
+      existing.warned = true;
+      // No error code for this since it is a Warning
+      // eslint-disable-next-line no-restricted-syntax
+      var w = new Error('Possible EventEmitter memory leak detected. ' +
+                          existing.length + ' ' + String(type) + ' listeners ' +
+                          'added. Use emitter.setMaxListeners() to ' +
+                          'increase limit');
+      w.name = 'MaxListenersExceededWarning';
+      w.emitter = target;
+      w.type = type;
+      w.count = existing.length;
+      ProcessEmitWarning(w);
     }
   }
 
-  return this;
+  return target;
+}
+
+EventEmitter.prototype.addListener = function addListener(type, listener) {
+  return _addListener(this, type, listener, false);
 };
 
 EventEmitter.prototype.on = EventEmitter.prototype.addListener;
 
-EventEmitter.prototype.once = function(type, listener) {
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
+EventEmitter.prototype.prependListener =
+    function prependListener(type, listener) {
+      return _addListener(this, type, listener, true);
+    };
 
-  var fired = false;
-
-  function g() {
-    this.removeListener(type, g);
-
-    if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
-    }
-  }
-
-  g.listener = listener;
-  this.on(type, g);
-
-  return this;
-};
-
-// emits a 'removeListener' event iff the listener was removed
-EventEmitter.prototype.removeListener = function(type, listener) {
-  var list, position, length, i;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events || !this._events[type])
-    return this;
-
-  list = this._events[type];
-  length = list.length;
-  position = -1;
-
-  if (list === listener ||
-      (isFunction(list.listener) && list.listener === listener)) {
-    delete this._events[type];
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-
-  } else if (isObject(list)) {
-    for (i = length; i-- > 0;) {
-      if (list[i] === listener ||
-          (list[i].listener && list[i].listener === listener)) {
-        position = i;
-        break;
-      }
-    }
-
-    if (position < 0)
-      return this;
-
-    if (list.length === 1) {
-      list.length = 0;
-      delete this._events[type];
-    } else {
-      list.splice(position, 1);
-    }
-
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.removeAllListeners = function(type) {
-  var key, listeners;
-
-  if (!this._events)
-    return this;
-
-  // not listening for removeListener, no need to emit
-  if (!this._events.removeListener) {
+function onceWrapper() {
+  if (!this.fired) {
+    this.target.removeListener(this.type, this.wrapFn);
+    this.fired = true;
     if (arguments.length === 0)
-      this._events = {};
-    else if (this._events[type])
-      delete this._events[type];
-    return this;
+      return this.listener.call(this.target);
+    return this.listener.apply(this.target, arguments);
   }
+}
 
-  // emit removeListener for all listeners on all events
-  if (arguments.length === 0) {
-    for (key in this._events) {
-      if (key === 'removeListener') continue;
-      this.removeAllListeners(key);
-    }
-    this.removeAllListeners('removeListener');
-    this._events = {};
-    return this;
-  }
+function _onceWrap(target, type, listener) {
+  var state = { fired: false, wrapFn: undefined, target: target, type: type, listener: listener };
+  var wrapped = onceWrapper.bind(state);
+  wrapped.listener = listener;
+  state.wrapFn = wrapped;
+  return wrapped;
+}
 
-  listeners = this._events[type];
-
-  if (isFunction(listeners)) {
-    this.removeListener(type, listeners);
-  } else if (listeners) {
-    // LIFO order
-    while (listeners.length)
-      this.removeListener(type, listeners[listeners.length - 1]);
-  }
-  delete this._events[type];
-
+EventEmitter.prototype.once = function once(type, listener) {
+  checkListener(listener);
+  this.on(type, _onceWrap(this, type, listener));
   return this;
 };
 
-EventEmitter.prototype.listeners = function(type) {
-  var ret;
-  if (!this._events || !this._events[type])
-    ret = [];
-  else if (isFunction(this._events[type]))
-    ret = [this._events[type]];
-  else
-    ret = this._events[type].slice();
-  return ret;
+EventEmitter.prototype.prependOnceListener =
+    function prependOnceListener(type, listener) {
+      checkListener(listener);
+      this.prependListener(type, _onceWrap(this, type, listener));
+      return this;
+    };
+
+// Emits a 'removeListener' event if and only if the listener was removed.
+EventEmitter.prototype.removeListener =
+    function removeListener(type, listener) {
+      var list, events, position, i, originalListener;
+
+      checkListener(listener);
+
+      events = this._events;
+      if (events === undefined)
+        return this;
+
+      list = events[type];
+      if (list === undefined)
+        return this;
+
+      if (list === listener || list.listener === listener) {
+        if (--this._eventsCount === 0)
+          this._events = Object.create(null);
+        else {
+          delete events[type];
+          if (events.removeListener)
+            this.emit('removeListener', type, list.listener || listener);
+        }
+      } else if (typeof list !== 'function') {
+        position = -1;
+
+        for (i = list.length - 1; i >= 0; i--) {
+          if (list[i] === listener || list[i].listener === listener) {
+            originalListener = list[i].listener;
+            position = i;
+            break;
+          }
+        }
+
+        if (position < 0)
+          return this;
+
+        if (position === 0)
+          list.shift();
+        else {
+          spliceOne(list, position);
+        }
+
+        if (list.length === 1)
+          events[type] = list[0];
+
+        if (events.removeListener !== undefined)
+          this.emit('removeListener', type, originalListener || listener);
+      }
+
+      return this;
+    };
+
+EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
+
+EventEmitter.prototype.removeAllListeners =
+    function removeAllListeners(type) {
+      var listeners, events, i;
+
+      events = this._events;
+      if (events === undefined)
+        return this;
+
+      // not listening for removeListener, no need to emit
+      if (events.removeListener === undefined) {
+        if (arguments.length === 0) {
+          this._events = Object.create(null);
+          this._eventsCount = 0;
+        } else if (events[type] !== undefined) {
+          if (--this._eventsCount === 0)
+            this._events = Object.create(null);
+          else
+            delete events[type];
+        }
+        return this;
+      }
+
+      // emit removeListener for all listeners on all events
+      if (arguments.length === 0) {
+        var keys = Object.keys(events);
+        var key;
+        for (i = 0; i < keys.length; ++i) {
+          key = keys[i];
+          if (key === 'removeListener') continue;
+          this.removeAllListeners(key);
+        }
+        this.removeAllListeners('removeListener');
+        this._events = Object.create(null);
+        this._eventsCount = 0;
+        return this;
+      }
+
+      listeners = events[type];
+
+      if (typeof listeners === 'function') {
+        this.removeListener(type, listeners);
+      } else if (listeners !== undefined) {
+        // LIFO order
+        for (i = listeners.length - 1; i >= 0; i--) {
+          this.removeListener(type, listeners[i]);
+        }
+      }
+
+      return this;
+    };
+
+function _listeners(target, type, unwrap) {
+  var events = target._events;
+
+  if (events === undefined)
+    return [];
+
+  var evlistener = events[type];
+  if (evlistener === undefined)
+    return [];
+
+  if (typeof evlistener === 'function')
+    return unwrap ? [evlistener.listener || evlistener] : [evlistener];
+
+  return unwrap ?
+    unwrapListeners(evlistener) : arrayClone(evlistener, evlistener.length);
+}
+
+EventEmitter.prototype.listeners = function listeners(type) {
+  return _listeners(this, type, true);
 };
 
-EventEmitter.prototype.listenerCount = function(type) {
-  if (this._events) {
-    var evlistener = this._events[type];
-
-    if (isFunction(evlistener))
-      return 1;
-    else if (evlistener)
-      return evlistener.length;
-  }
-  return 0;
+EventEmitter.prototype.rawListeners = function rawListeners(type) {
+  return _listeners(this, type, false);
 };
 
 EventEmitter.listenerCount = function(emitter, type) {
-  return emitter.listenerCount(type);
+  if (typeof emitter.listenerCount === 'function') {
+    return emitter.listenerCount(type);
+  } else {
+    return listenerCount.call(emitter, type);
+  }
 };
 
-function isFunction(arg) {
-  return typeof arg === 'function';
+EventEmitter.prototype.listenerCount = listenerCount;
+function listenerCount(type) {
+  var events = this._events;
+
+  if (events !== undefined) {
+    var evlistener = events[type];
+
+    if (typeof evlistener === 'function') {
+      return 1;
+    } else if (evlistener !== undefined) {
+      return evlistener.length;
+    }
+  }
+
+  return 0;
 }
 
-function isNumber(arg) {
-  return typeof arg === 'number';
+EventEmitter.prototype.eventNames = function eventNames() {
+  return this._eventsCount > 0 ? ReflectOwnKeys(this._events) : [];
+};
+
+function arrayClone(arr, n) {
+  var copy = new Array(n);
+  for (var i = 0; i < n; ++i)
+    copy[i] = arr[i];
+  return copy;
 }
 
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
+function spliceOne(list, index) {
+  for (; index + 1 < list.length; index++)
+    list[index] = list[index + 1];
+  list.pop();
 }
 
-function isUndefined(arg) {
-  return arg === void 0;
+function unwrapListeners(arr) {
+  var ret = new Array(arr.length);
+  for (var i = 0; i < ret.length; ++i) {
+    ret[i] = arr[i].listener || arr[i];
+  }
+  return ret;
 }
 
 
@@ -9523,6 +9994,395 @@ module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
+
+/***/ }),
+
+/***/ "./node_modules/lodash.debounce/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/lodash.debounce/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
+
+    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = debounce;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -14604,315 +15464,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/once/once.js":
-/*!***********************************!*\
-  !*** ./node_modules/once/once.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var wrappy = __webpack_require__(/*! wrappy */ "./node_modules/wrappy/wrappy.js")
-module.exports = wrappy(once)
-module.exports.strict = wrappy(onceStrict)
-
-once.proto = once(function () {
-  Object.defineProperty(Function.prototype, 'once', {
-    value: function () {
-      return once(this)
-    },
-    configurable: true
-  })
-
-  Object.defineProperty(Function.prototype, 'onceStrict', {
-    value: function () {
-      return onceStrict(this)
-    },
-    configurable: true
-  })
-})
-
-function once (fn) {
-  var f = function () {
-    if (f.called) return f.value
-    f.called = true
-    return f.value = fn.apply(this, arguments)
-  }
-  f.called = false
-  return f
-}
-
-function onceStrict (fn) {
-  var f = function () {
-    if (f.called)
-      throw new Error(f.onceError)
-    f.called = true
-    return f.value = fn.apply(this, arguments)
-  }
-  var name = fn.name || 'Function wrapped with `once`'
-  f.onceError = name + " shouldn't be called more than once"
-  f.called = false
-  return f
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/process-nextick-args/index.js":
-/*!****************************************************!*\
-  !*** ./node_modules/process-nextick-args/index.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (!process.version ||
-    process.version.indexOf('v0.') === 0 ||
-    process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
-  module.exports = { nextTick: nextTick };
-} else {
-  module.exports = process
-}
-
-function nextTick(fn, arg1, arg2, arg3) {
-  if (typeof fn !== 'function') {
-    throw new TypeError('"callback" argument must be a function');
-  }
-  var len = arguments.length;
-  var args, i;
-  switch (len) {
-  case 0:
-  case 1:
-    return process.nextTick(fn);
-  case 2:
-    return process.nextTick(function afterTickOne() {
-      fn.call(null, arg1);
-    });
-  case 3:
-    return process.nextTick(function afterTickTwo() {
-      fn.call(null, arg1, arg2);
-    });
-  case 4:
-    return process.nextTick(function afterTickThree() {
-      fn.call(null, arg1, arg2, arg3);
-    });
-  default:
-    args = new Array(len - 1);
-    i = 0;
-    while (i < args.length) {
-      args[i++] = arguments[i];
-    }
-    return process.nextTick(function afterTick() {
-      fn.apply(null, args);
-    });
-  }
-}
-
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
-
-/***/ }),
-
-/***/ "./node_modules/process/browser.js":
-/*!*****************************************!*\
-  !*** ./node_modules/process/browser.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-
-/***/ "./node_modules/punycode/punycode.js":
-/*!*******************************************!*\
-  !*** ./node_modules/punycode/punycode.js ***!
-  \*******************************************/
+/***/ "./node_modules/node-libs-browser/node_modules/punycode/punycode.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/node-libs-browser/node_modules/punycode/punycode.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14920,9 +15475,9 @@ process.umask = function() { return 0; };
 ;(function(root) {
 
 	/** Detect free variables */
-	var freeExports = true && exports &&
+	var freeExports =  true && exports &&
 		!exports.nodeType && exports;
-	var freeModule = true && module &&
+	var freeModule =  true && module &&
 		!module.nodeType && module;
 	var freeGlobal = typeof global == 'object' && global;
 	if (
@@ -15436,7 +15991,312 @@ process.umask = function() { return 0; };
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module), __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module), __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/once/once.js":
+/*!***********************************!*\
+  !*** ./node_modules/once/once.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var wrappy = __webpack_require__(/*! wrappy */ "./node_modules/wrappy/wrappy.js")
+module.exports = wrappy(once)
+module.exports.strict = wrappy(onceStrict)
+
+once.proto = once(function () {
+  Object.defineProperty(Function.prototype, 'once', {
+    value: function () {
+      return once(this)
+    },
+    configurable: true
+  })
+
+  Object.defineProperty(Function.prototype, 'onceStrict', {
+    value: function () {
+      return onceStrict(this)
+    },
+    configurable: true
+  })
+})
+
+function once (fn) {
+  var f = function () {
+    if (f.called) return f.value
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  f.called = false
+  return f
+}
+
+function onceStrict (fn) {
+  var f = function () {
+    if (f.called)
+      throw new Error(f.onceError)
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  var name = fn.name || 'Function wrapped with `once`'
+  f.onceError = name + " shouldn't be called more than once"
+  f.called = false
+  return f
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/process-nextick-args/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/process-nextick-args/index.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (!process.version ||
+    process.version.indexOf('v0.') === 0 ||
+    process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
+  module.exports = { nextTick: nextTick };
+} else {
+  module.exports = process
+}
+
+function nextTick(fn, arg1, arg2, arg3) {
+  if (typeof fn !== 'function') {
+    throw new TypeError('"callback" argument must be a function');
+  }
+  var len = arguments.length;
+  var args, i;
+  switch (len) {
+  case 0:
+  case 1:
+    return process.nextTick(fn);
+  case 2:
+    return process.nextTick(function afterTickOne() {
+      fn.call(null, arg1);
+    });
+  case 3:
+    return process.nextTick(function afterTickTwo() {
+      fn.call(null, arg1, arg2);
+    });
+  case 4:
+    return process.nextTick(function afterTickThree() {
+      fn.call(null, arg1, arg2, arg3);
+    });
+  default:
+    args = new Array(len - 1);
+    i = 0;
+    while (i < args.length) {
+      args[i++] = arguments[i];
+    }
+    return process.nextTick(function afterTick() {
+      fn.apply(null, args);
+    });
+  }
+}
+
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
+
+/***/ }),
+
+/***/ "./node_modules/process/browser.js":
+/*!*****************************************!*\
+  !*** ./node_modules/process/browser.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
 
 /***/ }),
 
@@ -21024,7 +21884,7 @@ module.exports = function (value) { return value !== _undefined && value !== nul
 
 
 
-var punycode = __webpack_require__(/*! punycode */ "./node_modules/punycode/punycode.js");
+var punycode = __webpack_require__(/*! punycode */ "./node_modules/node-libs-browser/node_modules/punycode/punycode.js");
 var util = __webpack_require__(/*! ./util */ "./node_modules/url/util.js");
 
 exports.parse = urlParse;
@@ -21867,7 +22727,7 @@ module.exports = function isBuffer(arg) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
+/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the
@@ -21887,6 +22747,16 @@ module.exports = function isBuffer(arg) {
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var getOwnPropertyDescriptors = Object.getOwnPropertyDescriptors ||
+  function getOwnPropertyDescriptors(obj) {
+    var keys = Object.keys(obj);
+    var descriptors = {};
+    for (var i = 0; i < keys.length; i++) {
+      descriptors[keys[i]] = Object.getOwnPropertyDescriptor(obj, keys[i]);
+    }
+    return descriptors;
+  };
 
 var formatRegExp = /%[sdj%]/g;
 exports.format = function(f) {
@@ -21932,15 +22802,15 @@ exports.format = function(f) {
 // Returns a modified function which warns once by default.
 // If --no-deprecation is set, then it is a no-op.
 exports.deprecate = function(fn, msg) {
+  if (typeof process !== 'undefined' && process.noDeprecation === true) {
+    return fn;
+  }
+
   // Allow for deprecating things in the process of starting up.
-  if (isUndefined(global.process)) {
+  if (typeof process === 'undefined') {
     return function() {
       return exports.deprecate(fn, msg).apply(this, arguments);
     };
-  }
-
-  if (process.noDeprecation === true) {
-    return fn;
   }
 
   var warned = false;
@@ -22454,7 +23324,114 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
+var kCustomPromisifiedSymbol = typeof Symbol !== 'undefined' ? Symbol('util.promisify.custom') : undefined;
+
+exports.promisify = function promisify(original) {
+  if (typeof original !== 'function')
+    throw new TypeError('The "original" argument must be of type Function');
+
+  if (kCustomPromisifiedSymbol && original[kCustomPromisifiedSymbol]) {
+    var fn = original[kCustomPromisifiedSymbol];
+    if (typeof fn !== 'function') {
+      throw new TypeError('The "util.promisify.custom" argument must be of type Function');
+    }
+    Object.defineProperty(fn, kCustomPromisifiedSymbol, {
+      value: fn, enumerable: false, writable: false, configurable: true
+    });
+    return fn;
+  }
+
+  function fn() {
+    var promiseResolve, promiseReject;
+    var promise = new Promise(function (resolve, reject) {
+      promiseResolve = resolve;
+      promiseReject = reject;
+    });
+
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+    args.push(function (err, value) {
+      if (err) {
+        promiseReject(err);
+      } else {
+        promiseResolve(value);
+      }
+    });
+
+    try {
+      original.apply(this, args);
+    } catch (err) {
+      promiseReject(err);
+    }
+
+    return promise;
+  }
+
+  Object.setPrototypeOf(fn, Object.getPrototypeOf(original));
+
+  if (kCustomPromisifiedSymbol) Object.defineProperty(fn, kCustomPromisifiedSymbol, {
+    value: fn, enumerable: false, writable: false, configurable: true
+  });
+  return Object.defineProperties(
+    fn,
+    getOwnPropertyDescriptors(original)
+  );
+}
+
+exports.promisify.custom = kCustomPromisifiedSymbol
+
+function callbackifyOnRejected(reason, cb) {
+  // `!reason` guard inspired by bluebird (Ref: https://goo.gl/t5IS6M).
+  // Because `null` is a special error value in callbacks which means "no error
+  // occurred", we error-wrap so the callback consumer can distinguish between
+  // "the promise rejected with null" or "the promise fulfilled with undefined".
+  if (!reason) {
+    var newReason = new Error('Promise was rejected with a falsy value');
+    newReason.reason = reason;
+    reason = newReason;
+  }
+  return cb(reason);
+}
+
+function callbackify(original) {
+  if (typeof original !== 'function') {
+    throw new TypeError('The "original" argument must be of type Function');
+  }
+
+  // We DO NOT return the promise as it gives the user a false sense that
+  // the promise is actually somehow related to the callback's execution
+  // and that the callback throwing will reject the promise.
+  function callbackified() {
+    var args = [];
+    for (var i = 0; i < arguments.length; i++) {
+      args.push(arguments[i]);
+    }
+
+    var maybeCb = args.pop();
+    if (typeof maybeCb !== 'function') {
+      throw new TypeError('The last argument must be of type Function');
+    }
+    var self = this;
+    var cb = function() {
+      return maybeCb.apply(self, arguments);
+    };
+    // In true node style we process the callback on `nextTick` with all the
+    // implications (stack, `uncaughtException`, `async_hooks`)
+    original.apply(this, args)
+      .then(function(ret) { process.nextTick(cb, null, ret) },
+            function(rej) { process.nextTick(callbackifyOnRejected, rej, cb) });
+  }
+
+  Object.setPrototypeOf(callbackified, Object.getPrototypeOf(original));
+  Object.defineProperties(callbackified,
+                          getOwnPropertyDescriptors(original));
+  return callbackified;
+}
+exports.callbackify = callbackify;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
@@ -22474,7 +23451,7 @@ g = (function() {
 
 try {
 	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
+	g = g || new Function("return this")();
 } catch (e) {
 	// This works if the window reference is available
 	if (typeof window === "object") g = window;
@@ -22886,7 +23863,7 @@ function extend() {
 /*! exports provided: name, version, description, license, main, browser, files, scripts, devDependencies, dependencies, babel, default */
 /***/ (function(module) {
 
-module.exports = {"name":"qiscus-sdk-core","version":"2.8.31-3","description":"Qiscus Web SDK Core","license":"MIT","main":"lib/index.js","browser":"dist/qiscus-sdk-core.min.js","files":["lib","dist"],"scripts":{"build":"npm-run-all --parallel build:node build:web","build:dev":"npm-run-all --parallel build:node build:web:dev","build:node":"babel -d lib src","build:node:watch":"babel -w -d lib src","build:web":"webpack --env.production --env.target=web","build:web:dev":"webpack --env.development --env.target=web","build:web:watch":"webpack --env.development --env.target=web","dev":"webpack --env.development --progress --colors --watch","watch":"npm-run-all build:web:watch build:node:watch","test":"mocha --require @babel/register --colors 'test/**/*test.js'","test:watch":"npm run test -- -w","clean":"rimraf dist lib","preversion":"npm-run-all clean build","prepublishOnly":"npm-run-all clean build"},"devDependencies":{"@babel/cli":"^7.4.3","@babel/core":"^7.1.2","@babel/plugin-proposal-class-properties":"^7.5.5","@babel/plugin-transform-runtime":"^7.4.3","@babel/polyfill":"^7.0.0","@babel/preset-env":"^7.5.5","@babel/register":"^7.4.4","babel-eslint":"^8.0.0","babel-loader":"^8.0.4","babel-minify-webpack-plugin":"^0.2.0","babel-plugin-add-module-exports":"^1.0.0","babel-plugin-date-fns":"^0.1.0","chai":"^4.1.2","chai-spies":"^1.0.0","eslint":"^4.19.1","eslint-config-standard":"^12.0.0","eslint-loader":"^1.9.0","eslint-plugin-import":"^2.16.0","eslint-plugin-node":"^8.0.1","eslint-plugin-promise":"^4.0.1","eslint-plugin-standard":"^4.0.0","mocha":"^5.2.0","npm-run-all":"^4.1.5","rimraf":"^2.6.3","webpack":"^4.22.0","webpack-cli":"^3.1.2"},"dependencies":{"@babel/runtime":"^7.4.3","date-fns":"^1.28.5","is_js":"^0.9.0","lodash.throttle":"^4.1.1","mitt":"^1.1.3","mqtt":"^3.0.0","superagent":"^3.6.3"},"babel":{"presets":[["@babel/preset-env",{"modules":"auto"}]],"plugins":["@babel/plugin-transform-runtime","@babel/plugin-proposal-class-properties","babel-plugin-add-module-exports","date-fns"]}};
+module.exports = JSON.parse("{\"name\":\"qiscus-sdk-core\",\"version\":\"2.9.11\",\"description\":\"Qiscus Web SDK Core\",\"license\":\"MIT\",\"main\":\"lib/index.js\",\"browser\":\"dist/qiscus-sdk-core.min.js\",\"files\":[\"lib\",\"dist\"],\"scripts\":{\"build\":\"npm-run-all --parallel build:node build:web\",\"build:dev\":\"npm-run-all --parallel build:node build:web:dev\",\"build:node\":\"babel -d lib src\",\"build:node:watch\":\"babel -w -d lib src\",\"build:web\":\"webpack --env.production --env.target=web\",\"build:web:dev\":\"webpack --env.development --env.target=web\",\"build:web:watch\":\"webpack --env.development --env.target=web --watch\",\"dev\":\"webpack --env.development --progress --colors --watch\",\"watch\":\"npm-run-all build:web:watch build:node:watch\",\"test\":\"mocha --require @babel/register --colors 'test/**/*test.js'\",\"test:watch\":\"npm run test -- -w\",\"clean\":\"rimraf dist lib\",\"preversion\":\"npm-run-all clean build\",\"prepublishOnly\":\"npm-run-all clean build\",\"serve\":\"serve dist -l 1234\"},\"devDependencies\":{\"@babel/cli\":\"^7.8.4\",\"@babel/core\":\"^7.8.6\",\"@babel/plugin-proposal-class-properties\":\"^7.8.3\",\"@babel/plugin-transform-runtime\":\"^7.8.3\",\"@babel/polyfill\":\"^7.8.3\",\"@babel/preset-env\":\"^7.8.6\",\"@babel/register\":\"^7.8.6\",\"@commitlint/cli\":\"^8.3.5\",\"@commitlint/config-conventional\":\"^8.3.4\",\"babel-eslint\":\"^8.0.0\",\"babel-loader\":\"^8.0.6\",\"babel-minify-webpack-plugin\":\"^0.2.0\",\"babel-plugin-add-module-exports\":\"^1.0.2\",\"babel-plugin-date-fns\":\"^0.1.0\",\"chai\":\"^4.1.2\",\"chai-spies\":\"^1.0.0\",\"eslint\":\"^4.19.1\",\"eslint-config-standard\":\"^12.0.0\",\"eslint-loader\":\"^1.9.0\",\"eslint-plugin-import\":\"^2.20.1\",\"eslint-plugin-node\":\"^8.0.1\",\"eslint-plugin-promise\":\"^4.2.1\",\"eslint-plugin-standard\":\"^4.0.1\",\"husky\":\"^3.1.0\",\"mocha\":\"^5.2.0\",\"npm-run-all\":\"^4.1.5\",\"rimraf\":\"^2.7.1\",\"webpack\":\"^4.41.6\",\"webpack-cli\":\"^3.3.11\"},\"dependencies\":{\"@babel/runtime\":\"^7.8.4\",\"date-fns\":\"^1.30.1\",\"is_js\":\"^0.9.0\",\"lodash.debounce\":\"^4.0.8\",\"lodash.throttle\":\"^4.1.1\",\"mitt\":\"^1.2.0\",\"mqtt\":\"^3.0.0\",\"qiscus-sdk-core\":\"^2.9.5\",\"superagent\":\"^3.6.3\"},\"babel\":{\"presets\":[[\"@babel/preset-env\",{\"modules\":\"auto\"}]],\"plugins\":[\"@babel/plugin-transform-runtime\",\"@babel/plugin-proposal-class-properties\",\"babel-plugin-add-module-exports\",\"date-fns\"]}}");
 
 /***/ }),
 
@@ -22899,18 +23876,18 @@ module.exports = {"name":"qiscus-sdk-core","version":"2.8.31-3","description":"Q
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
-/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! superagent */ "./node_modules/superagent/lib/client.js");
 /* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(superagent__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var mitt__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! mitt */ "./node_modules/mitt/dist/mitt.es.js");
@@ -22930,8 +23907,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_adapters_custom_event__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./lib/adapters/custom-event */ "./src/lib/adapters/custom-event.js");
 /* harmony import */ var _lib_adapters_sync__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./lib/adapters/sync */ "./src/lib/adapters/sync.js");
 /* harmony import */ var _lib_utils__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./lib/utils */ "./src/lib/utils.js");
-/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../package.json */ "./package.json");
-var _package_json__WEBPACK_IMPORTED_MODULE_21___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../package.json */ "./package.json", 1);
+/* harmony import */ var _lib_util__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./lib/util */ "./src/lib/util.js");
+/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../package.json */ "./package.json");
+var _package_json__WEBPACK_IMPORTED_MODULE_22___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../package.json */ "./package.json", 1);
+/* harmony import */ var _lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./lib/adapters/hook */ "./src/lib/adapters/hook.js");
+
+
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 
@@ -22950,10 +23939,9 @@ var _package_json__WEBPACK_IMPORTED_MODULE_21___namespace = /*#__PURE__*/__webpa
 
 
 
+ // helper for setup publishOnlinePresence status
 
-
-
-
+var setBackToOnline;
 /**
  * Qiscus Web SDK Core Class
  *
@@ -22961,15 +23949,12 @@ var _package_json__WEBPACK_IMPORTED_MODULE_21___namespace = /*#__PURE__*/__webpa
  * @class QiscusSDK
  */
 
-var QiscusSDK =
-/*#__PURE__*/
-function () {
+var QiscusSDK = /*#__PURE__*/function () {
   /**
    * Creates an instance of QiscusSDK.
-   * @memberof QiscusSDK
    */
   function QiscusSDK() {
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4___default()(this, QiscusSDK);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, QiscusSDK);
 
     this.events = Object(mitt__WEBPACK_IMPORTED_MODULE_7__["default"])();
     this.rooms = [];
@@ -22978,13 +23963,18 @@ function () {
     this.pendingCommentId = 0;
     this.uploadedFiles = [];
     this.chatmateStatus = null;
-    this.version = "WEB_".concat(_package_json__WEBPACK_IMPORTED_MODULE_21__.version);
+    this.version = "WEB_".concat(_package_json__WEBPACK_IMPORTED_MODULE_22__.version);
     this.userData = {}; // SDK Configuration
 
     this.AppId = null;
     this.baseURL = 'https://api.qiscus.com';
     this.uploadURL = "".concat(this.baseURL, "/api/v2/sdk/upload");
     this.mqttURL = 'wss://mqtt.qiscus.com:1886/mqtt';
+    this.brokerLbUrl = 'https://realtime-lb.qiscus.com';
+    this.syncOnConnect = 10000;
+    this.enableEventReport = false;
+    this.enableRealtime = true;
+    this.enableRealtimeCheck = true;
     this.HTTPAdapter = null;
     this.realtimeAdapter = null;
     this.customEventAdapter = null;
@@ -22993,15 +23983,17 @@ function () {
     this.syncInterval = 5000;
     this.sync = 'socket'; // possible values 'socket', 'http', 'both'
 
+    this.enableLb = true;
     this.httpsync = null;
     this.eventsync = null;
     this.extras = null;
     this.last_received_comment_id = 0;
     this.googleMapKey = '';
     this.options = {
-      avatar: true // UI related Properties
-
+      avatar: true
     };
+    this.isConfigLoaded = false; // UI related Properties
+
     this.UI = {};
     this.mode = 'widget';
     this.avatar = true;
@@ -23017,6 +24009,7 @@ function () {
     this.debugMQTTMode = false; // to prevent double receive newmessages callback
 
     this.lastReceiveMessages = [];
+    this._hookAdapter = Object(_lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["hookAdapterFactory"])();
   }
   /**
    * Initializing the SDK, set Event Listeners (callbacks)
@@ -23025,123 +24018,355 @@ function () {
    */
 
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_5___default()(QiscusSDK, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(QiscusSDK, [{
     key: "init",
-    value: function init(config) {
-      var _this = this;
+    value: function () {
+      var _init = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee3(config) {
+        var _this = this;
 
-      // set AppID
-      if (!config.AppId) throw new Error('Please provide valid AppId');
-      this.AppId = config.AppId;
-      if (config.baseURL) this.baseURL = config.baseURL;
-      if (config.mqttURL) this.mqttURL = config.mqttURL;
-      if (config.uploadURL) this.uploadURL = config.uploadURL;
-      if (config.sync) this.sync = config.sync;
-      if (config.mode) this.mode = config.mode;
-      if (config.syncInterval) this.syncInterval = config.syncInterval || 5000;
-      if (config.googleMapKey) this.googleMapKey = config.googleMapKey;
+        var isDifferentBaseUrl, isDifferentMqttUrl, isDifferentBrokerLbUrl, setterHelper, mqttWssCheck;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (config.AppId) {
+                  _context3.next = 2;
+                  break;
+                }
 
-      if (config.allowedFileTypes) {
-        this.allowedFileTypes = config.allowedFileTypes;
-      } // Let's initialize the app based on options
+                throw new Error('Please provide valid AppId');
+
+              case 2:
+                this.AppId = config.AppId; // We need to disable realtime load balancing if user are using custom server
+                // and did not provide a brokerLbUrl
+
+                isDifferentBaseUrl = config.baseURL != null && this.baseURL !== config.baseURL;
+                isDifferentMqttUrl = config.mqttURL != null && this.mqttURL !== config.mqttURL;
+                isDifferentBrokerLbUrl = config.brokerLbURL != null && this.brokerLbUrl !== config.brokerLbURL; // disable realtime lb if user change baseUrl or mqttUrl but did not change
+                // broker lb url
+
+                if ((isDifferentBaseUrl || isDifferentMqttUrl) && !isDifferentBrokerLbUrl) {
+                  this.logger('' + 'force disable load balancing for realtime server, because ' + '`baseURL` or `mqttURL` get changed but ' + 'did not provide `brokerLbURL`');
+                  this.enableLb = false;
+                } else if (config.enableRealtimeLB != null) {
+                  this.enableLb = config.enableRealtimeLB;
+                }
+
+                if (config.baseURL) this.baseURL = config.baseURL;
+                if (config.mqttURL) this.mqttURL = config.brokerUrl || config.mqttURL;
+                if (config.mqttURL) this.brokerUrl = config.brokerUrl || config.mqttURL;
+                if (config.brokerLbURL) this.brokerLbUrl = config.brokerLbURL;
+                if (config.uploadURL) this.uploadURL = config.uploadURL;
+                if (config.sync) this.sync = config.sync;
+                if (config.mode) this.mode = config.mode;
+                if (config.syncInterval) this.syncInterval = config.syncInterval || 5000;
+                if (config.googleMapKey) this.googleMapKey = config.googleMapKey;
+
+                if (config.allowedFileTypes) {
+                  this.allowedFileTypes = config.allowedFileTypes;
+                } // Let's initialize the app based on options
 
 
-      if (config.options) {
-        this.options = Object.assign({}, this.options, config.options);
-      }
+                if (config.options) {
+                  this.options = Object.assign({}, this.options, config.options);
+                }
 
-      if (config.customTemplate) this.customTemplate = config.customTemplate;
+                if (config.customTemplate) this.customTemplate = config.customTemplate;
 
-      if (config.templateFunction) {
-        this.templateFunction = config.templateFunction;
-      }
+                if (config.templateFunction) {
+                  this.templateFunction = config.templateFunction;
+                }
 
-      if (config.syncInterval != null) this.syncInterval = config.syncInterval; // set Event Listeners
+                if (config.syncInterval != null) this.syncInterval = config.syncInterval;
+                this._customHeader = {}; // set appConfig
 
-      this.setEventListeners();
-      this.syncAdapter = Object(_lib_adapters_sync__WEBPACK_IMPORTED_MODULE_19__["default"])(function () {
-        return _this.HTTPAdapter;
-      }, {
-        getToken: function getToken() {
-          return _this.userData.token;
-        },
-        interval: this.syncInterval
-      });
-      this.syncAdapter.events.on('message.new', function (message) {
-        if (_this.selected != null) {
-          var index = _this.selected.comments.findIndex(function (it) {
-            return it.id === message.id || it.unique_id === message.unique_temp_id;
-          });
+                this.HTTPAdapter = new _lib_adapters_http__WEBPACK_IMPORTED_MODULE_13__["default"]({
+                  baseURL: this.baseURL,
+                  AppId: this.AppId,
+                  userId: this.user_id,
+                  version: this.version,
+                  getCustomHeader: function getCustomHeader() {
+                    return _this._customHeader;
+                  }
+                });
+                /**
+                 * @callback SetterCallback
+                 * @param {string | number} value
+                 * @return void
+                 */
 
-          if (index === -1) {
-            var _message = new _lib_Comment__WEBPACK_IMPORTED_MODULE_11__["default"](message);
+                /**
+                 * @typedef {string | number | boolean | null} Parameter
+                 */
 
-            if (_message.room_id === _this.selected.id) {
-              _this.selected.comments.push(_message);
+                /**
+                 *
+                 * @param {Parameter} fromUser
+                 * @param {Parameter} fromServer
+                 * @param {Parameter} defaultValue
+                 * @return {Parameter}
+                 */
 
-              _this.sortComments();
+                setterHelper = function setterHelper(fromUser, fromServer, defaultValue) {
+                  if (fromServer == '') {
+                    if (fromUser != null) {
+                      if (typeof fromUser !== 'string') return fromUser;
+                      if (fromUser.length > 0) return fromUser;
+                    }
+                  }
+
+                  if (fromServer != null) {
+                    if (fromServer.length > 0) return fromServer;
+                    if (typeof fromServer !== 'string') return fromServer;
+                  }
+
+                  return defaultValue;
+                };
+
+                mqttWssCheck = function mqttWssCheck(mqttResult) {
+                  if (mqttResult.includes('wss://')) {
+                    return mqttResult;
+                  } else {
+                    return "wss://".concat(mqttResult, ":1886/mqtt");
+                  }
+                };
+
+                _context3.next = 27;
+                return this.HTTPAdapter.get_request('api/v2/sdk/config').then(function (resp) {
+                  resp.status == 200 ? _this.isConfigLoaded = true : _this.isConfigLoaded = false;
+                  return resp.body.results;
+                }).then(function (cfg) {
+                  var baseUrl = _this.baseURL; // default value for baseUrl
+
+                  var brokerLbUrl = _this.brokerLbUrl; // default value for brokerLbUrl
+
+                  var mqttUrl = _this.mqttURL; // default value for brokerUrl
+
+                  var enableRealtime = _this.enableRealtime; // default value for enableRealtime
+
+                  var enableRealtimeCheck = _this.enableRealtimeCheck; // default value for enableRealtimeCheck
+
+                  var syncInterval = _this.syncInterval; // default value for syncInterval
+
+                  var syncIntervalWhenConnected = _this.syncOnConnect; // default value for syncIntervalWhenConnected
+
+                  var enableEventReport = _this.enableEventReport; // default value for enableEventReport
+
+                  var configExtras = {}; // default value for extras
+
+                  _this.baseURL = setterHelper(config.baseURL, cfg.base_url, baseUrl);
+                  _this.brokerLbUrl = setterHelper(config.brokerLbURL, cfg.broker_lb_url, brokerLbUrl);
+                  _this.mqttURL = mqttWssCheck(setterHelper(config.mqttURL, cfg.broker_url, mqttUrl));
+                  _this.enableRealtime = setterHelper(config.enableRealtime, cfg.enable_realtime, enableRealtime);
+                  _this.syncInterval = setterHelper(config.syncInterval, cfg.sync_interval, syncInterval);
+                  _this.syncOnConnect = setterHelper(config.syncOnConnect, cfg.sync_on_connect, syncIntervalWhenConnected); // since user never provide this value
+
+                  _this.enableRealtimeCheck = setterHelper(null, cfg.enable_realtime_check, enableRealtimeCheck);
+                  _this.enableEventReport = setterHelper(null, cfg.enable_event_report, enableEventReport);
+                  _this.extras = setterHelper(null, cfg.extras, configExtras);
+                });
+
+              case 27:
+                // set Event Listeners
+                this.setEventListeners();
+                this.realtimeAdapter = new _lib_adapters_mqtt__WEBPACK_IMPORTED_MODULE_17__["default"](this.mqttURL, this, this.isLogin, {
+                  brokerLbUrl: this.brokerLbUrl,
+                  enableLb: this.enableLb
+                });
+                this.realtimeAdapter.on('connected', function () {
+                  if (_this.options.onReconnectCallback) {
+                    _this.options.onReconnectCallback();
+                  }
+
+                  if (_this.enableRealtime == false) {
+                    _this.realtimeAdapter.mqtt.connected = false;
+                    _this.realtimeAdapter = new _lib_adapters_mqtt__WEBPACK_IMPORTED_MODULE_17__["default"](null, _this, {
+                      brokerLbUrl: null,
+                      enableLb: null
+                    });
+                  }
+
+                  if (_this.isLogin || !_this.realtimeAdapter.connected) {
+                    _this.updateLastReceivedComment(localStorage.last_received_comment_id);
+                  }
+                });
+                this.realtimeAdapter.on('close', function () {});
+                this.realtimeAdapter.on('reconnect', function () {
+                  if (_this.realtimeAdapter.connected || _this.enableRealtime == false) return;
+
+                  if (_this.realtimeAdapter.connected == false) {
+                    _this.realtimeAdapter.getMqttNode().then(function (res) {
+                      _this.mqttURL = res;
+                      _this.realtimeAdapter = new _lib_adapters_mqtt__WEBPACK_IMPORTED_MODULE_17__["default"](_this.mqttURL, _this, {
+                        brokerLbUrl: _this.brokerLbUrl,
+                        enableLb: _this.enableLb
+                      });
+                    });
+                  } // if (this.isLogin) {
+                  //   this.synchronize()
+                  //   this.synchronizeEvent()
+                  // }
+
+                });
+                this.realtimeAdapter.on('message-delivered', function (_ref) {
+                  var commentId = _ref.commentId,
+                      commentUniqueId = _ref.commentUniqueId,
+                      userId = _ref.userId;
+                  return _this._setDelivered(commentId, commentUniqueId, userId);
+                });
+                this.realtimeAdapter.on('message-read', function (_ref2) {
+                  var commentId = _ref2.commentId,
+                      commentUniqueId = _ref2.commentUniqueId,
+                      userId = _ref2.userId;
+                  return _this._setRead(commentId, commentUniqueId, userId);
+                });
+                this.realtimeAdapter.on('new-message', /*#__PURE__*/function () {
+                  var _ref3 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(message) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            _context.next = 2;
+                            return _this._hookAdapter.trigger(_lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["Hooks"].MESSAGE_BEFORE_RECEIVED, message);
+
+                          case 2:
+                            message = _context.sent;
+
+                            _this.events.emit('newmessages', [message]);
+
+                          case 4:
+                          case "end":
+                            return _context.stop();
+                        }
+                      }
+                    }, _callee);
+                  }));
+
+                  return function (_x2) {
+                    return _ref3.apply(this, arguments);
+                  };
+                }());
+                this.realtimeAdapter.on('presence', function (data) {
+                  return _this.events.emit('presence', data);
+                });
+                this.realtimeAdapter.on('comment-deleted', function (data) {
+                  return _this.events.emit('comment-deleted', data);
+                });
+                this.realtimeAdapter.on('room-cleared', function (data) {
+                  return _this.events.emit('room-cleared', data);
+                });
+                this.realtimeAdapter.on('typing', function (data) {
+                  return _this.events.emit('typing', {
+                    message: data.message,
+                    username: data.userId,
+                    room_id: data.roomId
+                  });
+                });
+                this.syncAdapter = Object(_lib_adapters_sync__WEBPACK_IMPORTED_MODULE_19__["default"])(function () {
+                  return _this.HTTPAdapter;
+                }, {
+                  getToken: function getToken() {
+                    return _this.userData.token;
+                  },
+                  syncInterval: function syncInterval() {
+                    return _this.syncInterval;
+                  },
+                  getShouldSync: function getShouldSync() {
+                    return _this.isLogin && !_this.realtimeAdapter.connected;
+                  },
+                  syncOnConnect: function syncOnConnect() {
+                    return _this.syncOnConnect;
+                  },
+                  lastCommentId: function lastCommentId() {
+                    return _this.last_received_comment_id;
+                  },
+                  statusLogin: function statusLogin() {
+                    return _this.isLogin;
+                  }
+                });
+                this.syncAdapter.on('message.new', /*#__PURE__*/function () {
+                  var _ref4 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2(message) {
+                    var index, _message;
+
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
+                      while (1) {
+                        switch (_context2.prev = _context2.next) {
+                          case 0:
+                            _context2.next = 2;
+                            return _this._hookAdapter.trigger(_lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["Hooks"].MESSAGE_BEFORE_RECEIVED, message);
+
+                          case 2:
+                            message = _context2.sent;
+
+                            if (_this.selected != null) {
+                              index = _this.selected.comments.findIndex(function (it) {
+                                return it.id === message.id || it.unique_id === message.unique_temp_id;
+                              });
+
+                              if (index === -1) {
+                                _message = new _lib_Comment__WEBPACK_IMPORTED_MODULE_11__["default"](message);
+
+                                if (_message.room_id === _this.selected.id) {
+                                  _this.selected.comments.push(_message);
+
+                                  _this.sortComments();
+                                }
+
+                                _this.events.emit('newmessages', [message]);
+                              }
+                            } else {
+                              _this.events.emit('newmessages', [message]);
+                            }
+
+                          case 4:
+                          case "end":
+                            return _context2.stop();
+                        }
+                      }
+                    }, _callee2);
+                  }));
+
+                  return function (_x3) {
+                    return _ref4.apply(this, arguments);
+                  };
+                }());
+                this.syncAdapter.on('message.delivered', function (message) {
+                  _this._setDelivered(message.comment_id, message.comment_unique_id, message.email);
+                });
+                this.syncAdapter.on('message.read', function (message) {
+                  _this._setRead(message.comment_id, message.comment_unique_id, message.email);
+                });
+                this.syncAdapter.on('message.deleted', function (data) {
+                  data.deleted_messages.forEach(function (it) {
+                    _this.events.emit('comment-deleted', {
+                      roomId: it.room_id,
+                      commentUniqueIds: it.message_unique_ids,
+                      isForEveryone: true,
+                      isHard: true
+                    });
+                  });
+                });
+                this.syncAdapter.on('room.cleared', function (data) {
+                  data.deleted_rooms.forEach(function (room) {
+                    _this.events.emit('room-cleared', room);
+                  });
+                });
+                this.customEventAdapter = Object(_lib_adapters_custom_event__WEBPACK_IMPORTED_MODULE_18__["default"])(this.realtimeAdapter, this.user_id);
+
+              case 46:
+              case "end":
+                return _context3.stop();
             }
-
-            _this.events.emit('newmessages', [message]);
           }
-        } else {
-          _this.events.emit('newmessages', [message]);
-        }
-      });
-      this.syncAdapter.events.on('message.delivered', function (message) {
-        _this._setDelivered(message.comment_id, message.comment_unique_id, message.email);
-      });
-      this.syncAdapter.events.on('message.read', function (message) {
-        _this._setRead(message.comment_id, message.comment_unique_id, message.email);
-      });
-      this.syncAdapter.events.on('message.deleted', function (data) {
-        data.deleted_messages.forEach(function (it) {
-          _this.events.emit('comment-deleted', {
-            roomId: it.room_id,
-            commentUniqueIds: it.message_unique_ids,
-            isForEveryone: true,
-            isHard: true
-          });
-        });
-      });
-      this.syncAdapter.events.on('room.deleted', function (data) {
-        data.deleted_rooms.forEach(function (room) {
-          _this.events.emit('room-cleared', room);
-        });
-      });
-      this.realtimeAdapter = new _lib_adapters_mqtt__WEBPACK_IMPORTED_MODULE_17__["default"](this.mqttURL, this);
-      this.realtimeAdapter.on('message-delivered', function (_ref) {
-        var commentId = _ref.commentId,
-            commentUniqueId = _ref.commentUniqueId,
-            userId = _ref.userId;
-        return _this._setDelivered(commentId, commentUniqueId, userId);
-      });
-      this.realtimeAdapter.on('message-read', function (_ref2) {
-        var commentId = _ref2.commentId,
-            commentUniqueId = _ref2.commentUniqueId,
-            userId = _ref2.userId;
-        return _this._setRead(commentId, commentUniqueId, userId);
-      });
-      this.realtimeAdapter.on('new-message', function (message) {
-        return _this.events.emit('newmessages', [message]);
-      });
-      this.realtimeAdapter.on('presence', function (data) {
-        return _this.events.emit('presence', data);
-      });
-      this.realtimeAdapter.on('comment-deleted', function (data) {
-        return _this.events.emit('comment-deleted', data);
-      });
-      this.realtimeAdapter.on('room-cleared', function (data) {
-        return _this.events.emit('room-cleared', data);
-      });
-      this.realtimeAdapter.on('typing', function (data) {
-        return _this.events.emit('typing', {
-          message: data.message,
-          username: data.userId,
-          room_id: data.roomId
-        });
-      });
-    }
+        }, _callee3, this);
+      }));
+
+      function init(_x) {
+        return _init.apply(this, arguments);
+      }
+
+      return init;
+    }()
   }, {
     key: "_setRead",
     value: function _setRead(messageId, messageUniqueId, userId) {
@@ -23222,7 +24447,10 @@ function () {
           baseURL: self.baseURL,
           AppId: self.AppId,
           userId: self.user_id,
-          version: self.version
+          version: self.version,
+          getCustomHeader: function getCustomHeader() {
+            return _this2._customHeader;
+          }
         });
         self.HTTPAdapter.setToken(self.userData.token);
         self.authAdapter = new _lib_adapters_auth__WEBPACK_IMPORTED_MODULE_14__["default"](self.HTTPAdapter);
@@ -23258,7 +24486,9 @@ function () {
         // first we need to make sure we sort this data out based on room_id
         _this2.logging('newmessages', comments);
 
-        if (_this2.lastReceiveMessages.length > 0 && _this2.lastReceiveMessages[0].unique_temp_id === comments[0].unique_temp_id) {
+        var lastReceivedMessageNotEmpty = _this2.lastReceiveMessages.length > 0;
+
+        if (lastReceivedMessageNotEmpty && _this2.lastReceiveMessages[0].unique_temp_id === comments[0].unique_temp_id) {
           _this2.logging('lastReceiveMessages double', comments);
 
           return;
@@ -23315,18 +24545,20 @@ function () {
        */
 
       this.events.on('login-success', function (response) {
-        _this2.logging('login-success', response);
-
-        var mqttURL = _this2.mqttURL;
         _this2.isLogin = true;
         _this2.userData = response.user;
-        _this2.last_received_comment_id = _this2.userData.last_comment_id; // now that we have the token, etc, we need to set all our adapters
+        localStorage.setItem('userData', JSON.stringify(_this2.userData));
+        _this2.last_received_comment_id = _this2.userData.last_comment_id;
+        if (!_this2.realtimeAdapter.connected) _this2.updateLastReceivedComment(localStorage.last_received_comment_id); // now that we have the token, etc, we need to set all our adapters
 
         _this2.HTTPAdapter = new _lib_adapters_http__WEBPACK_IMPORTED_MODULE_13__["default"]({
           baseURL: _this2.baseURL,
           AppId: _this2.AppId,
           userId: _this2.user_id,
-          version: _this2.version
+          version: _this2.version,
+          getCustomHeader: function getCustomHeader() {
+            return _this2._customHeader;
+          }
         });
 
         _this2.HTTPAdapter.setToken(_this2.userData.token);
@@ -23336,17 +24568,17 @@ function () {
 
         _this2.realtimeAdapter.subscribeUserChannel();
 
-        if (_this2.presensePublisherId != null && _this2.presensePublisherId !== -1) clearInterval(_this2.presensePublisherId);
+        if (_this2.presensePublisherId != null && _this2.presensePublisherId !== -1) {
+          clearInterval(_this2.presensePublisherId);
+        }
+
         _this2.presensePublisherId = setInterval(function () {
-          return _this2.realtimeAdapter.publishPresence(_this2.user_id);
-        }, 3500);
-        if (_this2.sync === 'http' || _this2.sync === 'both') _this2.activateSync();
+          _this2.realtimeAdapter.publishPresence(_this2.user_id, true);
+        }, 3500); // if (this.sync === "http" || this.sync === "both") this.activateSync();
 
         if (_this2.options.loginSuccessCallback) {
           _this2.options.loginSuccessCallback(response);
         }
-
-        _this2.customEventAdapter = Object(_lib_adapters_custom_event__WEBPACK_IMPORTED_MODULE_18__["default"])(_this2.realtimeAdapter, _this2.user_id);
       });
       /**
        * Called when there's something wrong when connecting to qiscus SDK
@@ -23368,7 +24600,9 @@ function () {
           }
         }
 
-        if (self.options.roomClearedCallback) self.options.roomClearedCallback(room);
+        if (self.options.roomClearedCallback) {
+          self.options.roomClearedCallback(room);
+        }
       });
       self.events.on('comment-deleted', function (data) {
         // get to the room id and delete the comment
@@ -23377,7 +24611,7 @@ function () {
             isForEveryone = data.isForEveryone,
             isHard = data.isHard;
 
-        if (self.selected && self.selected.id === roomId) {
+        if (self.selected && self.selected.id == roomId) {
           // loop through the array of unique_ids
           commentUniqueIds.map(function (id) {
             var commentToBeFound = self.selected.comments.findIndex(function (comment) {
@@ -23460,14 +24694,16 @@ function () {
        * @param {string} data MQTT Payload with format of "x:xxxxxxxxxxxxx"
        */
 
-      self.events.on('presence', function (data) {
-        var payload = data.split(':');
+      self.events.on('presence', function (_ref5) {
+        var message = _ref5.message,
+            userId = _ref5.userId;
+        var payload = message.split(':');
 
-        if (self.chatmateStatus !== payload[0]) {
-          self.chatmateStatus = payload[0] === 1 ? 'Online' : "Last seen ".concat(date_fns_distance_in_words_to_now__WEBPACK_IMPORTED_MODULE_10___default()(Number(payload[1].substring(0, 13))));
+        if (_this2.chatmateStatus !== payload[0]) {
+          _this2.chatmateStatus = payload[0] === 1 ? 'Online' : "Last seen ".concat(date_fns_distance_in_words_to_now__WEBPACK_IMPORTED_MODULE_10___default()(Number(payload[1].substring(0, 13))));
         }
 
-        if (self.options.presenceCallback) self.options.presenceCallback(data);
+        if (self.options.presenceCallback) self.options.presenceCallback(message, userId);
       });
       self.events.on('typing', function (data) {
         if (self.options.typingCallback) self.options.typingCallback(data);
@@ -23490,7 +24726,7 @@ function () {
 
         if (response == null || _this2.selected == null) return;
 
-        (_this2$selected$parti = _this2.selected.participants).push.apply(_this2$selected$parti, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_3___default()(response));
+        (_this2$selected$parti = _this2.selected.participants).push.apply(_this2$selected$parti, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(response));
       });
       /**
        * Called when particant was removed from a group
@@ -23527,8 +24763,8 @@ function () {
   }, {
     key: "onReconnectMqtt",
     value: function onReconnectMqtt() {
-      if (!this.selected) return;
       if (this.options.onReconnectCallback) this.options.onReconnectedCallback();
+      if (!this.selected) return;
       this.loadComments(this.selected.id);
     }
   }, {
@@ -23536,28 +24772,32 @@ function () {
     value: function _callNewMessagesCallback(comments) {
       if (this.options.newMessagesCallback) {
         this.options.newMessagesCallback(comments);
-      } // let's sort the comments
-
+      }
     }
   }, {
     key: "updateLastReceivedComment",
     value: function updateLastReceivedComment(id) {
-      if (this.last_received_comment_id < id) this.last_received_comment_id = id;
+      if (this.last_received_comment_id < id) {
+        this.last_received_comment_id = id;
+        localStorage.setItem('last_received_comment_id', id);
+      }
     }
     /**
      * Setting Up User Credentials for next API Request
-     * @param {string} userId - client userId (will be used for login or register)
-     * @param {string} key - client unique key
-     * @param {string} username - client username
-     * @param {string} avatar_url - the url for chat avatar (optional)
-     * @return {void}
+     * @param userId {string} - client userId (will be used for login or register)
+     * @param key {string} - client unique key
+     * @param username {string} - client username
+     * @param avatarURL {string} - the url for chat avatar (optional)
+     * @param extras {object} - extra data for user
+     * @return {Promise}
      */
 
   }, {
     key: "setUser",
     value: function setUser(userId, key, username, avatarURL, extras) {
+      var _this3 = this;
+
       var self = this;
-      self.events.emit('start-init');
       self.user_id = userId;
       self.key = key;
       self.username = username;
@@ -23569,16 +24809,29 @@ function () {
         extras: extras ? JSON.stringify(extras) : null
       };
       if (this.avatar_url) params.avatar_url = this.avatar_url;
-      return self.authAdapter.loginOrRegister(params).then(function (response) {
-        self.isInit = true;
-        self.events.emit('login-success', response);
-      }, function (error) {
-        return self.events.emit('login-error', error);
-      });
+      var waitingConfig = setInterval(function () {
+        if (!_this3.isConfigLoaded) {
+          if (_this3.debugMode) {
+            console.log('Waiting for init config...');
+          }
+        } else {
+          clearInterval(waitingConfig);
+          console.log('Config Success!');
+          self.events.emit('start-init');
+          return self.authAdapter.loginOrRegister(params).then(function (response) {
+            self.isInit = true;
+            self.events.emit('login-success', response);
+          }, function (error) {
+            return self.events.emit('login-error', error);
+          });
+        }
+      }, 300);
     }
   }, {
     key: "setUserWithIdentityToken",
     value: function setUserWithIdentityToken(data) {
+      var _this4 = this;
+
       if (!data || !('user' in data)) return this.events.emit('login-error', data);
       this.email = data.user.email;
       this.user_id = data.user.email;
@@ -23586,38 +24839,56 @@ function () {
       this.username = data.user.username;
       this.avatar_url = data.user.avatar_url;
       this.isInit = true;
-      this.events.emit('login-success', data);
+      var waitingConfig = setInterval(function () {
+        if (!_this4.isConfigLoaded) {
+          if (_this4.debugMode) {
+            console.log('Waiting for init config...');
+          }
+        } else {
+          clearInterval(waitingConfig);
+          console.log('Config Success!');
+
+          _this4.events.emit('login-success', data);
+        }
+      }, 300);
+    }
+  }, {
+    key: "publishOnlinePresence",
+    value: function publishOnlinePresence(val) {
+      var _this5 = this;
+
+      if (val === true) {
+        setBackToOnline = setInterval(function () {
+          _this5.realtimeAdapter.publishPresence(_this5.user_id, true);
+        }, 3500);
+      } else {
+        clearInterval(this.presensePublisherId);
+        clearInterval(setBackToOnline);
+        setTimeout(function () {
+          _this5.realtimeAdapter.publishPresence(_this5.user_id, false);
+        }, 3500);
+      }
+    }
+  }, {
+    key: "subscribeUserPresence",
+    value: function subscribeUserPresence(userId) {
+      this.realtimeAdapter.subscribeUserPresence(userId);
+    }
+  }, {
+    key: "unsubscribeUserPresence",
+    value: function unsubscribeUserPresence(userId) {
+      this.realtimeAdapter.unsubscribeUserPresence(userId);
     }
   }, {
     key: "logout",
     value: function logout() {
+      clearInterval(this.presensePublisherId);
+      this.publishOnlinePresence(false);
       this.selected = null;
       this.isInit = false;
       this.isLogin = false;
-      this.userData = {};
       this.realtimeAdapter.disconnect();
-    } // Activate Sync Feature if `http` or `both` is chosen as sync value when init
-
-  }, {
-    key: "activateSync",
-    value: function activateSync() {
-      var _this3 = this;
-
-      if (this.isSynced) return;
-      this.isSynced = true;
-      this.httpsync = setInterval(function () {
-        if (!_this3.realtimeAdapter.connected) _this3.synchronize();
-      }, this.syncInterval);
-      this.eventsync = setInterval(function () {
-        if (!_this3.realtimeAdapter.connected) _this3.synchronizeEvent();
-      }, this.syncInterval);
-    }
-  }, {
-    key: "disableSync",
-    value: function disableSync() {
-      this.isSynced = false;
-      clearInterval(this.httpsync);
-      clearInterval(this.eventsync);
+      this.userData = {};
     }
   }, {
     key: "disconnect",
@@ -23627,7 +24898,7 @@ function () {
   }, {
     key: "setActiveRoom",
     value: function setActiveRoom(room) {
-      var _this4 = this;
+      var _this6 = this;
 
       // when we activate a room
       // we need to unsubscribe from typing event
@@ -23637,7 +24908,7 @@ function () {
 
         if (this.selected.room_type === 'single') {
           var unsubscribedUserId = this.selected.participants.filter(function (p) {
-            return p.email !== _this4.user_id;
+            return p.email !== _this6.user_id;
           });
 
           if (unsubscribedUserId.length > 0) {
@@ -23648,7 +24919,7 @@ function () {
 
       if (room.participants == null) room.participants = [];
       var targetUserId = room.participants.find(function (p) {
-        return p.email !== _this4.user_id;
+        return p.email !== _this6.user_id;
       });
       this.chatmateStatus = null;
       this.isTypingStatus = null;
@@ -23657,13 +24928,12 @@ function () {
 
       var initialSubscribe = setInterval(function () {
         // Clear Interval when realtimeAdapter has been Populated
-        if (_this4.debugMode) {
+        if (_this6.debugMode) {
           console.log('Trying Initial Subscribe');
         }
 
-        if (_this4.realtimeAdapter != null) {
-          if (_this4.debugMode) {
-            console.log(_this4.realtimeAdapter);
+        if (_this6.realtimeAdapter != null) {
+          if (_this6.debugMode) {
             console.log('MQTT Connected');
           }
 
@@ -23671,21 +24941,21 @@ function () {
           // and only unsubscribe if the previous room is having a type of 'single'
 
           if (room.room_type === 'single' && targetUserId != null) {
-            _this4.realtimeAdapter.subscribeRoomPresence(targetUserId.email);
+            _this6.realtimeAdapter.subscribeRoomPresence(targetUserId.email);
           } // we need to subscribe to new room typing event now
 
 
-          if (_this4.selected != null && !_this4.selected.isChannel) {
-            _this4.realtimeAdapter.subscribeTyping(room.id);
+          if (_this6.selected != null && !_this6.selected.isChannel) {
+            _this6.realtimeAdapter.subscribeTyping(room.id);
 
-            _this4.events.emit('room-changed', _this4.selected);
+            _this6.events.emit('room-changed', _this6.selected);
           }
 
-          if (_this4.debugMode && _this4.realtimeAdapter == null) {
+          if (_this6.debugMode && _this6.realtimeAdapter == null) {
             console.log('Retry');
           }
         } else {
-          if (_this4.debugMode) {
+          if (_this6.debugMode) {
             console.log('MQTT Not Connected, yet');
           }
         }
@@ -23701,7 +24971,7 @@ function () {
   }, {
     key: "chatTarget",
     value: function chatTarget(userId) {
-      var _this5 = this;
+      var _this7 = this;
 
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       // make sure data already loaded first (user already logged in)
@@ -23711,35 +24981,91 @@ function () {
       this.isLoading = true;
       this.isTypingStatus = ''; // Create room
 
-      return this.roomAdapter.getOrCreateRoom(userId, options, distinctId).then(function (resp) {
-        var room = new _lib_Room__WEBPACK_IMPORTED_MODULE_12__["default"](resp);
+      return this.roomAdapter.getOrCreateRoom(userId, options, distinctId).then( /*#__PURE__*/function () {
+        var _ref6 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee5(resp) {
+          var room, mapIntercept, lastComment, topicId;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee5$(_context5) {
+            while (1) {
+              switch (_context5.prev = _context5.next) {
+                case 0:
+                  room = new _lib_Room__WEBPACK_IMPORTED_MODULE_12__["default"](resp);
 
-        if (_this5.last_received_comment_id < room.last_comment_id) {
-          _this5.last_received_comment_id = room.last_comment_id;
-        }
+                  _this7.updateLastReceivedComment(room.last_comment_id);
 
-        _this5.isLoading = false;
+                  _this7.isLoading = false;
 
-        _this5.setActiveRoom(room); // id of last comment on this room
+                  mapIntercept = /*#__PURE__*/function () {
+                    var _ref7 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee4(it) {
+                      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee4$(_context4) {
+                        while (1) {
+                          switch (_context4.prev = _context4.next) {
+                            case 0:
+                              _context4.next = 2;
+                              return _this7._hookAdapter.trigger(_lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["Hooks"].MESSAGE_BEFORE_RECEIVED, it);
+
+                            case 2:
+                              return _context4.abrupt("return", _context4.sent);
+
+                            case 3:
+                            case "end":
+                              return _context4.stop();
+                          }
+                        }
+                      }, _callee4);
+                    }));
+
+                    return function mapIntercept(_x5) {
+                      return _ref7.apply(this, arguments);
+                    };
+                  }();
+
+                  _context5.next = 6;
+                  return Promise.all(room.comments.map(function (comment) {
+                    return mapIntercept(comment);
+                  }));
+
+                case 6:
+                  room.comments = _context5.sent;
+
+                  _this7.setActiveRoom(room); // id of last comment on this room
 
 
-        var lastComment = room.comments[room.comments.length - 1];
-        if (lastComment) _this5.readComment(room.id, lastComment.id);
+                  lastComment = room.comments[room.comments.length - 1];
+                  if (lastComment) _this7.readComment(room.id, lastComment.id);
 
-        _this5.events.emit('chat-room-created', {
-          room: room
-        });
+                  _this7.events.emit('chat-room-created', {
+                    room: room
+                  });
 
-        if (!initialMessage) return room;
-        var topicId = room.id;
-        return _this5.sendComment(topicId, initialMessage).then(function () {
-          return Promise.resolve(room);
-        })["catch"](function (err) {
-          console.error('Error when submit comment', err);
-        });
-      }, function (err) {
+                  if (initialMessage) {
+                    _context5.next = 13;
+                    break;
+                  }
+
+                  return _context5.abrupt("return", room);
+
+                case 13:
+                  topicId = room.id;
+                  return _context5.abrupt("return", _this7.sendComment(topicId, initialMessage).then(function () {
+                    return Promise.resolve(room);
+                  })["catch"](function (err) {
+                    console.error('Error when submit comment', err);
+                  }));
+
+                case 15:
+                case "end":
+                  return _context5.stop();
+              }
+            }
+          }, _callee5);
+        }));
+
+        return function (_x4) {
+          return _ref6.apply(this, arguments);
+        };
+      }())["catch"](function (err) {
         console.error('Error when creating room', err);
-        _this5.isLoading = false;
+        _this7.isLoading = false;
         return Promise.reject(err);
       });
     }
@@ -23771,31 +25097,114 @@ function () {
   }, {
     key: "getRoomById",
     value: function getRoomById(id) {
-      var _this6 = this;
+      var _this8 = this;
 
       if (!this.isInit) return;
       var self = this;
       self.isLoading = true;
       self.isTypingStatus = '';
-      return self.roomAdapter.getRoomById(id).then(function (response) {
-        // make sure the room hasn't been pushed yet
-        var roomData = response.results.room;
-        roomData.name = roomData.room_name;
-        roomData.comments = response.results.comments.reverse();
-        var room = new _lib_Room__WEBPACK_IMPORTED_MODULE_12__["default"](roomData);
-        self.last_received_comment_id = self.last_received_comment_id < room.last_comment_id ? room.last_comment_id : self.last_received_comment_id;
-        self.setActiveRoom(room);
-        self.isLoading = false; // id of last comment on this room
+      return self.roomAdapter.getRoomById(id).then( /*#__PURE__*/function () {
+        var _ref8 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee6(resp) {
+          var roomData, comments, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, comment, c, room, lastComment;
 
-        var lastComment = room.comments[room.comments.length - 1];
-        if (lastComment) self.readComment(room.id, lastComment.id);
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee6$(_context6) {
+            while (1) {
+              switch (_context6.prev = _context6.next) {
+                case 0:
+                  roomData = resp.results.room;
+                  comments = [];
+                  _iteratorNormalCompletion = true;
+                  _didIteratorError = false;
+                  _iteratorError = undefined;
+                  _context6.prev = 5;
+                  _iterator = resp.results.comments.reverse()[Symbol.iterator]();
 
-        if (room.isChannel) {
-          _this6.realtimeAdapter.subscribeChannel(_this6.AppId, room.unique_id);
-        }
+                case 7:
+                  if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                    _context6.next = 16;
+                    break;
+                  }
 
-        return Promise.resolve(room);
-      }, function (error) {
+                  comment = _step.value;
+                  _context6.next = 11;
+                  return _this8._hookAdapter.trigger(_lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["Hooks"].MESSAGE_BEFORE_RECEIVED, comment);
+
+                case 11:
+                  c = _context6.sent;
+                  comments.push(c);
+
+                case 13:
+                  _iteratorNormalCompletion = true;
+                  _context6.next = 7;
+                  break;
+
+                case 16:
+                  _context6.next = 22;
+                  break;
+
+                case 18:
+                  _context6.prev = 18;
+                  _context6.t0 = _context6["catch"](5);
+                  _didIteratorError = true;
+                  _iteratorError = _context6.t0;
+
+                case 22:
+                  _context6.prev = 22;
+                  _context6.prev = 23;
+
+                  if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+                    _iterator["return"]();
+                  }
+
+                case 25:
+                  _context6.prev = 25;
+
+                  if (!_didIteratorError) {
+                    _context6.next = 28;
+                    break;
+                  }
+
+                  throw _iteratorError;
+
+                case 28:
+                  return _context6.finish(25);
+
+                case 29:
+                  return _context6.finish(22);
+
+                case 30:
+                  // .map((it) =>
+                  //   this._hookAdapter.trigger(Hooks.MESSAGE_BEFORE_RECEIVED, it)
+                  // );
+                  room = new _lib_Room__WEBPACK_IMPORTED_MODULE_12__["default"](_objectSpread({}, roomData, {
+                    comments: comments,
+                    name: roomData.room_name
+                  }));
+                  self.updateLastReceivedComment(room.last_comment_id);
+                  self.setActiveRoom(room);
+                  self.isLoading = false; // id of last comment on this room
+
+                  lastComment = room.comments[room.comments.length - 1];
+                  if (lastComment) self.readComment(room.id, lastComment.id);
+
+                  if (room.isChannel) {
+                    _this8.realtimeAdapter.subscribeChannel(_this8.AppId, room.unique_id);
+                  }
+
+                  return _context6.abrupt("return", room);
+
+                case 38:
+                case "end":
+                  return _context6.stop();
+              }
+            }
+          }, _callee6, null, [[5, 18, 22, 30], [23,, 25, 29]]);
+        }));
+
+        return function (_x6) {
+          return _ref8.apply(this, arguments);
+        };
+      }())["catch"](function (error) {
         console.error('Error getting room by id', error);
         return Promise.reject(error);
       });
@@ -23810,24 +25219,75 @@ function () {
   }, {
     key: "getOrCreateRoomByUniqueId",
     value: function getOrCreateRoomByUniqueId(id, roomName, avatarURL) {
-      var _this7 = this;
+      var _this9 = this;
 
       var self = this;
       self.isLoading = true;
       self.isTypingStatus = '';
-      return self.roomAdapter.getOrCreateRoomByUniqueId(id, roomName, avatarURL).then(function (response) {
-        // make sure the room hasn't been pushed yet
-        var room = new _lib_Room__WEBPACK_IMPORTED_MODULE_12__["default"](response);
-        self.last_received_comment_id = self.last_received_comment_id < room.last_comment_id ? room.last_comment_id : self.last_received_comment_id;
-        self.setActiveRoom(room);
-        self.isLoading = false;
-        var lastComment = room.comments[room.comments.length - 1];
-        if (lastComment) self.readComment(room.id, lastComment.id);
+      return self.roomAdapter.getOrCreateRoomByUniqueId(id, roomName, avatarURL).then( /*#__PURE__*/function () {
+        var _ref9 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee8(response) {
+          var room, mapIntercept, lastComment;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee8$(_context8) {
+            while (1) {
+              switch (_context8.prev = _context8.next) {
+                case 0:
+                  // make sure the room hasn't been pushed yet
+                  room = new _lib_Room__WEBPACK_IMPORTED_MODULE_12__["default"](response);
+                  self.updateLastReceivedComment(room.last_comment_id);
 
-        _this7.realtimeAdapter.subscribeChannel(_this7.AppId, room.unique_id);
+                  mapIntercept = /*#__PURE__*/function () {
+                    var _ref10 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee7(item) {
+                      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee7$(_context7) {
+                        while (1) {
+                          switch (_context7.prev = _context7.next) {
+                            case 0:
+                              _context7.next = 2;
+                              return _this9._hookAdapter.trigger(_lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["Hooks"].MESSAGE_BEFORE_RECEIVED, item);
 
-        return Promise.resolve(room); // self.events.emit('group-room-created', self.selected)
-      }, function (error) {
+                            case 2:
+                              return _context7.abrupt("return", _context7.sent);
+
+                            case 3:
+                            case "end":
+                              return _context7.stop();
+                          }
+                        }
+                      }, _callee7);
+                    }));
+
+                    return function mapIntercept(_x8) {
+                      return _ref10.apply(this, arguments);
+                    };
+                  }();
+
+                  _context8.next = 5;
+                  return Promise.all(room.comments.map(function (it) {
+                    return mapIntercept(it);
+                  }));
+
+                case 5:
+                  room.comments = _context8.sent;
+                  self.setActiveRoom(room);
+                  self.isLoading = false;
+                  lastComment = room.comments[room.comments.length - 1];
+                  if (lastComment) self.readComment(room.id, lastComment.id);
+
+                  _this9.realtimeAdapter.subscribeChannel(_this9.AppId, room.unique_id);
+
+                  return _context8.abrupt("return", Promise.resolve(room));
+
+                case 12:
+                case "end":
+                  return _context8.stop();
+              }
+            }
+          }, _callee8);
+        }));
+
+        return function (_x7) {
+          return _ref9.apply(this, arguments);
+        };
+      }())["catch"](function (error) {
         // console.error('Error getting room by id', error)
         return Promise.reject(error);
       });
@@ -23847,23 +25307,21 @@ function () {
   }, {
     key: "loadRoomList",
     value: function () {
-      var _loadRoomList = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee() {
+      var _loadRoomList = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee9() {
         var params,
             rooms,
-            _args = arguments;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
+            _args9 = arguments;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                params = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};
-                _context.next = 3;
+                params = _args9.length > 0 && _args9[0] !== undefined ? _args9[0] : {};
+                _context9.next = 3;
                 return this.userAdapter.loadRoomList(params);
 
               case 3:
-                rooms = _context.sent;
-                return _context.abrupt("return", rooms.map(function (room) {
+                rooms = _context9.sent;
+                return _context9.abrupt("return", rooms.map(function (room) {
                   room.last_comment_id = room.last_comment.id;
                   room.last_comment_message = room.last_comment.message;
                   room.last_comment_message_created_at = room.last_comment.timestamp;
@@ -23874,10 +25332,10 @@ function () {
 
               case 5:
               case "end":
-                return _context.stop();
+                return _context9.stop();
             }
           }
-        }, _callee, this);
+        }, _callee9, this);
       }));
 
       function loadRoomList() {
@@ -23889,18 +25347,100 @@ function () {
   }, {
     key: "loadComments",
     value: function loadComments(roomId) {
-      var _this8 = this;
+      var _this10 = this;
 
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      return this.userAdapter.loadComments(roomId, options).then(function (comments) {
-        if (_this8.selected != null) {
-          _this8.selected.receiveComments(comments.reverse());
+      return this.userAdapter.loadComments(roomId, options).then( /*#__PURE__*/function () {
+        var _ref11 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee10(comments_) {
+          var comments, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, comment;
 
-          _this8.sortComments();
-        }
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee10$(_context10) {
+            while (1) {
+              switch (_context10.prev = _context10.next) {
+                case 0:
+                  comments = [];
+                  _iteratorNormalCompletion2 = true;
+                  _didIteratorError2 = false;
+                  _iteratorError2 = undefined;
+                  _context10.prev = 4;
+                  _iterator2 = comments_[Symbol.iterator]();
 
-        return Promise.resolve(comments);
-      });
+                case 6:
+                  if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+                    _context10.next = 16;
+                    break;
+                  }
+
+                  comment = _step2.value;
+                  _context10.t0 = comments;
+                  _context10.next = 11;
+                  return _this10._hookAdapter.trigger(_lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["Hooks"].MESSAGE_BEFORE_RECEIVED, comment);
+
+                case 11:
+                  _context10.t1 = _context10.sent;
+
+                  _context10.t0.push.call(_context10.t0, _context10.t1);
+
+                case 13:
+                  _iteratorNormalCompletion2 = true;
+                  _context10.next = 6;
+                  break;
+
+                case 16:
+                  _context10.next = 22;
+                  break;
+
+                case 18:
+                  _context10.prev = 18;
+                  _context10.t2 = _context10["catch"](4);
+                  _didIteratorError2 = true;
+                  _iteratorError2 = _context10.t2;
+
+                case 22:
+                  _context10.prev = 22;
+                  _context10.prev = 23;
+
+                  if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+                    _iterator2["return"]();
+                  }
+
+                case 25:
+                  _context10.prev = 25;
+
+                  if (!_didIteratorError2) {
+                    _context10.next = 28;
+                    break;
+                  }
+
+                  throw _iteratorError2;
+
+                case 28:
+                  return _context10.finish(25);
+
+                case 29:
+                  return _context10.finish(22);
+
+                case 30:
+                  if (_this10.selected != null) {
+                    _this10.selected.receiveComments(comments.reverse());
+
+                    _this10.sortComments();
+                  }
+
+                  return _context10.abrupt("return", comments);
+
+                case 32:
+                case "end":
+                  return _context10.stop();
+              }
+            }
+          }, _callee10, null, [[4, 18, 22, 30], [23,, 25, 29]]);
+        }));
+
+        return function (_x9) {
+          return _ref11.apply(this, arguments);
+        };
+      }());
     }
   }, {
     key: "loadMore",
@@ -23911,6 +25451,80 @@ function () {
       options.after = false;
       return this.loadComments(this.selected.id, options);
     }
+  }, {
+    key: "registerDeviceToken",
+    value: function () {
+      var _registerDeviceToken = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee11(token) {
+        var isDevelopment,
+            res,
+            _args11 = arguments;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                isDevelopment = _args11.length > 1 && _args11[1] !== undefined ? _args11[1] : false;
+                _context11.next = 3;
+                return this.HTTPAdapter.post('api/v2/sdk/set_user_device_token', {
+                  device_token: token,
+                  device_platform: 'rn',
+                  is_development: isDevelopment
+                });
+
+              case 3:
+                res = _context11.sent;
+                return _context11.abrupt("return", res.body.results);
+
+              case 5:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11, this);
+      }));
+
+      function registerDeviceToken(_x10) {
+        return _registerDeviceToken.apply(this, arguments);
+      }
+
+      return registerDeviceToken;
+    }()
+  }, {
+    key: "removeDeviceToken",
+    value: function () {
+      var _removeDeviceToken = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee12(token) {
+        var isDevelopment,
+            res,
+            _args12 = arguments;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                isDevelopment = _args12.length > 1 && _args12[1] !== undefined ? _args12[1] : false;
+                _context12.next = 3;
+                return this.HTTPAdapter.post('api/v2/sdk/remove_user_device_token', {
+                  device_token: token,
+                  device_platform: 'rn',
+                  is_development: isDevelopment
+                });
+
+              case 3:
+                res = _context12.sent;
+                return _context12.abrupt("return", res.body.results);
+
+              case 5:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12, this);
+      }));
+
+      function removeDeviceToken(_x11) {
+        return _removeDeviceToken.apply(this, arguments);
+      }
+
+      return removeDeviceToken;
+    }()
     /**
      *
      * Search Qiscus Messages
@@ -23922,33 +25536,31 @@ function () {
   }, {
     key: "searchMessages",
     value: function () {
-      var _searchMessages = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
-      /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2() {
+      var _searchMessages = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee13() {
         var params,
             messages,
-            _args2 = arguments;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
+            _args13 = arguments;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                params = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : {};
+                params = _args13.length > 0 && _args13[0] !== undefined ? _args13[0] : {};
                 console.warn('Deprecated: search message will be removed on next release');
-                _context2.next = 4;
+                _context13.next = 4;
                 return this.userAdapter.searchMessages(params);
 
               case 4:
-                messages = _context2.sent;
-                return _context2.abrupt("return", messages.map(function (message) {
+                messages = _context13.sent;
+                return _context13.abrupt("return", messages.map(function (message) {
                   return new _lib_Comment__WEBPACK_IMPORTED_MODULE_11__["default"](message);
                 }));
 
               case 6:
               case "end":
-                return _context2.stop();
+                return _context13.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee13, this);
       }));
 
       function searchMessages() {
@@ -23960,10 +25572,13 @@ function () {
   }, {
     key: "updateProfile",
     value: function updateProfile(user) {
-      var _this9 = this;
+      var _this11 = this;
 
       return this.userAdapter.updateProfile(user).then(function (res) {
-        _this9.events.emit('profile-updated', user);
+        _this11.events.emit('profile-updated', user);
+
+        _this11.userData = res;
+        return Promise.resolve(res);
       }, function (err) {
         return console.log(err);
       });
@@ -24006,79 +25621,147 @@ function () {
 
   }, {
     key: "sendComment",
-    value: function sendComment(topicId, commentMessage, uniqueId) {
-      var _this10 = this;
+    value: function () {
+      var _sendComment = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee15(topicId, commentMessage, uniqueId) {
+        var _this12 = this;
 
-      var type = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'text';
-      var payload = arguments.length > 4 ? arguments[4] : undefined;
-      var extras = arguments.length > 5 ? arguments[5] : undefined;
-      var self = this; // set extra data, etc
+        var type,
+            payload,
+            extras,
+            self,
+            commentData,
+            pendingComment,
+            parsedPayload,
+            repliedMessage,
+            extrasToBeSubmitted,
+            messageData,
+            _args15 = arguments;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee15$(_context15) {
+          while (1) {
+            switch (_context15.prev = _context15.next) {
+              case 0:
+                type = _args15.length > 3 && _args15[3] !== undefined ? _args15[3] : 'text';
+                payload = _args15.length > 4 ? _args15[4] : undefined;
+                extras = _args15.length > 5 ? _args15[5] : undefined;
+                self = this; // set extra data, etc
 
-      if (self.options.prePostCommentCallback) {
-        self.options.prePostCommentCallback(commentMessage);
+                if (self.options.prePostCommentCallback) {
+                  self.options.prePostCommentCallback(commentMessage);
+                }
+                /**
+                 * example:
+                 * commentFormaterCallback(msg) {
+                 *  return filterBadWords(msg) // define your own filter function and return its' value
+                 * }
+                 */
+
+
+                if (self.options.commentFormaterCallback) {
+                  commentMessage = self.options.commentFormaterCallback(commentMessage);
+                }
+
+                self.pendingCommentId--;
+                commentData = {
+                  message: commentMessage,
+                  username_as: this.username,
+                  username_real: this.user_id,
+                  user_avatar_url: this.userData.avatar_url,
+                  user_extras: this.userData.user_extras,
+                  id: Math.round(Math.random() * 10e6),
+                  type: type || 'text',
+                  timestamp: date_fns_format__WEBPACK_IMPORTED_MODULE_9___default()(new Date()),
+                  unique_id: uniqueId ? String(uniqueId) : null,
+                  payload: Object(_lib_util__WEBPACK_IMPORTED_MODULE_21__["tryCatch"])(function () {
+                    return JSON.parse(payload);
+                  }, payload, function (error) {
+                    return _this12.logger('Error when parsing payload', error.message);
+                  })
+                };
+                pendingComment = self.prepareCommentToBeSubmitted(commentData); // push this comment unto active room
+
+                if (type === 'reply') {
+                  // change payload for pendingComment
+                  // get the comment for current replied id
+                  parsedPayload = JSON.parse(payload);
+                  repliedMessage = self.selected.comments.find(function (cmt) {
+                    return cmt.id === parsedPayload.replied_comment_id;
+                  });
+                  parsedPayload.replied_comment_message = repliedMessage.type === 'reply' ? repliedMessage.payload.text : repliedMessage.message;
+                  parsedPayload.replied_comment_sender_username = repliedMessage.username_as;
+                  pendingComment.payload = parsedPayload;
+                }
+
+                extrasToBeSubmitted = extras || self.extras;
+                _context15.next = 13;
+                return this._hookAdapter.trigger(_lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["Hooks"].MESSAGE_BEFORE_SENT, _objectSpread({}, pendingComment, {
+                  extras: extrasToBeSubmitted
+                }));
+
+              case 13:
+                messageData = _context15.sent;
+                messageData = self.prepareCommentToBeSubmitted(messageData);
+                if (self.selected) self.selected.comments.push(messageData);
+                return _context15.abrupt("return", this.userAdapter.postComment('' + topicId, messageData.message, messageData.unique_id, messageData.type, messageData.payload, messageData.extras).then( /*#__PURE__*/function () {
+                  var _ref12 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee14(res) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee14$(_context14) {
+                      while (1) {
+                        switch (_context14.prev = _context14.next) {
+                          case 0:
+                            _context14.next = 2;
+                            return _this12._hookAdapter.trigger(_lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["Hooks"].MESSAGE_BEFORE_RECEIVED, res);
+
+                          case 2:
+                            res = _context14.sent;
+                            Object.assign(messageData, res);
+
+                            if (self.selected) {
+                              _context14.next = 6;
+                              break;
+                            }
+
+                            return _context14.abrupt("return", Promise.resolve(messageData));
+
+                          case 6:
+                            // When the posting succeeded, we mark the Comment as sent,
+                            // so all the interested party can be notified.
+                            messageData.markAsSent();
+                            messageData.id = res.id;
+                            messageData.before_id = res.comment_before_id; // update the timestamp also then re-sort the comment list
+
+                            messageData.unix_timestamp = res.unix_timestamp;
+                            self.sortComments();
+                            return _context14.abrupt("return", messageData);
+
+                          case 12:
+                          case "end":
+                            return _context14.stop();
+                        }
+                      }
+                    }, _callee14);
+                  }));
+
+                  return function (_x15) {
+                    return _ref12.apply(this, arguments);
+                  };
+                }())["catch"](function (err) {
+                  messageData.markAsFailed();
+                  return Promise.reject(err);
+                }));
+
+              case 17:
+              case "end":
+                return _context15.stop();
+            }
+          }
+        }, _callee15, this);
+      }));
+
+      function sendComment(_x12, _x13, _x14) {
+        return _sendComment.apply(this, arguments);
       }
-      /**
-       * example:
-       * commentFormaterCallback(msg) {
-       *  return filterBadWords(msg) // define your own filter function and return its' value
-       * }
-       */
 
-
-      if (self.options.commentFormaterCallback) {
-        commentMessage = self.options.commentFormaterCallback(commentMessage);
-      }
-
-      self.pendingCommentId--;
-      var commentData = {
-        message: commentMessage,
-        username_as: this.username,
-        username_real: this.user_id,
-        user_avatar_url: this.userData.avatar_url,
-        id: Math.round(Math.random() * 10e6),
-        type: type || 'text',
-        timestamp: date_fns_format__WEBPACK_IMPORTED_MODULE_9___default()(new Date()),
-        unique_id: uniqueId
-      };
-      if (type !== 'text') commentData.payload = JSON.parse(payload);
-      var pendingComment = self.prepareCommentToBeSubmitted(commentData); // push this comment unto active room
-
-      if (type === 'reply') {
-        // change payload for pendingComment
-        // get the comment for current replied id
-        var parsedPayload = JSON.parse(payload);
-        var repliedMessage = self.selected.comments.find(function (cmt) {
-          return cmt.id === parsedPayload.replied_comment_id;
-        });
-        parsedPayload.replied_comment_message = repliedMessage.type === 'reply' ? repliedMessage.payload.text : repliedMessage.message;
-        parsedPayload.replied_comment_sender_username = repliedMessage.username_as;
-        pendingComment.payload = parsedPayload;
-      }
-
-      if (self.selected) self.selected.comments.push(pendingComment);
-      var extrasToBeSubmitted = extras || self.extras;
-      return this.userAdapter.postComment(topicId, commentMessage, pendingComment.unique_id, type, payload, extrasToBeSubmitted).then(function (res) {
-        if (!self.selected) return Promise.resolve(res); // When the posting succeeded, we mark the Comment as sent,
-        // so all the interested party can be notified.
-
-        pendingComment.markAsSent();
-        pendingComment.markAsRead({
-          participants: _this10.selected.participants,
-          actor: _this10.user_id,
-          comment_id: res.id,
-          activeActorId: _this10.user_id
-        });
-        pendingComment.id = res.id;
-        pendingComment.before_id = res.comment_before_id; // update the timestamp also then re-sort the comment list
-
-        pendingComment.unix_timestamp = res.unix_timestamp;
-        self.sortComments();
-        return Promise.resolve(res);
-      }, function (err) {
-        pendingComment.markAsFailed();
-        return Promise.reject(err);
-      });
-    } // #endregion
+      return sendComment;
+    }() // #endregion
 
   }, {
     key: "getUsers",
@@ -24087,7 +25770,6 @@ function () {
       var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       var limit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 20;
       return this.HTTPAdapter.get_request('api/v2/sdk/get_user_list').query({
-        token: this.userData.token,
         query: query,
         page: page,
         limit: limit
@@ -24096,11 +25778,24 @@ function () {
       });
     }
   }, {
+    key: "getParticipants",
+    value: function getParticipants(roomUniqueId) {
+      var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      var limit = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 20;
+      return this.HTTPAdapter.get_request('api/v2/sdk/room_participants').query({
+        room_unique_id: roomUniqueId,
+        page: page,
+        limit: limit
+      }).then(function (resp) {
+        return resp.body.results;
+      });
+    }
+  }, {
     key: "getRoomParticipants",
     value: function getRoomParticipants(roomUniqueId) {
       var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      console.warn('`getRoomParticipants` are deprecated, use `getParticipants` instead.');
       return this.HTTPAdapter.get_request('api/v2/sdk/room_participants').query({
-        token: this.userData.token,
         room_unique_id: roomUniqueId,
         offset: offset
       }).then(function (resp) {
@@ -24117,7 +25812,7 @@ function () {
         return cmtToFind.id === comment.id;
       });
       var extrasToBeSubmitted = self.extras;
-      return this.userAdapter.postComment(room.id, pendingComment.message, pendingComment.unique_id, comment.type, comment.payload, extrasToBeSubmitted).then(function (res) {
+      return this.userAdapter.postComment('' + room.id, pendingComment.message, pendingComment.unique_id, comment.type, comment.payload, extrasToBeSubmitted).then(function (res) {
         // When the posting succeeded, we mark the Comment as sent,
         // so all the interested party can be notified.
         pendingComment.markAsSent();
@@ -24166,7 +25861,11 @@ function () {
     value: function removeSelectedRoomParticipants() {
       var values = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
       var payload = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'id';
-      if (is_js__WEBPACK_IMPORTED_MODULE_8___default.a.not.array(values)) return Promise.reject(new Error('`values` must have type of array'));
+
+      if (is_js__WEBPACK_IMPORTED_MODULE_8___default.a.not.array(values)) {
+        return Promise.reject(new Error('`values` must have type of array'));
+      }
+
       var participants = this.selected.participants;
 
       if (!participants) {
@@ -24251,11 +25950,14 @@ function () {
   }, {
     key: "removeParticipantsFromGroup",
     value: function removeParticipantsFromGroup(roomId, emails) {
-      var _this11 = this;
+      var _this13 = this;
 
-      if (is_js__WEBPACK_IMPORTED_MODULE_8___default.a.not.array(emails)) return Promise.reject(new Error('`emails` must have type of array'));
+      if (is_js__WEBPACK_IMPORTED_MODULE_8___default.a.not.array(emails)) {
+        return Promise.reject(new Error('`emails` must have type of array'));
+      }
+
       return this.roomAdapter.removeParticipantsFromGroup(roomId, emails).then(function (res) {
-        _this11.events.emit('participants-removed', emails);
+        _this13.events.emit('participants-removed', emails);
 
         return Promise.resolve(res);
       });
@@ -24320,9 +26022,26 @@ function () {
       });
     }
   }, {
+    key: "getUserPresences",
+    value: function getUserPresences() {
+      var email = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+      if (is_js__WEBPACK_IMPORTED_MODULE_8___default.a.not.array(email)) {
+        return Promise.reject(new Error('`email` must have type of array'));
+      }
+
+      var self = this;
+      return self.userAdapter.getUserPresences(email).then(function (res) {
+        self.events.emit('user-status', res);
+        return Promise.resolve(res);
+      }, function (err) {
+        return Promise.reject(err);
+      });
+    }
+  }, {
     key: "upload",
     value: function upload(file, callback) {
-      return superagent__WEBPACK_IMPORTED_MODULE_6___default.a.post(this.uploadURL).attach('file', file).field('token', this.userData.token).set('qiscus_sdk_app_id', this.AppId).set('qiscus_sdk_token', this.userData.token).set('qiscus_sdk_user_id', this.user_id).on('progress', function (event) {
+      return superagent__WEBPACK_IMPORTED_MODULE_6___default.a.post(this.uploadURL).attach('file', file).set('qiscus_sdk_app_id', this.AppId).set('qiscus_sdk_token', this.userData.token).set('qiscus_sdk_user_id', this.user_id).on('progress', function (event) {
         if (event.direction === 'upload') callback(null, event);
       }).then(function (resp) {
         var url = resp.body.results.file.url;
@@ -24348,7 +26067,6 @@ function () {
       var self = this;
       var formData = new FormData();
       formData.append('file', file);
-      formData.append('token', self.userData.token);
       var xhr = new XMLHttpRequest();
       xhr.open('POST', "".concat(self.baseURL, "/api/v2/sdk/upload"), true);
       xhr.setRequestHeader('qiscus_sdk_app_id', "".concat(self.AppId));
@@ -24405,14 +26123,14 @@ function () {
   }, {
     key: "deleteComment",
     value: function deleteComment(roomId, commentUniqueIds, isForEveryone, isHard) {
-      var _this12 = this;
+      var _this14 = this;
 
       if (!Array.isArray(commentUniqueIds)) {
         throw new Error("unique ids' must be type of Array");
       }
 
       return this.userAdapter.deleteComment(roomId, commentUniqueIds, isForEveryone, isHard).then(function (res) {
-        _this12.events.emit('comment-deleted', {
+        _this14.events.emit('comment-deleted', {
           roomId: roomId,
           commentUniqueIds: commentUniqueIds,
           isForEveryone: isForEveryone,
@@ -24427,16 +26145,16 @@ function () {
   }, {
     key: "clearRoomsCache",
     value: function clearRoomsCache() {
-      var _this13 = this;
+      var _this15 = this;
 
       // remove all room except currently selected
       if (this.selected) {
         // clear the map
-        this.room_name_id_map = _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, this.selected.name, this.selected.id); // get current index and array length
+        this.room_name_id_map = _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()({}, this.selected.name, this.selected.id); // get current index and array length
 
         var roomLength = this.rooms.length;
         var curIndex = this.rooms.findIndex(function (room) {
-          return room.id === _this13.selected.id;
+          return room.id === _this15.selected.id;
         });
 
         if (!(curIndex + 1 === roomLength)) {
@@ -24445,7 +26163,7 @@ function () {
 
 
         curIndex = this.rooms.findIndex(function (room) {
-          return room.id === _this13.selected.id;
+          return room.id === _this15.selected.id;
         });
 
         if (curIndex > 0 && this.rooms.length > 1) {
@@ -24456,9 +26174,21 @@ function () {
   }, {
     key: "exitChatRoom",
     value: function exitChatRoom() {
+      var _this16 = this;
+
       // remove all subscriber
       this.realtimeAdapter.unsubscribeTyping();
-      this.realtimeAdapter.unsubscribeRoomPresence();
+      Object(_lib_util__WEBPACK_IMPORTED_MODULE_21__["tryCatch"])(function () {
+        return _this16.selected.participants.filter(function (it) {
+          return it.email !== _this16.user_id;
+        }).map(function (it) {
+          return it.email;
+        });
+      }, null, this.noop, function (userIds) {
+        return userIds.forEach(function (userId) {
+          return _this16.realtimeAdapter.unsubscribeRoomPresence(userId);
+        });
+      });
       this.selected = null;
     }
   }, {
@@ -24510,6 +26240,41 @@ function () {
       (_this$customEventAdap3 = this.customEventAdapter).unsubscribeEvent.apply(_this$customEventAdap3, arguments);
     }
   }, {
+    key: "setCustomHeader",
+    value: function setCustomHeader(headers) {
+      if (is_js__WEBPACK_IMPORTED_MODULE_8___default.a.not.json(headers)) {
+        throw new TypeError('`headers` must have type of object');
+      }
+
+      this._customHeader = headers;
+    }
+  }, {
+    key: "getUserProfile",
+    value: function getUserProfile() {
+      return this.userAdapter.getProfile();
+    }
+  }, {
+    key: "intercept",
+    value: function intercept(interceptor, callback) {
+      return this._hookAdapter.intercept(interceptor, callback);
+    }
+  }, {
+    key: "getThumbnailURL",
+    value: function getThumbnailURL(fileURL) {
+      var reURL = /^https?:\/\/\S+(\/upload\/)\S+(\.\w+)$/i;
+      return fileURL.replace(reURL, function (match, g1, g2) {
+        return match.replace(g1, '/upload/w_320,h_320,c_limit/').replace(g2, '.png');
+      });
+    }
+  }, {
+    key: "getBlurryThumbnailURL",
+    value: function getBlurryThumbnailURL(fileURL) {
+      var reURL = /^https?:\/\/\S+(\/upload\/)\S+(\.\w+)$/i;
+      return fileURL.replace(reURL, function (match, g1, g2) {
+        return match.replace(g1, '/upload/w_320,h_320,c_limit,e_blur:300/').replace(g2, '.png');
+      });
+    }
+  }, {
     key: "noop",
     value: function noop() {}
   }, {
@@ -24523,6 +26288,11 @@ function () {
       return this.syncAdapter.synchronizeEvent;
     }
   }, {
+    key: "Interceptor",
+    get: function get() {
+      return _lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["Hooks"];
+    }
+  }, {
     key: "logger",
     get: function get() {
       if (this.debugMode) return console.log.bind(console, 'Qiscus ->');
@@ -24533,8 +26303,10 @@ function () {
   return QiscusSDK;
 }();
 
+_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()(QiscusSDK, "Interceptor", _lib_adapters_hook__WEBPACK_IMPORTED_MODULE_23__["Hooks"]);
+
 var FileUploaded = function FileUploaded(name, roomId) {
-  _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4___default()(this, FileUploaded);
+  _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, FileUploaded);
 
   this.name = name;
   this.roomId = roomId;
@@ -24566,9 +26338,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var Comment =
-/*#__PURE__*/
-function () {
+var Comment = /*#__PURE__*/function () {
   function Comment(comment) {
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Comment);
 
@@ -24577,6 +26347,7 @@ function () {
     this.message = Object(_utils_js__WEBPACK_IMPORTED_MODULE_3__["escapeHTML"])(comment.message);
     this.username_as = comment.username_as || comment.username;
     this.username_real = comment.username_real || comment.email;
+    this.user_extras = comment.user_extras;
     this.date = date_fns_format__WEBPACK_IMPORTED_MODULE_2___default()(comment.timestamp, 'YYYY-MM-DD');
     this.time = date_fns_format__WEBPACK_IMPORTED_MODULE_2___default()(comment.timestamp, 'HH:mm');
     this.timestamp = comment.timestamp;
@@ -24585,6 +26356,7 @@ function () {
     this.room_id = comment.room_id;
     this.isChannel = comment.is_public_channel;
     this.unix_timestamp = comment.unix_timestamp;
+    this.extras = comment.extras;
     /* comment status */
 
     this.is_deleted = comment.is_deleted;
@@ -24618,8 +26390,6 @@ function () {
     } else if (comment.status === 'read') {
       this.markAsRead();
     }
-
-    ;
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Comment, [{
@@ -24669,103 +26439,30 @@ function () {
   }, {
     key: "markAsDelivered",
     value: function markAsDelivered() {
-      var _this = this;
+      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          actor = _ref.actor,
+          activeActorId = _ref.activeActorId;
 
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      if (Object.keys(options).length === 0) {
-        this.isSent = true;
-        this.isRead = false;
-        this.isDelivered = true;
-        this.status = 'delivered';
-        return;
-      }
-
-      var participants = options.participants;
-      var actorId = options.actor;
-      var commentId = options.comment_id;
-      var activeActorId = options.activeActorId;
-      var actor = participants.find(function (it) {
-        return it.email === actorId;
-      });
-
-      if (actor) {
-        actor.last_comment_received_id = commentId;
-        actor.last_comment_received_id_str = commentId;
-      } // Get list of participants that has not receive the message
-      // excluding current active user
-
-
-      var unreceivedParticipants = participants.map(function (it) {
-        return {
-          commentId: it.last_comment_received_id,
-          userId: it.email
-        };
-      }).filter(function (it) {
-        return it.userId !== activeActorId;
-      }).filter(function (it) {
-        return it.commentId < _this.id;
-      });
-
-      if (unreceivedParticipants.length === 0) {
-        this.isSent = true;
-        this.isRead = false;
-        this.isDelivered = true;
-        this.status = 'delivered';
-      }
+      if (actor === activeActorId) return;
+      if (this.isRead || this.status === 'read') return;
+      this.isSent = true;
+      this.isRead = false;
+      this.isDelivered = true;
+      this.status = 'delivered';
     }
   }, {
     key: "markAsRead",
     value: function markAsRead() {
-      var _this2 = this;
+      var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          actor = _ref2.actor,
+          activeActorId = _ref2.activeActorId;
 
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-      if (Object.keys(options).length === 0) {
-        this.isPending = false;
-        this.isSent = true;
-        this.isDelivered = true;
-        this.isRead = true;
-        this.status = 'read';
-        return;
-      }
-
-      var participants = options.participants;
-      var actorId = options.actor;
-      var commentId = options.comment_id;
-      var activeActorId = options.activeActorId;
-      var actor = participants.find(function (p) {
-        return p.email === actorId;
-      });
-
-      if (actor != null) {
-        actor.last_comment_read_id = commentId;
-        actor.last_comment_read_id_str = commentId.toString();
-        actor.last_comment_received_id = commentId;
-        actor.last_comment_received_id_str = commentId.toString();
-      }
-
-      if (activeActorId === actorId) return; // Get list of participants that has not read the message
-      // excluding current active user
-
-      var unreadParticipants = participants.map(function (it) {
-        return {
-          commentId: it.last_comment_read_id,
-          userId: it.email
-        };
-      }).filter(function (it) {
-        return it.userId !== options.activeActorId;
-      }).filter(function (it) {
-        return it.commentId < _this2.id;
-      }); // If all participants already read the message, mark message as read
-
-      if (unreadParticipants.length === 0) {
-        this.isPending = false;
-        this.isSent = true;
-        this.isDelivered = true;
-        this.isRead = true;
-        this.status = 'read';
-      }
+      if (actor === activeActorId) return;
+      this.isPending = false;
+      this.isSent = true;
+      this.isDelivered = true;
+      this.isRead = true;
+      this.status = 'read';
     }
   }, {
     key: "markAsFailed",
@@ -24801,8 +26498,6 @@ function () {
       } else if (data.status === 'read') {
         this.markAsRead();
       }
-
-      ;
     }
   }]);
 
@@ -24840,9 +26535,7 @@ __webpack_require__.r(__webpack_exports__);
  * @class Room
  */
 
-var Room =
-/*#__PURE__*/
-function () {
+var Room = /*#__PURE__*/function () {
   /**
    * Creates an instance of Room.
    * @param {any} roomData
@@ -24866,10 +26559,10 @@ function () {
     this.participants = roomData.participants;
     this.options = roomData.options;
     this.topics = [];
+    this.last_comment = roomData.last_comment;
     this.comments = [];
     this.count_notif = roomData.unread_count;
     this.isLoaded = false;
-    this.unread_comments = [];
     this.custom_title = null;
     this.custom_subtitle = null;
     this.options = roomData.options;
@@ -24927,7 +26620,7 @@ function () {
         commentToFind.time = comment.time;
         commentToFind.unix_timestamp = comment.unix_timestamp;
       } else {
-        this.comments.push(comment);
+        this.comments.push(comment); // this.comments.sort((a, b) => a.date - b.date)
       }
     }
   }, {
@@ -24978,41 +26671,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var AuthAdapter =
-/*#__PURE__*/
-function () {
+var AuthAdapter = /*#__PURE__*/function () {
   /**
-  * Params used in this class
-  * @method constructor
-  * @param  {Object}    HTTPAdapter [Qiscus HTTP adapter]
-  * @return {void}                Returns nothing
-  */
+   * Params used in this class
+   * @method constructor
+   * @param  {Object}    HTTPAdapter [Qiscus HTTP adapter]
+   * @return {void}                Returns nothing
+   */
   function AuthAdapter(HTTPAdapter) {
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, AuthAdapter);
 
     this.HTTPAdapter = HTTPAdapter;
-    this.token = HTTPAdapter.token;
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(AuthAdapter, [{
     key: "getNonce",
     value: function getNonce() {
-      return this.HTTPAdapter.post('api/v2/sdk/auth/nonce').then(function (response) {
-        return Promise.resolve(response.body.results);
-      }, function (error) {
-        return Promise.reject(error);
+      return this.HTTPAdapter.post('api/v2/sdk/auth/nonce').then(function (res) {
+        return res.body.results;
       });
     }
   }, {
     key: "loginOrRegister",
     value: function loginOrRegister(params) {
-      return this.HTTPAdapter.post('api/v2/sdk/login_or_register', params).then(function (response) {
-        return new Promise(function (resolve, reject) {
-          if (response.body.status !== 200) return reject(response);
-          return resolve(response.body.results);
-        });
-      }, function (error) {
-        return Promise.reject(error);
+      return this.HTTPAdapter.post('api/v2/sdk/login_or_register', params).then(function (resp) {
+        if (resp.body.status !== 200) return Promise.reject(resp);
+        return resp.body.results;
       });
     }
   }, {
@@ -25020,10 +26704,8 @@ function () {
     value: function verifyIdentityToken(token) {
       return this.HTTPAdapter.post('api/v2/sdk/auth/verify_identity_token', {
         identity_token: token
-      }).then(function (response) {
-        return Promise.resolve(response.body.results);
-      }, function (error) {
-        return Promise.reject(error);
+      }).then(function (resp) {
+        return resp.body.results;
       });
     }
   }]);
@@ -25092,7 +26774,7 @@ function CustomEventAdapter(mqttAdapter, userId) {
         callback(parsedPayload);
       };
 
-      events.addListener(topic, cb);
+      events.on(topic, cb);
       subscribedTopics[topic] = cb;
     },
     unsubscribeEvent: function unsubscribeEvent(roomId) {
@@ -25101,10 +26783,55 @@ function CustomEventAdapter(mqttAdapter, userId) {
       var topic = getTopic(roomId);
       if (!subscribedTopics[topic]) return;
       mqttAdapter.mqtt.unsubscribe(topic);
-      events.removeListener(topic, subscribedTopics[topic]);
+      events.off(topic, subscribedTopics[topic]);
       subscribedTopics[topic] = null;
       delete subscribedTopics[topic];
     }
+  };
+}
+
+/***/ }),
+
+/***/ "./src/lib/adapters/hook.js":
+/*!**********************************!*\
+  !*** ./src/lib/adapters/hook.js ***!
+  \**********************************/
+/*! exports provided: Hooks, hookAdapterFactory */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Hooks", function() { return Hooks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hookAdapterFactory", function() { return hookAdapterFactory; });
+var Hooks = {
+  MESSAGE_BEFORE_SENT: "message::before-sent",
+  MESSAGE_BEFORE_RECEIVED: "message::before-received"
+};
+function hookAdapterFactory() {
+  var hooks = {};
+
+  var get = function get(key) {
+    if (!Array.isArray(hooks[key])) hooks[key] = [];
+    return hooks[key];
+  };
+
+  function intercept(hook, callback) {
+    get(hook).push(callback);
+    var index = get(hook).length;
+    return function () {
+      return get(hook).splice(index, 1);
+    };
+  }
+
+  function trigger(hook, payload) {
+    return get(hook).reduce(function (acc, fn) {
+      return Promise.resolve(acc).then(fn);
+    }, Promise.resolve(payload));
+  }
+
+  return {
+    trigger: trigger,
+    intercept: intercept
   };
 }
 
@@ -25130,14 +26857,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var HttpAdapter =
-/*#__PURE__*/
-function () {
+var HttpAdapter = /*#__PURE__*/function () {
   function HttpAdapter(_ref) {
     var baseURL = _ref.baseURL,
         AppId = _ref.AppId,
         userId = _ref.userId,
-        version = _ref.version;
+        version = _ref.version,
+        getCustomHeader = _ref.getCustomHeader;
 
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, HttpAdapter);
 
@@ -25146,6 +26872,7 @@ function () {
     this.userId = userId;
     this.AppId = AppId;
     this.version = version;
+    this.getCustomHeader = getCustomHeader;
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(HttpAdapter, [{
@@ -25188,7 +26915,7 @@ function () {
       return new Promise(function (resolve, reject) {
         var req = superagent__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this2.baseURL, "/").concat(path));
         req = _this2.setupHeaders(req, headers);
-        req.send(body).set('Content-Type', 'application/x-www-form-urlencoded').end(function (err, res) {
+        req.send(body).set("Content-Type", "application/x-www-form-urlencoded").end(function (err, res) {
           if (err) return reject(err);
           return resolve(res);
         });
@@ -25205,7 +26932,7 @@ function () {
       return new Promise(function (resolve, reject) {
         var req = superagent__WEBPACK_IMPORTED_MODULE_2___default.a.post("".concat(_this3.baseURL, "/").concat(path));
         req = _this3.setupHeaders(req, headers);
-        req.send(body).set('Content-Type', 'application/json').end(function (err, res) {
+        req.send(body).set("Content-Type", "application/json").end(function (err, res) {
           if (err) return reject(err);
           return resolve(res);
         });
@@ -25221,7 +26948,7 @@ function () {
       return new Promise(function (resolve, reject) {
         var req = superagent__WEBPACK_IMPORTED_MODULE_2___default.a.put("".concat(_this4.baseURL, "/").concat(path));
         req = _this4.setupHeaders(req, headers);
-        req.send(body).set('Content-Type', 'application/x-www-form-urlencoded').end(function (err, res) {
+        req.send(body).set("Content-Type", "application/x-www-form-urlencoded").end(function (err, res) {
           if (err) return reject(err);
           return resolve(res);
         });
@@ -25237,7 +26964,7 @@ function () {
       return new Promise(function (resolve, reject) {
         var req = superagent__WEBPACK_IMPORTED_MODULE_2___default.a.patch("".concat(_this5.baseURL, "/").concat(path));
         req = _this5.setupHeaders(req, headers);
-        req.send(body).set('Content-Type', 'application/x-www-form-urlencoded').end(function (err, res) {
+        req.send(body).set("Content-Type", "application/x-www-form-urlencoded").end(function (err, res) {
           if (err) return reject(err);
           return resolve(res);
         });
@@ -25253,7 +26980,7 @@ function () {
       return new Promise(function (resolve, reject) {
         var req = superagent__WEBPACK_IMPORTED_MODULE_2___default.a.del("".concat(_this6.baseURL, "/").concat(path));
         req = _this6.setupHeaders(req, headers);
-        req.send(body).set('Content-Type', 'application/json').end(function (err, res) {
+        req.send(body).set("Content-Type", "application/json").end(function (err, res) {
           if (err) return reject(err);
           return resolve(res);
         });
@@ -25263,15 +26990,23 @@ function () {
     key: "setupHeaders",
     value: function setupHeaders(req, headers) {
       // let's give this default Authorization Header
-      req.set('QISCUS_SDK_APP_ID', "".concat(this.AppId));
-      req.set('QISCUS_SDK_USER_ID', "".concat(this.userId));
-      req.set('QISCUS_SDK_TOKEN', "".concat(this.token));
-      req.set('QISCUS_SDK_VERSION', "".concat(this.version)); // Return the req if no headers attached
+      req.set("QISCUS-SDK-APP-ID", "".concat(this.AppId));
+      req.set("QISCUS-SDK-USER-ID", "".concat(this.userId));
+      req.set("QISCUS-SDK-TOKEN", "".concat(this.token));
+      req.set("QISCUS-SDK-VERSION", "".concat(this.version));
+
+      if (this.getCustomHeader != null) {
+        var customHeaders = this.getCustomHeader();
+        Object.keys(customHeaders).forEach(function (key) {
+          req.set(key, customHeaders[key]);
+        });
+      } // Return the req if no headers attached
+
 
       if (Object.keys(headers).length < 1) return req; // now let's process custom header
 
       for (var key in headers) {
-        req.set(key, headers[key]);
+        if (headers.hasOwnProperty(key)) req.set(key, headers[key]);
       }
 
       return req;
@@ -25295,16 +27030,29 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MqttAdapter; });
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _match__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../match */ "./src/lib/match.js");
-/* harmony import */ var mitt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! mitt */ "./node_modules/mitt/dist/mitt.es.js");
-/* harmony import */ var mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! mqtt/lib/connect */ "./node_modules/mqtt/lib/connect/index.js");
-/* harmony import */ var mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _match__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../match */ "./src/lib/match.js");
+/* harmony import */ var mitt__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! mitt */ "./node_modules/mitt/dist/mitt.es.js");
+/* harmony import */ var mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! mqtt/lib/connect */ "./node_modules/mqtt/lib/connect/index.js");
+/* harmony import */ var mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! superagent */ "./node_modules/superagent/lib/client.js");
+/* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(superagent__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../util */ "./src/lib/util.js");
 
 
 
@@ -25312,23 +27060,109 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var MqttAdapter =
-/*#__PURE__*/
-function () {
-  function MqttAdapter(url, core) {
+
+
+
+
+
+
+
+var MqttAdapter = /*#__PURE__*/function () {
+  function MqttAdapter(url, core, login, _ref) {
     var _this = this,
         _match;
 
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, MqttAdapter);
+    var brokerLbUrl = _ref.brokerLbUrl,
+        enableLb = _ref.enableLb;
 
-    var emitter = Object(mitt__WEBPACK_IMPORTED_MODULE_4__["default"])();
-    var mqtt = mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_5___default()(url, {
-      will: {
-        topic: "u/".concat(core.userData.email, "/s"),
-        payload: 0,
-        retain: true
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_4___default()(this, MqttAdapter);
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(this, "subscribtionBuffer", []);
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(this, "unsubscribtionBuffer", []);
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(this, "publishBuffer", []);
+
+    var emitter = Object(mitt__WEBPACK_IMPORTED_MODULE_8__["default"])();
+    var matcher = Object(_match__WEBPACK_IMPORTED_MODULE_7__["match"])((_match = {}, _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_7__["when"])(this.reNewMessage), function (topic) {
+      return _this.newMessageHandler.bind(_this, topic);
+    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_7__["when"])(this.reNotification), function (topic) {
+      return _this.notificationHandler.bind(_this, topic);
+    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_7__["when"])(this.reTyping), function (topic) {
+      return _this.typingHandler.bind(_this, topic);
+    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_7__["when"])(this.reDelivery), function (topic) {
+      return _this.deliveryReceiptHandler.bind(_this, topic);
+    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_7__["when"])(this.reRead), function (topic) {
+      return _this.readReceiptHandler.bind(_this, topic);
+    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_7__["when"])(this.reOnlineStatus), function (topic) {
+      return _this.onlinePresenceHandler.bind(_this, topic);
+    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_7__["when"])(this.reChannelMessage), function (topic) {
+      return _this.channelMessageHandler.bind(_this, topic);
+    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_7__["when"])(), function (topic) {
+      return _this.logger('topic not handled', topic);
+    }), _match));
+
+    var __mqtt_connected_handler = function __mqtt_connected_handler() {
+      emitter.emit('connected');
+    };
+
+    var __mqtt_reconnect_handler = function __mqtt_reconnect_handler() {
+      emitter.emit('reconnect');
+    };
+
+    var __mqtt_closed_handler = function __mqtt_closed_handler() {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
       }
-    }); // Define a read-only property so user cannot accidentially
+
+      emitter.emit('close', args);
+    };
+
+    var __mqtt_message_handler = function __mqtt_message_handler(t, m) {
+      var message = m.toString();
+      var func = matcher(t);
+
+      _this.logger('message', t, m);
+
+      if (func != null) func(message);
+    };
+
+    var __mqtt_error_handler = function __mqtt_error_handler(err) {
+      if (err && err.message === 'client disconnecting') return;
+      emitter.emit('error', err.message);
+
+      _this.logger('error', err.message);
+    };
+
+    var __mqtt_conneck = function __mqtt_conneck(brokerUrl) {
+      if (_this.mqtt != null) {
+        _this.mqtt.removeAllListeners();
+
+        _this.mqtt = null;
+      }
+
+      var opts = {
+        will: {
+          topic: "u/".concat(core.userData.email, "/s"),
+          payload: 0,
+          retain: true
+        }
+      };
+      var mqtt = mqtt_lib_connect__WEBPACK_IMPORTED_MODULE_9___default()(brokerUrl, opts); // #region Mqtt Listener
+
+      mqtt.addListener('connect', __mqtt_connected_handler);
+      mqtt.addListener('reconnect', __mqtt_reconnect_handler);
+      mqtt.addListener('close', __mqtt_closed_handler);
+      mqtt.addListener('error', __mqtt_error_handler);
+      mqtt.addListener('message', __mqtt_message_handler); // #endregion
+
+      return mqtt;
+    };
+
+    var mqtt = __mqtt_conneck(url);
+
+    this.willConnectToRealtime = false;
+    this.cacheRealtimeURL = url; // Define a read-only property so user cannot accidentially
     // overwrite it's value
 
     Object.defineProperties(this, {
@@ -25339,136 +27173,157 @@ function () {
         value: emitter
       },
       mqtt: {
-        value: mqtt
+        value: mqtt,
+        writable: true
+      },
+      brokerLbUrl: {
+        value: brokerLbUrl
       }
-    });
-    var matcher = Object(_match__WEBPACK_IMPORTED_MODULE_3__["match"])((_match = {}, _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_3__["when"])(this.reNewMessage), function (topic) {
-      return _this.newMessageHandler.bind(_this, topic);
-    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_3__["when"])(this.reNotification), function (topic) {
-      return _this.notificationHandler.bind(_this, topic);
-    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_3__["when"])(this.reTyping), function (topic) {
-      return _this.typingHandler.bind(_this, topic);
-    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_3__["when"])(this.reDelivery), function (topic) {
-      return _this.deliveryReceiptHandler.bind(_this, topic);
-    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_3__["when"])(this.reRead), function (topic) {
-      return _this.readReceiptHandler.bind(_this, topic);
-    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_3__["when"])(this.reOnlineStatus), function (topic) {
-      return _this.onlinePresenceHandler.bind(_this, topic);
-    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_3__["when"])(this.reChannelMessage), function (topic) {
-      return _this.channelMessageHandler.bind(_this, topic);
-    }), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(_match, Object(_match__WEBPACK_IMPORTED_MODULE_3__["when"])(), function (topic) {
-      return _this.logger('topic not handled', topic);
-    }), _match)); // #region mqtt event
+    }); // handle load balencer
 
-    this.mqtt.on('message', function (t, m) {
-      var message = m.toString();
-      var func = matcher(t);
-      if (func != null) func(message);
-    });
-    this.mqtt.on('connect', function () {
-      _this.emit('connected');
+    emitter.on('close', lodash_debounce__WEBPACK_IMPORTED_MODULE_11___default()( /*#__PURE__*/_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee() {
+      var topics, _ref3, _ref4, url, err;
 
-      _this.logger('connect', _this.mqtt.connected);
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!(!enableLb && !login)) {
+                _context.next = 2;
+                break;
+              }
 
-      if (core.sync === 'socket') core.disableSync();
-    });
-    this.mqtt.on('reconnect', function () {
-      _this.logger('reconnect', _this.mqtt.connected);
+              return _context.abrupt("return");
 
-      _this.emit('reconnect');
+            case 2:
+              _this.willConnectToRealtime = true;
+              topics = Object.keys(_this.mqtt._resubscribeTopics);
+              _context.next = 6;
+              return Object(_util__WEBPACK_IMPORTED_MODULE_12__["wrapP"])(_this.getMqttNode());
 
-      if (_this.mqtt.connected) {
-        core.disableSync();
+            case 6:
+              _ref3 = _context.sent;
+              _ref4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2___default()(_ref3, 2);
+              url = _ref4[0];
+              err = _ref4[1];
+
+              if (err) {
+                _this.logger("cannot get new brokerURL, using old url instead (".concat(_this.cacheRealtimeURL, ")"));
+
+                _this.mqtt = __mqtt_conneck(_this.cacheRealtimeURL);
+              } else {
+                _this.cacheRealtimeURL = url;
+
+                _this.logger('trying to reconnect to', url);
+
+                _this.mqtt = __mqtt_conneck(url);
+              }
+
+              _this.logger("resubscribe to old topics ".concat(topics));
+
+              topics.forEach(function (topic) {
+                return _this.mqtt.subscribe(topic);
+              });
+
+            case 13:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    })), 300));
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_5___default()(MqttAdapter, [{
+    key: "getMqttNode",
+    value: function () {
+      var _getMqttNode = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_3___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2() {
+        var res, url, port;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return superagent__WEBPACK_IMPORTED_MODULE_10___default.a.get(this.brokerLbUrl);
+
+              case 2:
+                res = _context2.sent;
+                url = res.body.data.url;
+                port = res.body.data.wss_port;
+                return _context2.abrupt("return", "wss://".concat(url, ":").concat(port, "/mqtt"));
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getMqttNode() {
+        return _getMqttNode.apply(this, arguments);
       }
 
-      core.synchronize();
-      core.synchronizeEvent();
-    });
-    this.mqtt.on('close', function () {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      _this.logger('close', args);
-
-      _this.emit('close', _this.mqtt);
-
-      core.activateSync();
-    });
-    this.mqtt.on('error', function () {
+      return getMqttNode;
+    }()
+  }, {
+    key: "subscribe",
+    value: function subscribe() {
       for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
         args[_key2] = arguments[_key2];
       }
 
-      _this.logger('error', args);
+      this.logger('subscribe to', args);
+      this.subscribtionBuffer.push(args);
 
-      _this.emit('error');
+      if (this.mqtt != null) {
+        do {
+          var _this$mqtt;
 
-      core.activateSync();
-    }); // #endregion
-    // TODO: Update core to use latest emitter
-    // #region backward-compatible
-
-    this.on('new-message', function (message) {
-      core.events.emit('newmessages', [message]);
-    });
-    this.on('presence', function (data) {
-      core.events.emit('presence', data);
-    });
-    this.on('comment-deleted', function (data) {
-      core.events.emit('comment-deleted', data);
-    });
-    this.on('room-cleared', function (data) {
-      core.events.emit('room-cleared', data);
-    });
-    this.on('typing', function (data) {
-      core.events.emit('typing', {
-        message: data.message,
-        username: data.userId,
-        room_id: data.roomId
-      });
-    });
-    this.on('comment-delivered', function (data) {
-      _this.logger('emitting comment-delivered', data);
-
-      core.events.emit('comment-delivered', {
-        actor: data.userId,
-        comment: data.comment
-      });
-    });
-    this.on('comment-read', function (data) {
-      core.events.emit('comment-read', {
-        comment: data.comment,
-        actor: data.userId
-      });
-    }); // #endregion
-  }
-
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(MqttAdapter, [{
-    key: "subscribe",
-    value: function subscribe() {
-      var _this$mqtt;
-
-      (_this$mqtt = this.mqtt).subscribe.apply(_this$mqtt, arguments);
+          var subs = this.subscribtionBuffer.shift();
+          if (subs != null) (_this$mqtt = this.mqtt).subscribe.apply(_this$mqtt, args);
+        } while (this.subscribtionBuffer.length > 0);
+      }
     }
   }, {
     key: "unsubscribe",
     value: function unsubscribe() {
-      var _this$mqtt2;
-
       for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
         args[_key3] = arguments[_key3];
       }
 
       this.logger('unsubscribe from', args);
+      this.unsubscribtionBuffer.push(args);
 
-      (_this$mqtt2 = this.mqtt).unsubscribe.apply(_this$mqtt2, args);
+      if (this.mqtt != null) {
+        do {
+          var subs = this.unsubscribtionBuffer.shift();
+
+          if (subs != null) {
+            var _this$mqtt2;
+
+            (_this$mqtt2 = this.mqtt).unsubscribe.apply(_this$mqtt2, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(subs));
+          }
+        } while (this.unsubscribtionBuffer.length > 0);
+      }
     }
   }, {
     key: "publish",
     value: function publish(topic, payload) {
       var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return this.mqtt.publish(topic, payload.toString(), options);
+      this.publishBuffer.push({
+        topic: topic,
+        payload: payload,
+        options: options
+      });
+
+      do {
+        var data = this.publishBuffer.shift();
+
+        if (data != null) {
+          return this.mqtt.publish(data.topic, data.payload.toString(), data.options);
+        }
+      } while (this.publishBuffer.length > 0);
     }
   }, {
     key: "emit",
@@ -25484,12 +27339,6 @@ function () {
 
       (_this$emitter2 = this.emitter).on.apply(_this$emitter2, arguments);
     }
-  }, {
-    key: "disconnect",
-    value: function disconnect() {
-      this.unsubscribe(Object.keys(this.mqtt._resubscribeTopics));
-    } // #region regexp
-
   }, {
     key: "noop",
     // #endregion
@@ -25570,31 +27419,7 @@ function () {
         commentId: commentId,
         commentUniqueId: commentUniqueId,
         userId: userId
-      }); // if (this.core.selected == null) return
-      //
-      // const room = this.core.selected
-      // const comment = room.comments
-      //   .find(it => it.id === commentId || it.unique_id === commentUniqueId)
-      //
-      // if (comment == null) return
-      // if (comment.status === 'read') return
-      // if (comment.username_real === userId) return
-      //
-      // const options = {
-      //   participants: room.participants,
-      //   actor: userId,
-      //   comment_id: commentId
-      // }
-      // room.comments.forEach((it) => {
-      //   if (it.status !== 'read' && it.id <= comment.id) {
-      //     comment.markAsDelivered(options)
-      //   }
-      // })
-      // if (comment.room_id == null) comment.room_id = room.id
-      // this.emit('comment-delivered', {
-      //   userId,
-      //   comment
-      // })
+      });
     }
   }, {
     key: "readReceiptHandler",
@@ -25610,44 +27435,19 @@ function () {
         commentId: commentId,
         commentUniqueId: commentUniqueId,
         userId: userId
-      }); // if (this.core.selected == null) return
-      //
-      // const room = this.core.selected
-      // const comment = room.comments
-      //   .find(it => it.unique_id === commentUniqueId || it.id === commentId)
-      // if (comment == null) return
-      //
-      // const isOwnedComment = comment.username_real === this.core.user_id
-      // const isOwnedEvent = userId === this.core.user_id
-      // const isRead = comment.status === 'read'
-      //
-      // if (!isRead && isOwnedComment && !isOwnedEvent) {
-      //   const options = {
-      //     participants: room.participants,
-      //     actor: userId,
-      //     comment_id: Number(commentId),
-      //     activeActorId: this.core.user_id
-      //   }
-      //   room.comments.forEach((it) => {
-      //     if (it.id <= comment.id) {
-      //       it.markAsRead(options)
-      //     }
-      //   })
-      //
-      //   if (comment.room_id == null) comment.room_id = room.id
-      //   // Only emit if comment are read
-      //   if (!comment.isRead) return
-      //   this.emit('comment-read', {
-      //     comment,
-      //     userId
-      //   })
-      // }
+      });
     }
   }, {
     key: "onlinePresenceHandler",
     value: function onlinePresenceHandler(topic, message) {
-      this.logger('on:online-presence', topic);
-      this.emit('presence', message);
+      this.logger('on:online-presence', topic, message); // u/guest-1002/s
+
+      var topicData = this.reOnlineStatus.exec(topic);
+      var userId = topicData[1];
+      this.emit('presence', {
+        message: message,
+        userId: userId
+      });
     }
   }, {
     key: "channelMessageHandler",
@@ -25688,10 +27488,17 @@ function () {
   }, {
     key: "publishPresence",
     value: function publishPresence(userId) {
-      this.core.logging('emitting presence status for user', userId);
-      this.publish("u/".concat(userId, "/s"), 1, {
+      var isOnline = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      isOnline ? this.publish("u/".concat(userId, "/s"), 1, {
+        retain: true
+      }) : this.publish("u/".concat(userId, "/s"), 0, {
         retain: true
       });
+    }
+  }, {
+    key: "disconnect",
+    value: function disconnect() {
+      this.publishPresence(this.core.userData.email, false), this.unsubscribe(Object.keys(this.mqtt._resubscribeTopics));
     }
   }, {
     key: "subscribeUserPresence",
@@ -25715,48 +27522,50 @@ function () {
   }, {
     key: "connected",
     get: function get() {
+      if (this.mqtt == null) return false;
       return this.mqtt.connected;
     }
   }, {
     key: "logger",
     get: function get() {
       if (!this.core.debugMQTTMode) return this.noop;
-      return console.log.bind(console, 'MQTT ->');
-    }
+      return console.log.bind(console, 'QRealtime ->');
+    } // #region regexp
+
   }, {
     key: "reNewMessage",
     get: function get() {
-      return /^([\w]+)\/c/i;
+      return /^(.+)\/c$/i;
     }
   }, {
     key: "reNotification",
     get: function get() {
-      return /^([\w]+)\/n/i;
+      return /^(.+)\/n$/i;
     }
   }, {
     key: "reTyping",
     get: function get() {
-      return /^r\/([\d]+)\/([\d]+)\/([\S]+)\/t$/i;
+      return /^r\/([\d]+)\/([\d]+)\/(.+)\/t$/i;
     }
   }, {
     key: "reDelivery",
     get: function get() {
-      return /^r\/([\d]+)\/([\d]+)\/([\S]+)\/d$/i;
+      return /^r\/([\d]+)\/([\d]+)\/(.+)\/d$/i;
     }
   }, {
     key: "reRead",
     get: function get() {
-      return /^r\/([\d]+)\/([\d]+)\/([\S]+)\/r$/i;
+      return /^r\/([\d]+)\/([\d]+)\/(.+)\/r$/i;
     }
   }, {
     key: "reOnlineStatus",
     get: function get() {
-      return /^u\/([\S]+)\/s$/i;
+      return /^u\/(.+)\/s$/i;
     }
   }, {
     key: "reChannelMessage",
     get: function get() {
-      return /^([\S]+)\/([\S]+)\/c/i;
+      return /^(.+)\/(.+)\/c$/i;
     }
   }, {
     key: "subscribeTyping",
@@ -25804,15 +27613,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var RoomAdapter =
-/*#__PURE__*/
-function () {
+var RoomAdapter = /*#__PURE__*/function () {
   /**
-  * Params used in this class
-  * @method constructor
-  * @param  {Object}    HTTPAdapter [Qiscus HTTP adapter]
-  * @return {void}                Returns nothing
-  */
+   * Params used in this class
+   * @method constructor
+   * @param  {Object}    HTTPAdapter [Qiscus HTTP adapter]
+   * @return {void}                Returns nothing
+   */
   function RoomAdapter(HTTPAdapter) {
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, RoomAdapter);
 
@@ -25824,7 +27631,6 @@ function () {
     key: "getOrCreateRoom",
     value: function getOrCreateRoom(email, options, distinctId) {
       var params = {
-        token: this.token,
         emails: email
       };
       if (distinctId) params[distinctId] = distinctId;
@@ -25839,37 +27645,30 @@ function () {
         });
         room.name = rivalUser ? rivalUser.username : 'Room name';
         return Promise.resolve(room);
-      }, function (err) {
-        return Promise.reject(err);
       });
     }
   }, {
     key: "getRoomById",
     value: function getRoomById(id) {
-      return this.HTTPAdapter.get("api/v2/mobile/get_room_by_id?token=".concat(this.token, "&id=").concat(id)).then(function (response) {
-        return Promise.resolve(response.body);
-      }, function (error) {
-        return Promise.reject(error);
+      return this.HTTPAdapter.get("api/v2/sdk/get_room_by_id?id=".concat(id)).then(function (res) {
+        return res.body;
       });
     }
   }, {
     key: "getOrCreateRoomByUniqueId",
     value: function getOrCreateRoomByUniqueId(id, name, avatarURL) {
       var params = {
-        token: this.token,
         unique_id: id,
         name: name,
         avatar_url: avatarURL
       };
-      return this.HTTPAdapter.post("api/v2/mobile/get_or_create_room_with_unique_id", params).then(function (res) {
+      return this.HTTPAdapter.post("api/v2/sdk/get_or_create_room_with_unique_id", params).then(function (res) {
         if (res.body.status !== 200) return Promise.reject(res);
         var room = res.body.results.room;
         room.avatar = room.avatar_url;
         room.comments = res.body.results.comments.reverse();
         room.name = room.room_name;
         return Promise.resolve(room);
-      }, function (err) {
-        return Promise.reject(err);
       });
     }
   }, {
@@ -25879,13 +27678,12 @@ function () {
       var optionalData = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
       var optsData = Object.keys(optionalData).length <= 0 ? null : JSON.stringify(optionalData);
       var body = {
-        token: this.token,
         name: name,
         'participants[]': emails,
         avatar_url: opts.avatarURL,
         options: optsData
       };
-      return this.HTTPAdapter.post("api/v2/mobile/create_room", body).then(function (res) {
+      return this.HTTPAdapter.post("api/v2/sdk/create_room", body).then(function (res) {
         if (res.body.status !== 200) return Promise.reject(res);
         var room = res.body.results.room;
         room.comments = res.body.results.comments;
@@ -25906,9 +27704,6 @@ function () {
             };
           })
         });
-      })["catch"](function (err) {
-        console.error('Error when creating room', err);
-        return Promise.reject(new Error('Error when creating room'));
       });
     }
   }, {
@@ -25916,26 +27711,21 @@ function () {
     value: function updateRoom(args) {
       if (!args.id) throw new Error('id is required');
       var params = {
-        token: this.token,
         id: args.id
       };
       if (args.room_name) params['room_name'] = args.room_name;
       if (args.avatar_url) params['avatar_url'] = args.avatar_url;
       if (args.options) params['options'] = JSON.stringify(args.options);
-      return this.HTTPAdapter.post("api/v2/mobile/update_room", params).then(function (res) {
+      return this.HTTPAdapter.post("api/v2/sdk/update_room", params).then(function (res) {
         if (res.body.status !== 200) return Promise.reject(res);
         return Promise.resolve(res.body.results.room);
-      }, function (err) {
-        return Promise.reject(err);
       });
     }
   }, {
     key: "getTotalUnreadCount",
     value: function getTotalUnreadCount() {
-      return this.HTTPAdapter.get("api/v2/sdk/total_unread_count?token=".concat(this.token)).then(function (response) {
-        return Promise.resolve(response.body.results.total_unread_count);
-      }, function (error) {
-        return Promise.reject(error);
+      return this.HTTPAdapter.get("api/v2/sdk/total_unread_count").then(function (resp) {
+        return resp.body.results.total_unread_count;
       });
     }
   }, {
@@ -25944,15 +27734,12 @@ function () {
       var emails = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
       if (!roomId || !emails) throw new Error('room_id and emails is required');
       var params = {
-        token: this.token,
         room_id: roomId,
         'emails[]': emails
       };
-      return this.HTTPAdapter.post("api/v2/mobile/add_room_participants", params).then(function (res) {
+      return this.HTTPAdapter.post("api/v2/sdk/add_room_participants", params).then(function (res) {
         if (res.body.status !== 200) return Promise.reject(res);
         return Promise.resolve(res.body.results.participants_added);
-      }, function (err) {
-        return Promise.reject(err);
       });
     }
   }, {
@@ -25961,15 +27748,12 @@ function () {
       var emails = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
       if (!roomId || !emails) throw new Error('room_id and emails is required');
       var params = {
-        token: this.token,
         room_id: roomId,
         'emails[]': emails
       };
-      return this.HTTPAdapter.post("api/v2/mobile/remove_room_participants", params).then(function (res) {
+      return this.HTTPAdapter.post("api/v2/sdk/remove_room_participants", params).then(function (res) {
         if (res.body.status !== 200) return Promise.reject(res);
         return Promise.resolve(res.body.results.participants_removed);
-      }, function (err) {
-        return Promise.reject(err);
       });
     }
   }]);
@@ -25991,60 +27775,442 @@ function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SyncAdapter; });
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
-/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
-/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var mitt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! mitt */ "./node_modules/mitt/dist/mitt.es.js");
-/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash.throttle */ "./node_modules/lodash.throttle/index.js");
-/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_asyncIterator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncIterator */ "./node_modules/@babel/runtime/helpers/asyncIterator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncIterator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncIterator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_awaitAsyncGenerator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/awaitAsyncGenerator */ "./node_modules/@babel/runtime/helpers/awaitAsyncGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_awaitAsyncGenerator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_awaitAsyncGenerator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_wrapAsyncGenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/wrapAsyncGenerator */ "./node_modules/@babel/runtime/helpers/wrapAsyncGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_wrapAsyncGenerator__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_wrapAsyncGenerator__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var mitt__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! mitt */ "./node_modules/mitt/dist/mitt.es.js");
+/* harmony import */ var _url_builder__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../url-builder */ "./src/lib/url-builder.js");
 
 
 
 
 
-var UrlBuilder =
-/*#__PURE__*/
-function () {
-  function UrlBuilder(baseUrl) {
-    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, UrlBuilder);
 
-    this.baseUrl = baseUrl;
-    this.params = {};
+
+
+var noop = function noop() {};
+
+var sleep = function sleep(time) {
+  return new Promise(function (res) {
+    return setTimeout(res, time);
+  });
+};
+
+function synchronizeFactory(getHttp, getInterval, getSync, getId, logger) {
+  var emitter = Object(mitt__WEBPACK_IMPORTED_MODULE_5__["default"])();
+
+  var synchronize = function synchronize(messageId) {
+    var url = Object(_url_builder__WEBPACK_IMPORTED_MODULE_6__["default"])('api/v2/sdk/sync').param('last_received_comment_id', messageId).build();
+    return getHttp().get(url).then(function (resp) {
+      var results = resp.body.results;
+      var messages = results.comments;
+      var lastMessageId = results.meta.last_received_comment_id;
+      messages.sort(function (a, b) {
+        return a.id - b.id;
+      });
+      return Promise.resolve({
+        lastMessageId: lastMessageId,
+        messages: messages,
+        interval: getInterval()
+      });
+    })["catch"](noop);
+  };
+
+  function generator() {
+    return _generator.apply(this, arguments);
   }
 
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(UrlBuilder, [{
-    key: "param",
-    value: function param(key, value) {
-      this.params[key] = value;
-      return this;
-    }
-  }, {
-    key: "build",
-    value: function build() {
-      var _this = this;
+  function _generator() {
+    _generator = _babel_runtime_helpers_wrapAsyncGenerator__WEBPACK_IMPORTED_MODULE_4___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee() {
+      var accumulatedInterval, interval, shouldSync;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              accumulatedInterval = 0;
+              interval = 100;
 
-      var param = Object.keys(this.params).filter(function (it) {
-        return _this.params[it] != null;
-      }).map(function (key) {
-        return "".concat(key, "=").concat(_this.params[key]);
-      }).join('&');
-      return [this.baseUrl, param].join('?');
-    }
-  }]);
+              shouldSync = function shouldSync() {
+                return getHttp() != null && getSync();
+              };
 
-  return UrlBuilder;
-}();
+            case 3:
+              if (false) {}
+
+              accumulatedInterval += interval;
+
+              if (!(accumulatedInterval >= getInterval() && shouldSync)) {
+                _context.next = 9;
+                break;
+              }
+
+              accumulatedInterval = 0;
+              _context.next = 9;
+              return synchronize(getId());
+
+            case 9:
+              _context.next = 11;
+              return _babel_runtime_helpers_awaitAsyncGenerator__WEBPACK_IMPORTED_MODULE_3___default()(sleep(interval));
+
+            case 11:
+              _context.next = 3;
+              break;
+
+            case 13:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }));
+    return _generator.apply(this, arguments);
+  }
+
+  return {
+    get synchronize() {
+      return synchronize;
+    },
+
+    get on() {
+      return emitter.on;
+    },
+
+    get off() {
+      return emitter.off;
+    },
+
+    run: function run() {
+      return _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2() {
+        var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, result, messageId, messages;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _iteratorNormalCompletion = true;
+                _didIteratorError = false;
+                _context2.prev = 2;
+                _iterator = _babel_runtime_helpers_asyncIterator__WEBPACK_IMPORTED_MODULE_2___default()(generator());
+
+              case 4:
+                _context2.next = 6;
+                return _iterator.next();
+
+              case 6:
+                _step = _context2.sent;
+                _iteratorNormalCompletion = _step.done;
+                _context2.next = 10;
+                return _step.value;
+
+              case 10:
+                _value = _context2.sent;
+
+                if (_iteratorNormalCompletion) {
+                  _context2.next = 17;
+                  break;
+                }
+
+                result = _value;
+
+                try {
+                  messageId = result.lastMessageId;
+                  messages = result.messages;
+
+                  if (messageId > getId()) {
+                    messages.forEach(function (m) {
+                      return emitter.emit('message.new', m);
+                    });
+                    emitter.emit('last-message-id.new', messageId);
+                  }
+                } catch (e) {
+                  logger('error when sync', e.message);
+                }
+
+              case 14:
+                _iteratorNormalCompletion = true;
+                _context2.next = 4;
+                break;
+
+              case 17:
+                _context2.next = 23;
+                break;
+
+              case 19:
+                _context2.prev = 19;
+                _context2.t0 = _context2["catch"](2);
+                _didIteratorError = true;
+                _iteratorError = _context2.t0;
+
+              case 23:
+                _context2.prev = 23;
+                _context2.prev = 24;
+
+                if (!(!_iteratorNormalCompletion && _iterator["return"] != null)) {
+                  _context2.next = 28;
+                  break;
+                }
+
+                _context2.next = 28;
+                return _iterator["return"]();
+
+              case 28:
+                _context2.prev = 28;
+
+                if (!_didIteratorError) {
+                  _context2.next = 31;
+                  break;
+                }
+
+                throw _iteratorError;
+
+              case 31:
+                return _context2.finish(28);
+
+              case 32:
+                return _context2.finish(23);
+
+              case 33:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[2, 19, 23, 33], [24,, 28, 32]]);
+      }))();
+    }
+  };
+}
+
+function synchronizeEventFactory(getHttp, getInterval, getSync, getId, logger) {
+  var emitter = Object(mitt__WEBPACK_IMPORTED_MODULE_5__["default"])();
+
+  var synchronize = function synchronize(messageId) {
+    var url = Object(_url_builder__WEBPACK_IMPORTED_MODULE_6__["default"])('api/v2/sdk/sync_event').param('start_event_id', messageId).build();
+    return getHttp().get(url).then(function (resp) {
+      var events = resp.body.events;
+      var lastId = events.map(function (it) {
+        return it.id;
+      }).sort(function (a, b) {
+        return a - b;
+      }).pop();
+      var messageDelivered = events.filter(function (it) {
+        return it.action_topic === 'delivered';
+      }).map(function (it) {
+        return it.payload.data;
+      });
+      var messageRead = events.filter(function (it) {
+        return it.action_topic === 'read';
+      }).map(function (it) {
+        return it.payload.data;
+      });
+      var messageDeleted = events.filter(function (it) {
+        return it.action_topic === 'delete_message';
+      }).map(function (it) {
+        return it.payload.data;
+      });
+      var roomCleared = events.filter(function (it) {
+        return it.action_topic === 'clear_room';
+      }).map(function (it) {
+        return it.payload.data;
+      });
+      return Promise.resolve({
+        lastId: lastId,
+        messageDelivered: messageDelivered,
+        messageRead: messageRead,
+        messageDeleted: messageDeleted,
+        roomCleared: roomCleared,
+        interval: getInterval()
+      });
+    })["catch"](noop);
+  };
+
+  function generator() {
+    return _generator2.apply(this, arguments);
+  }
+
+  function _generator2() {
+    _generator2 = _babel_runtime_helpers_wrapAsyncGenerator__WEBPACK_IMPORTED_MODULE_4___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee3() {
+      var accumulatedInterval, interval, shouldSync;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              accumulatedInterval = 0;
+              interval = 100;
+
+              shouldSync = function shouldSync() {
+                return getHttp() != null && getSync();
+              };
+
+            case 3:
+              if (false) {}
+
+              accumulatedInterval += interval;
+
+              if (!(accumulatedInterval >= getInterval() && shouldSync)) {
+                _context3.next = 9;
+                break;
+              }
+
+              accumulatedInterval = 0;
+              _context3.next = 9;
+              return synchronize(getId());
+
+            case 9:
+              _context3.next = 11;
+              return _babel_runtime_helpers_awaitAsyncGenerator__WEBPACK_IMPORTED_MODULE_3___default()(sleep(interval));
+
+            case 11:
+              _context3.next = 3;
+              break;
+
+            case 13:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+    return _generator2.apply(this, arguments);
+  }
+
+  return {
+    get synchronize() {
+      return synchronize;
+    },
+
+    get on() {
+      return emitter.on;
+    },
+
+    get off() {
+      return emitter.off;
+    },
+
+    run: function run() {
+      return _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee4() {
+        var _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _value2, result, eventId;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _iteratorNormalCompletion2 = true;
+                _didIteratorError2 = false;
+                _context4.prev = 2;
+                _iterator2 = _babel_runtime_helpers_asyncIterator__WEBPACK_IMPORTED_MODULE_2___default()(generator());
+
+              case 4:
+                _context4.next = 6;
+                return _iterator2.next();
+
+              case 6:
+                _step2 = _context4.sent;
+                _iteratorNormalCompletion2 = _step2.done;
+                _context4.next = 10;
+                return _step2.value;
+
+              case 10:
+                _value2 = _context4.sent;
+
+                if (_iteratorNormalCompletion2) {
+                  _context4.next = 17;
+                  break;
+                }
+
+                result = _value2;
+
+                try {
+                  eventId = result.lastId;
+
+                  if (eventId > getId()) {
+                    emitter.emit('last-event-id.new', eventId);
+                    result.messageDelivered.forEach(function (it) {
+                      return emitter.emit('message.delivered', it);
+                    });
+                    result.messageDeleted.forEach(function (it) {
+                      return emitter.emit('message.deleted', it);
+                    });
+                    result.messageRead.forEach(function (it) {
+                      return emitter.emit('message.read', it);
+                    });
+                    result.roomCleared.forEach(function (it) {
+                      return emitter.emit('room.cleared', it);
+                    });
+                  }
+                } catch (e) {
+                  logger('error when sync event', e.message);
+                }
+
+              case 14:
+                _iteratorNormalCompletion2 = true;
+                _context4.next = 4;
+                break;
+
+              case 17:
+                _context4.next = 23;
+                break;
+
+              case 19:
+                _context4.prev = 19;
+                _context4.t0 = _context4["catch"](2);
+                _didIteratorError2 = true;
+                _iteratorError2 = _context4.t0;
+
+              case 23:
+                _context4.prev = 23;
+                _context4.prev = 24;
+
+                if (!(!_iteratorNormalCompletion2 && _iterator2["return"] != null)) {
+                  _context4.next = 28;
+                  break;
+                }
+
+                _context4.next = 28;
+                return _iterator2["return"]();
+
+              case 28:
+                _context4.prev = 28;
+
+                if (!_didIteratorError2) {
+                  _context4.next = 31;
+                  break;
+                }
+
+                throw _iteratorError2;
+
+              case 31:
+                return _context4.finish(28);
+
+              case 32:
+                return _context4.finish(23);
+
+              case 33:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, null, [[2, 19, 23, 33], [24,, 28, 32]]);
+      }))();
+    }
+  };
+}
 
 function SyncAdapter(getHttpAdapter, _ref) {
-  var getToken = _ref.getToken,
-      _ref$isDebug = _ref.isDebug,
+  var _ref$isDebug = _ref.isDebug,
       isDebug = _ref$isDebug === void 0 ? false : _ref$isDebug,
-      _ref$interval = _ref.interval,
-      interval = _ref$interval === void 0 ? 5000 : _ref$interval;
-  var emitter = Object(mitt__WEBPACK_IMPORTED_MODULE_2__["default"])();
-  var lastMessageId = 0;
-  var lastEventId = 0;
+      syncInterval = _ref.syncInterval,
+      getShouldSync = _ref.getShouldSync,
+      syncOnConnect = _ref.syncOnConnect,
+      lastCommentId = _ref.lastCommentId,
+      statusLogin = _ref.statusLogin;
+  var emitter = Object(mitt__WEBPACK_IMPORTED_MODULE_5__["default"])();
 
   var logger = function logger() {
     var _console;
@@ -26054,63 +28220,66 @@ function SyncAdapter(getHttpAdapter, _ref) {
     }
 
     return isDebug ? (_console = console).log.apply(_console, ['QSync:'].concat(args)) : {};
+  }; // let lastMessageId = 0
+
+
+  var lastEventId = 0;
+
+  var getInterval = function getInterval() {
+    if (statusLogin()) {
+      if (getShouldSync()) return syncInterval();
+      return syncOnConnect();
+    }
+
+    return;
   };
 
+  var syncFactory = synchronizeFactory(getHttpAdapter, getInterval, getShouldSync, lastCommentId, logger);
+  syncFactory.on('last-message-id.new', function (id) {
+    return lastMessageId = id;
+  });
+  syncFactory.on('message.new', function (m) {
+    return emitter.emit('message.new', m);
+  });
+  syncFactory.run()["catch"](function (err) {
+    return logger('got error when sync', err);
+  });
+  var syncEventFactory = synchronizeEventFactory(getHttpAdapter, getInterval, getShouldSync, function () {
+    return lastEventId;
+  }, logger);
+  syncEventFactory.on('last-event-id.new', function (id) {
+    lastEventId = id;
+  });
+  syncEventFactory.on('message.read', function (it) {
+    emitter.emit('message.read', it);
+  });
+  syncEventFactory.on('message.delivered', function (it) {
+    return emitter.emit('message.delivered', it);
+  });
+  syncEventFactory.on('message.deleted', function (it) {
+    return emitter.emit('message.deleted', it);
+  });
+  syncEventFactory.on('room.cleared', function (it) {
+    return emitter.emit('room.cleared', it);
+  });
+  syncEventFactory.run()["catch"](function (err) {
+    return logger('got error when sync event', err);
+  });
   return {
-    events: emitter,
-    synchronize: lodash_throttle__WEBPACK_IMPORTED_MODULE_3___default()(function (messageId) {
-      messageId = messageId || lastMessageId;
-      var url = new UrlBuilder('api/v2/sdk/sync').param('token', getToken()).param('last_received_comment_id', messageId).build();
-      getHttpAdapter().get(url).then(function (resp) {
-        var results = resp.body.results;
-        var messages = results.comments;
-        lastMessageId = results.meta.last_received_comment_id;
-        emitter.emit('last-message-id', lastMessageId);
-        messages.forEach(function (message) {
-          return emitter.emit('message.new', message);
-        });
-      }, function (error) {
-        return logger('Error when synchonize', error);
-      });
-    }, interval),
-    synchronizeEvent: lodash_throttle__WEBPACK_IMPORTED_MODULE_3___default()(function (eventId) {
-      eventId = eventId || lastEventId;
-      var url = new UrlBuilder('api/v2/sdk/sync_event').param('token', getToken()).param('start_event_id', eventId).build();
-      getHttpAdapter().get(url).then(function (resp) {
-        var events = resp.body.events;
-        var lastId = events.map(function (it) {
-          return it.id;
-        }).slice().sort(function (a, b) {
-          return a - b;
-        }).pop();
+    get on() {
+      return emitter.on;
+    },
 
-        if (lastId != null) {
-          lastEventId = lastId;
-          emitter.emit('last-event-id', lastEventId);
-        }
+    get off() {
+      return emitter.off;
+    },
 
-        events.filter(function (it) {
-          return it.action_topic === 'delivered';
-        }).forEach(function (event) {
-          return emitter.emit('message.delivered', event.payload.data);
-        });
-        events.filter(function (it) {
-          return it.action_topic === 'read';
-        }).forEach(function (event) {
-          return emitter.emit('message.read', event.payload.data);
-        });
-        events.filter(function (it) {
-          return it.action_topic === 'delete_message';
-        }).forEach(function (event) {
-          return emitter.emit('message.deleted', event.payload.data);
-        });
-        events.filter(function (it) {
-          return it.action_topic === 'clear_room';
-        }).forEach(function (event) {
-          return emitter.emit('room.deleted', event.payload.data);
-        });
-      });
-    }, interval)
+    synchronize: function synchronize() {
+      syncFactory.synchronize();
+    },
+    synchronizeEvent: function synchronizeEvent() {
+      syncEventFactory.synchronize();
+    }
   };
 }
 
@@ -26134,20 +28303,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash.throttle */ "./node_modules/lodash.throttle/index.js");
 /* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _url_builder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../url-builder */ "./src/lib/url-builder.js");
 
 
 
 
 
-var User =
-/*#__PURE__*/
-function () {
+
+var User = /*#__PURE__*/function () {
   /**
-  * Params used in this class
-  * @method constructor
-  * @param  {Object}    HTTPAdapter [Qiscus HTTP adapter]
-  * @return {void}                Returns nothing
-  */
+   * Params used in this class
+   * @method constructor
+   * @param  {Object}    HTTPAdapter [Qiscus HTTP adapter]
+   * @return {void}                Returns nothing
+   */
   function User(HTTPAdapter) {
     var _this = this;
 
@@ -26155,16 +28324,15 @@ function () {
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2___default()(this, "updateCommentStatus", lodash_throttle__WEBPACK_IMPORTED_MODULE_3___default()(function (roomId, lastReadCommentId, lastReceivedCommentId) {
       var body = {
-        token: _this.token,
         room_id: roomId
       };
       if (lastReadCommentId) body.last_comment_read_id = lastReadCommentId;
-      if (lastReceivedCommentId) body.last_comment_received_id = lastReceivedCommentId;
-      return _this.HTTPAdapter.post('api/v2/mobile/update_comment_status', body).then(function (res) {
-        return Promise.resolve(res);
-      })["catch"](function (error) {
-        return console.log(error);
-      });
+
+      if (lastReceivedCommentId) {
+        body.last_comment_received_id = lastReceivedCommentId;
+      }
+
+      return _this.HTTPAdapter.post('api/v2/sdk/update_comment_status', body);
     }, 300));
 
     this.HTTPAdapter = HTTPAdapter;
@@ -26174,8 +28342,7 @@ function () {
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(User, [{
     key: "postComment",
     value: function postComment(topicId, commentMessage, uniqueId, type, payload, extras) {
-      return this.HTTPAdapter.post("api/v2/sdk/post_comment", {
-        token: this.token,
+      return this.HTTPAdapter.post_json("api/v2/sdk/post_comment", {
         comment: commentMessage,
         topic_id: topicId,
         unique_temp_id: uniqueId,
@@ -26183,112 +28350,58 @@ function () {
         payload: payload,
         extras: extras
       }).then(function (res) {
-        return new Promise(function (resolve, reject) {
-          if (res.body.status !== 200) return reject(res);
-          var data = res.body.results.comment;
-          return resolve(data);
-        });
-      }, function (error) {
-        return Promise.reject(error);
-      });
-    }
-  }, {
-    key: "sync",
-    value: function sync() {
-      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      return this.HTTPAdapter.get("api/v2/sdk/sync?token=".concat(this.token, "&last_received_comment_id=").concat(id)).then(function (res, err) {
-        if (err) return Promise.reject(err);
-        return new Promise(function (resolve, reject) {
-          if (res.body.status !== 200) return reject(res);
-          var data = res.body.results.comments;
-          return resolve(data);
-        });
-      })["catch"](function (error) {
-        return console.log(error);
-      });
-    }
-  }, {
-    key: "syncEvent",
-    value: function syncEvent() {
-      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      return this.HTTPAdapter.get("api/v2/sdk/sync_event?token=".concat(this.token, "&start_event_id=").concat(id)).then(function (res, err) {
-        if (err) return Promise.reject(err);
-        return new Promise(function (resolve, reject) {
-          if (res.statusCode !== 200) return reject(res);
-          var data = res.body;
-          return resolve(data);
-        });
-      })["catch"](function (error) {
-        return console.log(error);
+        if (res.body.status !== 200) return Promise.reject(res);
+        return Promise.resolve(res.body.results.comment);
       });
     }
   }, {
     key: "loadRoomList",
     value: function loadRoomList() {
       var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var body = "?token=".concat(this.token);
-      if (params.page) body += "&page=".concat(params.page);
-      if (params.show_participants) body += "&show_participants=".concat(params.show_participants || true);
-      if (params.limit) body += "&limit=".concat(params.limit);
-      if (params.show_empty) body += "&show_empty=".concat(params.show_empty);
-      return this.HTTPAdapter.get("api/v2/sdk/user_rooms".concat(body)).then(function (res) {
-        return new Promise(function (resolve, reject) {
-          if (res.body.status !== 200) return reject(res);
-          var data = res.body.results.rooms_info;
-          return resolve(data);
-        });
-      }, function (error) {
-        return Promise.reject(error);
+      var url = Object(_url_builder__WEBPACK_IMPORTED_MODULE_4__["default"])('api/v2/sdk/user_rooms').param('page', params.page).param('show_participants', params.show_participants || true).param('limit', params.limit).param('show_empty', params.show_empty).build();
+      return this.HTTPAdapter.get(url).then(function (res) {
+        if (res.body.status !== 200) return Promise.reject(res);
+        return Promise.resolve(res.body.results.rooms_info);
       });
     }
   }, {
     key: "searchMessages",
     value: function searchMessages(params) {
       var body = {
-        token: this.token,
         query: params.query || null,
         room_id: params.room_id || null,
         last_comment_id: params.last_comment_id || null
       };
       return this.HTTPAdapter.post('api/v2/sdk/search_messages', body).then(function (res) {
-        return Promise.resolve(res.body.results.comments);
-      })["catch"](function (error) {
-        return Promise.reject(error);
+        return res.body.results.comments;
       });
     }
   }, {
     key: "updateProfile",
     value: function updateProfile(params) {
       var body = {
-        token: this.token,
         name: params.name || null,
         avatar_url: params.avatar_url || null,
-        extras: params.extra ? JSON.stringify(params.extras) : null
+        extras: params.extras ? JSON.stringify(params.extras) : null
       };
       return this.HTTPAdapter.patch('api/v2/sdk/my_profile', body).then(function (res) {
-        return Promise.resolve(res.body.results.user);
-      })["catch"](function (error) {
-        return Promise.reject(error);
+        return res.body.results.user;
       });
     }
   }, {
     key: "uploadFile",
     value: function uploadFile(file) {
       var body = {
-        token: this.token,
         file: file
       };
       return this.HTTPAdapter.post("api/v2/sdk/upload", body).then(function (res) {
-        return Promise.resolve(res.body);
-      })["catch"](function (error) {
-        return Promise.reject(error);
+        return res.body;
       });
     }
   }, {
     key: "getRoomsInfo",
     value: function getRoomsInfo(opts) {
       var body = {
-        token: this.token,
         show_participants: true,
         show_removed: false
       };
@@ -26296,33 +28409,17 @@ function () {
       if (opts.room_unique_ids) body.room_unique_id = opts.room_unique_ids;
       if (opts.show_participants) body.show_participants = opts.show_participants;
       if (opts.show_removed) body.show_removed = opts.show_removed;
-      return this.HTTPAdapter.post_json("api/v2/mobile/rooms_info", body).then(function (res) {
-        return Promise.resolve(res.body);
-      })["catch"](function (error) {
-        return Promise.reject(error);
+      return this.HTTPAdapter.post_json("api/v2/sdk/rooms_info", body).then(function (res) {
+        return res.body;
       });
     }
   }, {
     key: "loadComments",
     value: function loadComments(topicId, options) {
-      var params = "token=".concat(this.token, "&topic_id=").concat(topicId);
-      if (options.last_comment_id) params += "&last_comment_id=".concat(options.last_comment_id);
-      if (options.timestamp) params += "&timestamp=".concat(options.timestamp);
-      if (options.after) params += "&after=".concat(options.after);
-      if (options.limit) params += "&limit=".concat(options.limit);
-      return this.HTTPAdapter.get("api/v2/sdk/load_comments?".concat(params)).then(function (res) {
-        return new Promise(function (resolve, reject) {
-          if (res.status !== 200) return new Promise(function (resolve, reject) {
-            return reject(res);
-          });
-          var data = res.body.results.comments;
-          return resolve(data);
-        });
-      }, function (error) {
-        // console.info('failed loading comments', error);
-        return new Promise(function (resolve, reject) {
-          return reject(error);
-        });
+      var url = Object(_url_builder__WEBPACK_IMPORTED_MODULE_4__["default"])('api/v2/sdk/load_comments').param('topic_id', topicId).param('last_comment_id', options.last_comment_id).param('timestamp', options.timestamp).param('after', options.after).param('limit', options.limit).build();
+      return this.HTTPAdapter.get(url).then(function (res) {
+        if (res.status !== 200) return Promise.reject(res);
+        return Promise.resolve(res.body.results.comments);
       });
     }
   }, {
@@ -26330,40 +28427,39 @@ function () {
     value: function deleteComment(roomId, commentUniqueIds) {
       var isForEveryone = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
       var isHard = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-      if (isForEveryone === false) console.warn('Deprecated: delete comment for me will be removed on next release');
-      if (isHard === false) console.warn('Deprecated: soft delete will be removed on next release');
+
+      if (isForEveryone === false) {
+        console.warn('Deprecated: delete comment for me will be removed on next release');
+      }
+
+      if (isHard === false) {
+        console.warn('Deprecated: soft delete will be removed on next release');
+      }
+
       var body = {
-        token: this.token,
         unique_ids: commentUniqueIds,
         is_delete_for_everyone: isForEveryone,
         is_hard_delete: isHard
       };
       return this.HTTPAdapter.del("api/v2/sdk/delete_messages", body).then(function (res) {
-        return Promise.resolve(res.body);
-      })["catch"](function (error) {
-        return Promise.reject(error);
+        return res.body;
       });
     }
   }, {
     key: "clearRoomMessages",
     value: function clearRoomMessages(roomIds) {
       var body = {
-        token: this.token,
         room_channel_ids: roomIds
       };
       return this.HTTPAdapter.del("api/v2/sdk/clear_room_messages", body).then(function (res) {
-        return Promise.resolve(res.body);
-      })["catch"](function (error) {
-        return Promise.reject(error);
+        return res.body;
       });
     }
   }, {
     key: "getCommentReceiptStatus",
     value: function getCommentReceiptStatus(id) {
-      return this.HTTPAdapter.get("api/v2/sdk/comment_receipt?token=".concat(this.token, "&comment_id=").concat(id)).then(function (res) {
-        return Promise.resolve(res.body);
-      })["catch"](function (error) {
-        return Promise.reject(error);
+      return this.HTTPAdapter.get("api/v2/sdk/comment_receipt?comment_id=".concat(id)).then(function (res) {
+        return res.body;
       });
     }
   }, {
@@ -26371,12 +28467,10 @@ function () {
     value: function getBlockedUser() {
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
       var limit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 20;
-      var url = "api/v2/mobile/get_blocked_users?token=".concat(this.token, "&page=").concat(page, "&limit=").concat(limit);
+      var url = "api/v2/sdk/get_blocked_users?page=".concat(page, "&limit=").concat(limit);
       return this.HTTPAdapter.get(url).then(function (res) {
         if (res.body.status !== 200) return Promise.reject(res);
         return Promise.resolve(res.body.results.blocked_users);
-      }, function (err) {
-        return Promise.reject(err);
       });
     }
   }, {
@@ -26384,14 +28478,11 @@ function () {
     value: function blockUser(email) {
       if (!email) throw new Error('email is required');
       var params = {
-        token: this.token,
         user_email: email
       };
-      return this.HTTPAdapter.post("api/v2/mobile/block_user", params).then(function (res) {
+      return this.HTTPAdapter.post("api/v2/sdk/block_user", params).then(function (res) {
         if (res.body.status !== 200) return Promise.reject(res);
         return Promise.resolve(res.body.results.user);
-      }, function (err) {
-        return Promise.reject(err);
       });
     }
   }, {
@@ -26399,14 +28490,29 @@ function () {
     value: function unblockUser(email) {
       if (!email) throw new Error('email is required');
       var params = {
-        token: this.token,
         user_email: email
       };
-      return this.HTTPAdapter.post("api/v2/mobile/unblock_user", params).then(function (res) {
+      return this.HTTPAdapter.post("api/v2/sdk/unblock_user", params).then(function (res) {
         if (res.body.status !== 200) return Promise.reject(res);
         return Promise.resolve(res.body.results.user);
-      }, function (err) {
-        return Promise.reject(err);
+      });
+    }
+  }, {
+    key: "getProfile",
+    value: function getProfile() {
+      return this.HTTPAdapter.get("api/v2/sdk/my_profile").then(function (res) {
+        return res.body.results.user;
+      });
+    }
+  }, {
+    key: "getUserPresences",
+    value: function getUserPresences(email) {
+      var params = {
+        user_ids: email
+      };
+      return this.HTTPAdapter.post_json("api/v2/sdk/users/status", params).then(function (res) {
+        if (res.body.status !== 200) return Promise.reject(res);
+        return Promise.resolve(res.body.results.user_status);
       });
     }
   }]);
@@ -26637,6 +28743,78 @@ when.unserialize = function (serializedKey, value) {
 
 /***/ }),
 
+/***/ "./src/lib/url-builder.js":
+/*!********************************!*\
+  !*** ./src/lib/url-builder.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return UrlBuilder; });
+function UrlBuilder(basePath) {
+  var params = {};
+
+  var getQuery = function getQuery(key, value) {
+    return "".concat(key, "=").concat(value);
+  };
+
+  return {
+    param: function param(key, value) {
+      params[key] = value;
+      return this;
+    },
+    build: function build() {
+      var query = Object.keys(params).filter(function (key) {
+        return params[key] != null;
+      }).map(function (key) {
+        if (Array.isArray(params[key])) {
+          return params[key].map(function (value) {
+            return getQuery("".concat(key, "[]"), value);
+          }).join("&");
+        }
+
+        return getQuery(key, params[key]);
+      }).join("&");
+      return [basePath].concat(query).join("?");
+    }
+  };
+}
+
+/***/ }),
+
+/***/ "./src/lib/util.js":
+/*!*************************!*\
+  !*** ./src/lib/util.js ***!
+  \*************************/
+/*! exports provided: tryCatch, wrapP */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tryCatch", function() { return tryCatch; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wrapP", function() { return wrapP; });
+var tryCatch = function tryCatch(fn, default_, onError, onSuccess) {
+  try {
+    var resp = fn();
+    if (onSuccess != null) onSuccess(resp);
+    return resp;
+  } catch (error) {
+    if (onError != null) onError(error);
+    return default_;
+  }
+};
+var wrapP = function wrapP(promise) {
+  return promise.then(function (res) {
+    return [res, null];
+  })["catch"](function (err) {
+    return [null, err];
+  });
+};
+
+/***/ }),
+
 /***/ "./src/lib/utils.js":
 /*!**************************!*\
   !*** ./src/lib/utils.js ***!
@@ -26665,9 +28843,7 @@ function escapeHTML(text) {
   comment = searchAndReplace(comment, '>', '&gt;');
   return comment;
 }
-var GroupChatBuilder =
-/*#__PURE__*/
-function () {
+var GroupChatBuilder = /*#__PURE__*/function () {
   /**
    * Create a group chat room builder.
    * @constructs
@@ -26773,7 +28949,7 @@ function scrollToBottom(latestCommentId) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\Afief\code\qiscus-chat-sdk-js-core\src\index.js */"./src/index.js");
+module.exports = __webpack_require__(/*! D:\code\qiscus.work\chat-core\src\index.js */"./src/index.js");
 
 
 /***/ }),
