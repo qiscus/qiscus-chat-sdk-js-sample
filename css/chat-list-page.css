@@ -272,6 +272,7 @@
   font-size: 13px;
   color: #666;
   display: flex;
+  flex-direction: column;
   align-items: center;
   padding: 10px;
   max-width: 200px;
@@ -285,9 +286,18 @@
   padding: 0 10px;
 }
 
-.Chat .comment-list-container .comment-item[data-comment-type='upload'] .message-container,
-.Chat .comment-list-container .comment-item[data-comment-type='file'] .message-container,
-.Chat .comment-list-container .comment-item[data-comment-type='image'] .message-container {
+.Chat
+  .comment-list-container
+  .comment-item[data-comment-type='upload']
+  .message-container,
+.Chat
+  .comment-list-container
+  .comment-item[data-comment-type='file']
+  .message-container,
+.Chat
+  .comment-list-container
+  .comment-item[data-comment-type='image']
+  .message-container {
   width: 200px;
   height: 120px;
   padding: 4px;
@@ -340,8 +350,14 @@
   color: #666666;
 }
 
-.Chat .comment-list-container .comment-item[data-comment-type='upload-file'] .comment-file,
-.Chat .comment-list-container .comment-item[data-comment-type='file'] .comment-file {
+.Chat
+  .comment-list-container
+  .comment-item[data-comment-type='upload-file']
+  .comment-file,
+.Chat
+  .comment-list-container
+  .comment-item[data-comment-type='file']
+  .comment-file {
   display: flex;
   padding: 10px;
   background: #fafafa;
@@ -398,6 +414,9 @@
   display: flex;
   align-items: center;
   margin-right: 10px;
+}
+.Chat .comment-item:hover .message-meta {
+  display: none;
 }
 .Chat .comment-item .message-deleter button {
   background: white;
@@ -494,6 +513,50 @@
   cursor: pointer;
   text-indent: 15px;
   padding: 0 16px;
+}
+.Chat .reply-form-container {
+  display: flex;
+  position: relative;
+  background: #fafafa;
+  flex-basis: 55px;
+  padding: 5px;
+}
+.Chat .reply-form-container > div {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  flex: 1;
+  margin-right: 20px;
+  border-radius: 5px;
+  font-size: 10pt;
+  padding: 5px;
+}
+.Chat .reply-form-container .close-reply-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.Chat .message-container.reply {
+  flex-direction: column;
+}
+.Chat .message-container .replied-message-container {
+  background-color: #fafafa;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  width: 100%;
+  text-align: left;
+}
+.Chat .message-container .replied-original-message {
+  flex: 1;
+  width: 100%;
+}
+.Chat .message-container .replied-original-message p,
+.Chat .message-container .replied-original-message {
+  margin: 3px 5px;
+  text-align: left;
 }
 
 /* Attachment Caption */
