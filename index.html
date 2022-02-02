@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Qiscus SDK Javascript Core Example</title>
 
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Qiscus SDK Javascript Core Example</title>
+		<link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans" rel="stylesheet" />
+		<link
+			rel="stylesheet"
+			href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+			integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/icon.css" />
+		<link rel="stylesheet" href="css/login-page.css" />
+		<link rel="stylesheet" href="css/chat-list-page.css" />
+		<link rel="stylesheet" href="css/users-page.css" />
+		<link rel="stylesheet" href="css/toolbar.css" />
+		<link rel="stylesheet" href="css/create-group.css" />
+		<link rel="stylesheet" href="css/profile.css" />
+		<link rel="stylesheet" href="css/room-info.css" />
+	</head>
 
-    <link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="css/main.css"/>
-    <link rel="stylesheet" href="css/icon.css"/>
-    <link rel="stylesheet" href="css/login-page.css"/>
-    <link rel="stylesheet" href="css/chat-list-page.css"/>
-    <link rel="stylesheet" href="css/users-page.css"/>
-    <link rel="stylesheet" href="css/toolbar.css"/>
-    <link rel="stylesheet" href="css/create-group.css"/>
-    <link rel="stylesheet" href="css/profile.css"/>
-    <link rel="stylesheet" href="css/room-info.css"/>
-</head>
+	<body>
+		<button type="button" class="toggle-widget-btn">Chat</button>
+		<div id="qiscus-widget" class="widget-container">
+			<div class="title-bar">
+				Qiscus Chat SDK Sample UI
+				<button type="button" class="close-btn">
+					<i class="fas fa-chevron-down"></i>
+				</button>
+			</div>
+			<input type="file" id="input-image" accept="image/*" style="display: none" />
+			<input type="file" id="input-file" style="display: none" />
+			<div class="widget-content" id="widget-content"></div>
+		</div>
 
-<body>
-<button type="button" class="toggle-widget-btn">Chat</button>
-<div id="qiscus-widget" class="widget-container">
-    <div class="title-bar">
-        Qiscus Chat SDK Sample UI
-        <button type="button" class="close-btn">
-            <i class="fas fa-chevron-down"></i>
-        </button>
-    </div>
-    <input type="file" id="input-image" accept="image/*" style="display:none"/>
-    <input type="file" id="input-file" style="display:none"/>
-    <div class="widget-content" id="widget-content"></div>
-</div>
-
-<!-- <script>
+		<!-- <script>
   // Check that service workers are supported
   if ('serviceWorker' in navigator) {
     // Use the window load event to keep the page load performant
@@ -45,23 +48,40 @@
   }
 </script> -->
 
-<!-- <script src="js/lib/qiscus-sdk-core.min.js"></script> -->
-<!-- <script src="js/lib/qiscus-sdk-core.js"></script> -->
+	<script src="https://unpkg.com/lodash"></script>
+		<!-- <script src="js/lib/qiscus-sdk-core.min.js"></script> -->
+		<!-- <script src="js/lib/qiscus-sdk-core.js"></script> -->
+		<!-- <script src="js/lib/QiscusSDKCore.min.js"></script> -->
+		<script src="js/lib/qiscus-sdk-javascript.umd.js"></script>
+		<script></script>
 
-<!-- For local development -->
-<!-- <script src="http://localhost:8080/qiscus-sdk-core.min.js"></script> -->
-<!-- <script src="http://localhost:1234/qiscus-sdk-core.js"></script> -->
-<!-- <script src="http://localhost:1235/qiscus-sdk-javascript.umd.js"></script> -->
-<script src="https://unpkg.com/qiscus-sdk-core@latest"></script>
+		<!-- For local development -->
+		<!-- <script src="http://localhost:8080/qiscus-sdk-core.min.js"></script> -->
+		<!-- <script src="http://localhost:1234/qiscus-sdk-core.js"></script> -->
+		<!-- <script src="http://localhost:1234/qiscus-sdk-core.min.js"></script> -->
+		<!-- <script src="http://localhost:1235/qiscus-sdk-javascript.umd.js"></script> -->
+		<script src="https://unpkg.com/qiscus-sdk-core@latest"></script>
+		<!-- <script src="https://unpkg.com/qiscus-sdk-core@2.6.4"></script> -->
 
-<!-- For deployment with beta sdk version -->
-<!-- <script src="https://unpkg.com/qiscus-sdk-core@latest"></script> -->
-<!-- <script src="https://unpkg.com/qiscus-sdk-core@2.9.7/dist/qiscus-sdk-core.min.js"></script> -->
-<!-- <script src="https://unpkg.com/qiscus-sdk-core@2.9.9/dist/qiscus-sdk-core.min.js"></script> -->
-<!-- <script src="https://unpkg.com/qiscus-sdk-core@2.9.10/dist/qiscus-sdk-core.min.js"></script> -->
+		<!-- For deployment with beta sdk version -->
+		<!-- <script src="https://unpkg.com/qiscus-sdk-core@latest"></script> -->
+		<!-- <script src="https://unpkg.com/qiscus-sdk-core@2.9.7/dist/qiscus-sdk-core.min.js"></script> -->
+		<!-- <script src="https://unpkg.com/qiscus-sdk-core@2.9.9/dist/qiscus-sdk-core.min.js"></script> -->
+		<!-- <script src="https://unpkg.com/qiscus-sdk-core@2.9.10/dist/qiscus-sdk-core.min.js"></script> -->
 
-<script src="https://unpkg.com/showdown@1.9.1/dist/showdown.js"></script>
-<script src="js/lib/require.js" data-main="js/main.js"></script>
-</body>
+		<script src="https://unpkg.com/showdown@1.9.1/dist/showdown.js"></script>
+		<script>
+			var qs = window.location.search
+				.split('?')
+				.filter((it) => it?.length > 0)
+				.map((it) => it.split('='))
+				.map(([key, value]) => ({ [key]: value }))
+				.reduce((it, acc) => ({ ...acc, ...it }), {})
 
+			window.APP_ID = qs['appId'] ?? 'sdksample'
+			window.BASE_URL = qs['baseUrl']
+			window.BROKER_URL = qs['brokerUrl']
+		</script>
+		<script src="js/lib/require.js" data-main="js/main.js"></script>
+	</body>
 </html>
